@@ -85,7 +85,7 @@ class SubAdminController extends Controller
 	public function update(Request $request)
     {
 		//$user = new User;
-        
+        //$user = new User;
 		
 		$user = User::find($request->input('id'));
 		//if(!$user->password)
