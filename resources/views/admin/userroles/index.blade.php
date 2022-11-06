@@ -1,0 +1,560 @@
+@include('admin.layout.header')							
+<?php
+use App\Helpers\AppHelper as Helper;
+?>
+
+<!--breadcrumb-->
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+	<div class="ps-1">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb mb-0 p-0">
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-store-alt"></i> User Roles</li>
+			</ol>
+		</nav>
+	</div>
+	<div class="ms-auto">
+		
+	</div>
+</div>
+<!--end breadcrumb-->
+<div class="row">
+	<div class="col-xl-12 mx-auto">
+		<h6 class="mb-0 text-uppercase">All Roles & Capabilities</h6>
+		<hr/>
+
+		
+		
+		<div class="card">
+			<div class="card-body">
+			   <form action="" method="GET" id ="filter_results">
+    			    <select name="roleFilter" class="form-select single-select" id="roleFilter" onChange="this.form.submit();">
+    					<option value="" @if(empty($roleFilter)) selected="selected" @endif>Select User Role</option>
+    						@foreach($userRoles as $key=>$userrole)
+    						    <option value="{{ $userrole->id }}" @if($userrole->id==$roleFilter) selected="selected" @endif >{{ $userrole->name }}</option>
+    						@endforeach
+    				</select>
+			    </form>
+			   
+			    @if(!empty($roleFilter))
+			    <form class="row g-3 pt-3" method="post" action="{{route('userroles.store')}}" data-toggle="validator">
+			        @csrf
+                    <input type="hidden" name="roleFilterVal" value="{{$roleFilter}}">
+					@if($roleFilter != 4)
+			        <div class="col-md-3 border-right-0">
+    			        <p class="mt-2"><b>Store Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_manage" <?php if(in_array('store_manage', $permissionArray)){ { echo "checked=''"; } } ?> onclick="checkValue('store_manage',this)">
+                            <label for="store_manage" class="form-label"> Store Manage</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_add" id="store_add" <?php if(in_array('store_add', $permissionArray)){ { echo "checked=''"; } } ?> onclick="addDay(this)">
+                            <label for="store_add" class="form-label"> Store Add</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_edit"  id="store_edit" <?php if(in_array('store_edit', $permissionArray)){ { echo "checked=''"; } } ?> onclick="addDay(this)">
+                            <label for="store_edit" class="form-label"> Store Edit</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_del" id="store_del" <?php if(in_array('store_del', $permissionArray)){ { echo "checked=''"; } } ?> onclick="addDay(this)">
+                            <label for="store_del" class="form-label"> Store Delete</label><br>
+    					</div>
+    				</div>
+			        
+			        <div class="col-md-3 pt-5 border-left-0 border-right-0">
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_disable" <?php if(in_array('store_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_disable" class="form-label"> Store Disable</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_cashiers" <?php if(in_array('store_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_cashiers" class="form-label"> Store Cashiers</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_lowinventoryemail" <?php if(in_array('store_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_lowinventoryemail" class="form-label"> Store Configure Email</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_inventory" <?php if(in_array('store_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_inventory" class="form-label"> Store Inventory</label><br>
+    					</div>
+    				</div>
+    				
+    				<div class="col-md-3 pt-5 border-right-0 border-left-0">
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_zeroinventory" <?php if(in_array('store_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_zeroinventory" class="form-label"> Store Zero Inventory </label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_emptyinventory" <?php if(in_array('store_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_emptyinventory" class="form-label"> Store Empty Inventory</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_bills" <?php if(in_array('store_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_bills" class="form-label"> Store Bills</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_sales" <?php if(in_array('store_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_sales" class="form-label"> Store Sales</label><br>
+    					</div>
+    				 </div>
+			        
+			        <div class="col-md-3 pt-5 border-left-0">
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_shifts" <?php if(in_array('store_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_shifts" class="form-label"> Store Shifts </label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_vendors" <?php if(in_array('store_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_vendors" class="form-label"> Store Vendors</label><br>
+    					</div>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_invioces" <?php if(in_array('store_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_invioces" class="form-label"> Store Invoices</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_purchaseorders" <?php if(in_array('store_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_purchaseorders" class="form-label"> Store Purchase Orders</label><br>
+    					</div>
+    				 </div>
+					 
+			        <div class="col-md-3">
+    			        <p class="mt-2"><b>Category Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="cat_manage" <?php if(in_array('cat_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="cat_manage" class="form-label"> Category Manage</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="cat_add" <?php if(in_array('cat_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="cat_add" class="form-label"> Category Add</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="cat_edit" <?php if(in_array('cat_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="cat_edit" class="form-label"> Category Edit</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="cat_del" <?php if(in_array('cat_del', $permissionArray)){ echo "checked=''"; } ?>>
+                            <label for="cat_del" class="form-label"> Category Delete</label><br>
+    					</div>
+    				</div>
+    				
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>Global Products</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="globalproducts_manage" <?php if(in_array('globalproducts_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="globalproducts_manage" class="form-label">Global Products Manage</label><br>
+    					</div>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="globalproducts_import" <?php if(in_array('globalproducts_import', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="globalproducts_import" class="form-label">Global Products Import</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="globalproducts_edit" <?php if(in_array('globalproducts_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="globalproducts_edit" class="form-label">Global Products Edit</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="globalproducts_del" <?php if(in_array('globalproducts_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="globalproducts_del" class="form-label">Global Products Delete</label><br>
+    					</div>
+    				</div>
+    				
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>Brand Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="brand_manage" <?php if(in_array('brand_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="brand_manage" class="form-label"> Brand Manage</label><br>
+    					</div>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="brand_add" <?php if(in_array('brand_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="brand_add" class="form-label"> Brand Add</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="brand_edit" <?php if(in_array('brand_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="brand_edit" class="form-label"> Brand Edit</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="brand_del" <?php if(in_array('brand_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="brand_del" class="form-label"> Brand Delete</label><br>
+    					</div>
+    				</div>
+    				
+    				
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>VAT Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="vat_manage" <?php if(in_array('vat_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="vat_manage" class="form-label">VAT Manage</label><br>
+    					</div>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="vat_add" <?php if(in_array('vat_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="vat_add" class="form-label">VAT Add</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="vat_edit" <?php if(in_array('vat_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="vat_edit" class="form-label">VAT Edit</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="vat_del" <?php if(in_array('vat_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="vat_del" class="form-label">VAT Delete</label><br>
+    					</div>
+    				</div>
+					@endif
+					
+    				@if($roleFilter == 4 || $roleFilter == 7)
+    			    <div class="col-md-3">
+    			        <p class="mt-2"><b>Inventory Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="inventory_manage" <?php if(in_array('inventory_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="inventory_manage" class="form-label">Inventory Manage</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="inventory_add" <?php if(in_array('inventory_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="inventory_add" class="form-label">Inventory Add</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="inventory_edit" <?php if(in_array('inventory_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="inventory_edit" class="form-label">Inventory Edit</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="inventory_del" <?php if(in_array('inventory_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="inventory_del" class="form-label">Inventory Delete</label><br>
+    					</div>
+    				</div>
+    				@endif
+					
+    				
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>Consumers Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="consumers_manage" <?php if(in_array('customer_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="customer_manage" class="form-label">Customer manage</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="consumers_view" <?php if(in_array('customer_view', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="customer_view" class="form-label">Customer view</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="consumers_add" <?php if(in_array('customer_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="customer_add" class="form-label">Customer Add</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="consumers_edit" <?php if(in_array('customer_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="customer_edit" class="form-label">Customer Edit</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="consumers_del" <?php if(in_array('customer_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="customer_del" class="form-label">Customer Delete</label><br>
+    					</div>
+    				</div>
+    				
+    				@if($roleFilter == 4 || $roleFilter == 7)
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>Cashier Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="cashier_manage" <?php if(in_array('cashier_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="cashier_manage" class="form-label">Cashier Manage</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="cashier_view" <?php if(in_array('cashier_view', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="cashier_view" class="form-label">Cashier View</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="cashier_add" <?php if(in_array('cashier_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="cashier_add" class="form-label">Cashier Add</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="cashier_edit" <?php if(in_array('cashier_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="cashier_edit" class="form-label">Cashier Edit</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="cashier_del" <?php if(in_array('cashier_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="cashier_del" class="form-label">Cashier Delete</label><br>
+    					</div>
+    				</div>
+    				@endif
+					
+    				@if($roleFilter != 4)
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>Sub Admin Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="subadmin_manage" <?php if(in_array('subadmin_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="subadmin_manage" class="form-label">Sub Admin Manage</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="subadmin_add" <?php if(in_array('subadmin_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="subadmin_add" class="form-label">Sub Admin Add</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="subadmin_edit" <?php if(in_array('subadmin_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="subadmin_edit" class="form-label">Sub Admin Edit</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="subadmin_del" <?php if(in_array('subadmin_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="subadmin_del" class="form-label">Sub Admin Delete</label><br>
+    					</div>
+    				</div>
+    				
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>FAQ Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="faq_manage" <?php if(in_array('faq_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="faq_manage" class="form-label">FAQ Manage</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="faq_add" <?php if(in_array('faq_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="faq_add" class="form-label">FAQ Add</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="faq_edit" <?php if(in_array('faq_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="faq_edit" class="form-label">FAQ Edit</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="faq_del" <?php if(in_array('faq_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="faq_del" class="form-label">FAQ Delete</label><br>
+    					</div>
+    				</div>
+    				
+    				
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>Store Type Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="storetype_manage" <?php if(in_array('storetype_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="storetype_manage" class="form-label">Store Type Manage</label><br>
+    					</div>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="storetype_add" <?php if(in_array('storetype_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="storetype_add" class="form-label">Store Type Add</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="storetype_edit" <?php if(in_array('storetype_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="storetype_edit" class="form-label">Store Type Edit</label><br>
+    					</div>
+    				</div>
+					@endif
+					<div class="col-md-3">
+    			        <p class="mt-2"><b>Customer Slider Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="customerslider_manage" <?php if(in_array('customerslider_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="customerslider_manage" class="form-label">Customer Slider Manage</label><br>
+    					</div>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="customerslider_add" <?php if(in_array('customerslider_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="customerslider_add" class="form-label">Customer Slider Add</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="customerslider_edit" <?php if(in_array('customerslider_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="customerslider_edit" class="form-label">Customer Slider Edit</label><br>
+    					</div>
+						<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="customerslider_del" <?php if(in_array('customerslider_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="customerslider_del" class="form-label">Customer Slider Delete</label><br>
+    					</div>
+    				</div>
+					
+					<div class="col-md-3 border-right-0">
+    			        <p class="mt-2"><b>Report Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="report_manage" <?php if(in_array('report_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="report_manage" class="form-label">Reports Manage</label><br>
+    					</div>
+						<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="salesreport_manage" <?php if(in_array('salesreport_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="salesreport_manage" class="form-label">Sales Reports</label><br>
+    					</div>
+						<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="vatreport_manage" <?php if(in_array('vatreport_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="vatreport_manage" class="form-label">VAT Reports</label><br>
+    					</div>
+						<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="refundreport_manage" <?php if(in_array('refundreport_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="refundreport_manage" class="form-label">Refund Reports</label><br>
+    					</div>
+					</div>
+					<div class="col-md-3 pt-5 border-left-0 ">
+						<div class="col-md-12">
+							<input type="checkbox" name="catPermissions[]" value="inventoryreport_manage" <?php if(in_array('inventoryreport_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+							<label for="inventoryreport_manage" class="form-label">Inventory Reports</label><br>
+						</div>
+						<div class="col-md-12">
+							<input type="checkbox" name="catPermissions[]" value="purchasereport_manage" <?php if(in_array('purchasereport_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+							<label for="purchasereport_manage" class="form-label">Purchase Reports</label><br>
+						</div>
+						<div class="col-md-12">
+							<input type="checkbox" name="catPermissions[]" value="mediareport_manage" <?php if(in_array('mediareport_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+							<label for="mediareport_manage" class="form-label">Media Reports</label><br>
+						</div>
+						<div class="col-md-12">
+							<input type="checkbox" name="catPermissions[]" value="cashierreport_manage" <?php if(in_array('cashierreport_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+							<label for="cashierreport_manage" class="form-label">Cashier Reports</label><br>
+						</div>
+					</div>
+    				
+    			
+    				
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>Vendor Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="Vendor_manage" <?php if(in_array('Vendor_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="Vendor_manage" class="form-label">Vendor Manage</label><br>
+    					</div>
+    				</div>
+    				
+    				
+    				
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>Orders/Bills Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="orders_manage" <?php if(in_array('orders_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="orders_manage" class="form-label">Orders/Bills Manage</label><br>
+    					</div>
+    				</div>
+    				
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>Loyalty Points History</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="loyaltypoint_manage" <?php if(in_array('loyaltypoint_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="loyaltypoint_manage" class="form-label">Loyalty Points History Manage</label><br>
+    					</div>
+    				</div>
+    				@if($roleFilter != 4)
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>Log Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="log_manage" <?php if(in_array('log_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="log_manage" class="form-label"> Log View</label><br>
+    					</div>
+    				</div>
+    				@endif
+    			
+					@if($roleFilter != 4)
+    				<div class="col-md-3">
+    			        <p class="mt-3"><b>App Update Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="app_manage" <?php if(in_array('app_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="app_manage" class="form-label">Push App Update</label><br>
+    					</div>
+    				</div>
+    				
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>Notification Management</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="notifications_manage" <?php if(in_array('notifications_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="notifications_manage" class="form-label">Send Notifications View</label><br>
+    					</div>
+    				</div>
+    				@endif
+    				
+					<div class="col-12">
+				        <button type="submit" class="btn btn-primary px-5">Update Permissions</button>
+					</div>
+			    </form>
+			   
+                @endif
+			</div>
+		</div>
+	</div>
+</div>
+<!--end row-->
+
+
+@include('admin.layout.footer')
+<!--<script src=//code.jquery.com/jquery-3.5.1.slim.min.js integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin=anonymous></script>-->
+<script>
+
+    function addDay(e)
+    {
+        return;
+        document.getElementById(e.value).style.display = e.checked ? "initial" : "none";
+        console.log(document.getElementById(e.value));
+        console.log(document.querySelector('#store_add').checked);
+    }
+
+    function checkValue(section, checkbox) {
+        return;
+        var masterCheckbox = document.getElementById(section + " ::first-child").value;
+        var childClickedCheckbox = checkbox.value;
+        
+        if(childClickedCheckbox == true) {
+            
+            masterCheckbox = checked;
+        }
+    }
+    
+    /*
+	//var chk1 = $('input[name="yes"]:checked');
+	var chk1 = $("input[type='checkbox'][value='store_manage']");
+	var chk2 = $("input[type='checkbox'][value='store_add']");
+	var chk3 = $("input[type='checkbox'][value='store_edit']");
+	var chk4 = $("input[type='checkbox'][value='store_del']");
+	
+	var checkedVal2 = $('#store_add').is(":checked");
+	var checkedVal3 = $('#store_edit').is(":checked");
+	var checkedVal4 = $('#store_del').is(":checked");
+	
+	chk2.change(function(){
+		checkedVal2 = $('#store_add').is(":checked");
+		checkedVal3 = $('#store_edit').is(":checked");
+		checkedVal4 = $('#store_del').is(":checked");
+		
+		//alert(checkedVal2 + ' - ' + checkedVal3 + ' - ' + checkedVal4)
+		
+		if(checkedVal2 == false) {
+			if(checkedVal3 == false && checkedVal4 == false) {
+				chk1.prop('checked',this.checked);
+			}
+		}
+		else {
+			chk1.prop('checked',this.checked);
+		}	
+	});
+	chk3.change(function(){
+		checkedVal2 = $('#store_add').is(":checked");
+		checkedVal3 = $('#store_edit').is(":checked");
+		checkedVal4 = $('#store_del').is(":checked");
+		
+		//alert(checkedVal2 + ' - ' + checkedVal3 + ' - ' + checkedVal4)
+		
+		if(checkedVal3 == false) {
+			if(checkedVal2 == false && checkedVal4 == false) {
+				chk1.prop('checked',this.checked);
+			}
+		}
+		else {
+			chk1.prop('checked',this.checked);
+		}
+	});
+	chk4.change(function(){
+		checkedVal2 = $('#store_add').is(":checked");
+		checkedVal3 = $('#store_edit').is(":checked");
+		checkedVal4 = $('#store_del').is(":checked");
+		
+		//alert(checkedVal2 + ' - ' + checkedVal3 + ' - ' + checkedVal4)
+		
+		if(checkedVal4 == false) {
+			if(checkedVal2 == false && checkedVal3 == false) {
+				chk1.prop('checked',this.checked);
+			}
+		}
+		else {
+			chk1.prop('checked',this.checked);
+		}
+	});			
+    */
+    
+var table = $('#myTable').DataTable({
+   "aaSorting": [],
+              'columnDefs': [{
+                    "targets": [0,1,2,3,4,5],
+                    "orderable": false
+                }]
+          });
+</script>
+
+
+<style>
+    .dataTables_filter,.dataTables_info,.dataTables_paginate {display:none;}
+    .col-md-3 {border:1px solid;}
+    .border-right-0 {border-right:0px !important;}
+    .border-left-0 {border-left:0px !important;}
+</style>
