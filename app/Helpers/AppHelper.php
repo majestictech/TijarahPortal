@@ -302,7 +302,7 @@ class AppHelper
                 $message = "<b>{{user}}</b> ({{username}}) updated the cashier details of <b>" . $value . "</b>";
                 break;  
               case "cashierDelete":
-                $message = "<b>{{user}}</b> ({{username}}) delete the cashier details of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) delete the cashier details of   <b>" . $value . "</b>";
                 break;  
               case "shiftAdd":
                 $message = "<b>{{user}}</b> ({{username}}) added a new shift of <b>" . $value . "</b>";
