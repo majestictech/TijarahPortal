@@ -12,7 +12,7 @@ helper::checkUserURLAccess('adminmanagement_manage','');
 			<ol class="breadcrumb mb-0 p-0">
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
 				</li>
-				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-user-circle"></i> {{ __('lang.adminmanagement')}}</li>
+				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-user-circle"></i> {{ __('lang.adminmanagement')}} 123</li>
 			</ol>
 		</nav>
 	</div>
