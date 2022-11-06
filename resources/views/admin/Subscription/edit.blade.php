@@ -48,15 +48,15 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_edit');
 					<div class="col-md-6">
 						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionplansfeatures')}} *</label>
 						<div class="form-check"> 
-							<input class="form-check-input" type="checkbox" name="Basic" class="form-control border-start-0" id="check1" placeholder="{{ __('lang.basic')}}" checked/>
+							<input class="form-check-input" type="checkbox" name="feature[]" class="form-control border-start-0" id="check1" placeholder="{{ __('lang.basic')}}" checked/>
   							<label class="form-check-label">Inventory Management</label>
 						</div>
 						<div class="form-check">
-							  <input class="form-check-input" type="checkbox" name="Medium" class="form-control border-start-0" id="check2" placeholder="{{ __('lang.medium')}}" />
+							  <input class="form-check-input" type="checkbox" name="feature[]" class="form-control border-start-0" id="check2" placeholder="{{ __('lang.medium')}}" />
 							<label class="form-check-label">Bills Management</label>
 						</div>
 						<div class="form-check">
-							<input class="form-check-input" type="checkbox" name="Advanced" class="form-control border-start-0" id="check3" placeholder="{{ __('lang.Advanced')}}" />
+							<input class="form-check-input" type="checkbox" name="feature[]" class="form-control border-start-0" id="check3" placeholder="{{ __('lang.Advanced')}}" />
 							<label class="form-check-label">Merchant App</label>
 						</div>
 					</div>

@@ -53,21 +53,26 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_add');
 							<input type="number" required name="price" class="form-control border-start-0" id="price"  placeholder="Price">
 						</div>
 					</div>
-					ddsa
+				
 					<div class="col-md-6">
 						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionplansfeatures')}} *</label>
+						@foreach($features as $kay=>$feature)
+						
 						<div class="form-check"> 
-							<input class="form-check-input" type="checkbox" name="Basic" class="form-control border-start-0" id="check1" placeholder="{{ __('lang.basic')}}" checked/>
-  							<label class="form-check-label">Inventory Management</label>
+							<input class="form-check-input" type="checkbox" name="feature[]"  value="{{$feature->value}}" class="form-control border-start-0" id="check1"  />
+  							<label class="form-check-label">{{$feature->name}}</label>
 						</div>
-						<div class="form-check">
-							  <input class="form-check-input" type="checkbox" name="Medium" class="form-control border-start-0" id="check2" placeholder="{{ __('lang.medium')}}" />
+						@endforeach
+						<!--
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" name="Medium" value="{{$features}}"  class="form-control border-start-0" id="check2" placeholder="{{ __('lang.medium')}}" />
 							<label class="form-check-label">Bills Management</label>
 						</div>
 						<div class="form-check">
-							<input class="form-check-input" type="checkbox" name="Advanced" class="form-control border-start-0" id="check3" placeholder="{{ __('lang.Advanced')}}" />
+							<input class="form-check-input" type="checkbox" name="Advanced" value="{{$features}}"  class="form-control border-start-0" id="check3" placeholder="{{ __('lang.Advanced')}}" />
 							<label class="form-check-label">Merchant App</label>
 						</div>
+-->
 					</div>
 					
 					

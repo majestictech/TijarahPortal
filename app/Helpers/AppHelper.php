@@ -383,6 +383,15 @@ class AppHelper
               case "invoiceAdd":
                 $message = "<b>{{user}}</b> ({{username}}) added the INVOICE of <b>" . $value . "</b>";
                 break;
+              case "subscriptionAdd":
+                $message = "<b>{{user}}</b> ({{username}}) added the SUBSCRIPTION of <b>" . $value . "</b>";
+                break;
+              case "subscriptionEdit":
+                $message = "<b>{{user}}</b> ({{username}}) updated the SUBSCRIPTION of <b>" . $value . "</b>";
+                break;
+              case "subscriptionDelete":
+                $message = "<b>{{user}}</b> ({{username}}) deleted the SUBSCRIPTION of <b>" . $value . "</b>";
+                break;
                   
               
               

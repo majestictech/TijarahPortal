@@ -33,21 +33,27 @@ class SubscriptionController extends Controller
 	public function create()
     {      
 		//$Gender = config('app.Gender');
+		$features = DB::Table('massfeature')->select('id', 'name', 'value')->get(); 
 		
-		return view('admin.subscription.create');
+		return view('admin.subscription.create', compact('features'));
     }
 	public function store(Request $request)
     {    
         $subscriptiondata = new SubscriptionPlan;
-		
+
+		//$features = DB::Table('massfeature')->select('id', 'name', 'value')->get(); 
+
+		$feature = implode(',', $request->get('feature'));
         
+		$subscriptiondata->feature = $feature;
+
 		$subscriptiondata->plan = $request->plan;
 		$subscriptiondata->price = $request->price;
         $subscriptiondata->save(); 
 
 		//echo $subscriptiondata;
 		//die;
-		//Helper::addToLog('subadminAdd',$request->firstName);
+		Helper::addToLog('subscriptionAdd',$request->plan);
         return redirect('admin/subscription');             
     }
 	
@@ -68,11 +74,15 @@ class SubscriptionController extends Controller
         
 		
 		$subscriptiondata = SubscriptionPlan::find($request->input('id'));
+
+		
 		
 		
 		$subscriptiondata->plan = $request->plan;
 		$subscriptiondata->price = $request->price;
         $subscriptiondata->save(); 
+
+		Helper::addToLog('subscriptionEdit',$request->plan);
         return redirect('admin/subscription');  
     }
 
@@ -84,7 +94,7 @@ class SubscriptionController extends Controller
 		
         $subscriptiondata->delete();
 		
-		//Helper::addToLog('subadmindelete',$id);
+		Helper::addToLog('subscriptionDelete',$subscriptiondata->plan);
 		return redirect('admin/subscription');  
 		
     }	
