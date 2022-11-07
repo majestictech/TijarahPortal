@@ -38,7 +38,7 @@ class SubscriptionController extends Controller
 		return view('admin.subscription.create', compact('features'));
     }
 	public function store(Request $request)
-    {    
+    {     
         $subscriptiondata = new SubscriptionPlan;
 
 		//$features = DB::Table('massfeature')->select('id', 'name', 'value')->get(); 
@@ -62,10 +62,18 @@ class SubscriptionController extends Controller
 		
 
 		$subscriptiondata = DB::Table('subscriptionplan as S')->where('S.id', $id)->get();
+		//echo $subscriptiondata;
+
+
 		
+		//die;
+		
+	   
 		$subscriptiondata = $subscriptiondata[0];
 
-		return view('admin.subscription.edit',compact('subscriptiondata'));
+
+
+		return view('admin.subscription.edit',compact('subscriptiondata','features'));
     }
 	
 	public function update(Request $request)
@@ -74,12 +82,14 @@ class SubscriptionController extends Controller
         
 		
 		$subscriptiondata = SubscriptionPlan::find($request->input('id'));
+		$features = massfeature::find($request->input('id'));
 
 		
 		
 		
 		$subscriptiondata->plan = $request->plan;
 		$subscriptiondata->price = $request->price;
+		$subscriptiondata->feature = $feature;
         $subscriptiondata->save(); 
 
 		Helper::addToLog('subscriptionEdit',$request->plan);

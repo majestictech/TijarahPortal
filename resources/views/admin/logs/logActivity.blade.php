@@ -17,15 +17,15 @@ helper::checkUserURLAccess('log_manage','');
 			    
 			    <form action="" method="GET" id ="filter_results">
 			       <div class="row"> 
-    				<div class="col-md-4 mb-3 ">
-    				    <label for="search" class="form-label">Search</label>
-    				     <input type="text" name="search" class="form-control form-control-sm" value="{{$search}}"/>
-                       
-    				</div>
-    				<div class="col-md-4 mb-3 pt-4">
-    				      <label for="" class="form-label"></label>
-    				     <button type="submit" class="btn btn-primary px-5">Search</button>
-    				</div>
+						<div class="col-md-4 mb-3 ">
+							<label for="search" class="form-label">Search</label>
+							 <input type="text" name="search" class="form-control form-control-sm" value="{{$search}}"/>
+						   
+						</div>
+						<div class="col-md-4 mb-3 pt-4">
+							  <label for="" class="form-label"></label>
+							 <button type="submit" class="btn btn-primary px-5">Search</button>
+						</div>
     				
     				
                     </div>
@@ -44,7 +44,7 @@ helper::checkUserURLAccess('log_manage','');
             			@foreach($logs as $key => $log)
             			<tr>
             				<td>{{ ++$key + $countPerPage * ($page - 1) }}</td>
-            				<td>{!! $log->subject !!}</td>
+            				<td>{!! $log->subject !!} on {{ $log->created_at }}</td>
             				<td>{{ $log->firstName }} {{$log->lastName}}</td>
             			</tr>
             			@endforeach

@@ -136,10 +136,10 @@ class CashierController extends Controller
          ->select('users.firstName','users.lastName','users.email','C.id','users.contactNumber','users.status','C.storeId')
         ->where('C.id', $id)->get();
 		//$userData = DB::Table('users as U')->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber')->where('U.id', $id)->get();
-		
+		$shift = Shift::orderBy('id', 'DESC')->get();
 		$userData = $userData[0];
 
-		return view('admin.cashier.edit',compact('userData'));
+		return view('admin.cashier.edit',compact('userData','shift'));
     }
 	
 	public function update(Request $request)

@@ -43,7 +43,7 @@ class AdminIndexController extends Controller
         $search = $request->search;
         $logs = DB::Table('user_logs as UL')
         ->leftJoin('users','users.id','=','UL.userId')
-        ->select('UL.subject','users.firstName','users.lastName')
+        ->select('UL.subject','users.firstName','users.lastName', 'UL.created_at')
         ->where ('users.firstName', 'LIKE', '%' . $search . '%' )
         ->orWhere ('users.lastName', 'LIKE', '%' . $search . '%' )
         ->orWhere ('users.email', '=', $search)

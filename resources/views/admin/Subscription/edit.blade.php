@@ -60,7 +60,7 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_edit');
 							<label class="form-check-label">Merchant App</label>
 						</div>
 					</div>
-					
+				
 					
 					<div class="col-6">
 											

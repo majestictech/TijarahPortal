@@ -70,4 +70,8 @@ helper::checkUserURLAccess('subscription_manage','');
 <!--end row-->
 
 @include('admin.layout.footer')
-
+<script>
+var table = $('#myTable').DataTable({
+   "order": [[ 2, "asc" ]]
+          });
+</script>

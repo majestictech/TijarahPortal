@@ -11,8 +11,8 @@ helper::checkUserURLAccess('store_cashiers','');
 			<ol class="breadcrumb mb-0 p-0">
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
 				</li>
-				<!--<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/subadmin')}}"><i class="bx bx-user"></i> {{ __('lang.cashier')}}</a>
-				</li>-->
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/cashier')}}"><i class="bx bx-user"></i> {{ __('lang.cashierlist')}}</a>
+				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="fadeIn animated bx bx-list-plus"></i> {{ __('lang.addcashier')}}</li>
 			</ol>
 		</nav>
@@ -47,7 +47,7 @@ helper::checkUserURLAccess('store_cashiers','');
 						</div>
 					</div>
 
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<label for="inputEmailAddress" class="form-label">{{ __('lang.email')}} *</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-message' ></i></span>
 							<input type="email" name="email" class="form-control border-start-0" id="inputEmailAddress" placeholder="{{ __('lang.email')}}" required />
@@ -74,8 +74,8 @@ helper::checkUserURLAccess('store_cashiers','');
 						</div>
 					</div>					
 					
-
-					<!--<?php echo Auth::user()->roleId; ?>	-->
+                   
+					<!--<?php echo Auth::user()->roleId; ?>	
 					<?php if(Auth::user()->roleId != 4 ){?>
 					<div class="col-md-6">
 						<label for="storename" class="form-label">{{ __('lang.store')}} *</label>
@@ -88,7 +88,7 @@ helper::checkUserURLAccess('store_cashiers','');
 							</select>	
 						</div>
 					</div>
-					<?php } ?>
+					<?php } ?>-->
 
 					
 					

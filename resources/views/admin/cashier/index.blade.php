@@ -2,7 +2,7 @@
 <?php
 use App\Helpers\AppHelper as Helper;
 helper::checkUserURLAccess('cashier_manage','');
-helper::checkStoreId($storeId);
+//helper::checkStoreId($storeId);
 ?>
 
 
@@ -13,7 +13,9 @@ helper::checkStoreId($storeId);
 			<ol class="breadcrumb mb-0 p-0">
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
 				</li>
+				<li class="breadcrumb-item active" aria-current="page"><a class="text-primary" href="{{url('/admin/store')}}"><i class="bx bx-store-alt"></i> {{ __('lang.stores')}}</a></li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-user"></i> {{ __('lang.cashierlist')}}</li>
+				
 			</ol>
 		</nav>
 	</div>

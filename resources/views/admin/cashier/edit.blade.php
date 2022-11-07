@@ -11,8 +11,8 @@ helper::checkUserURLAccess('cashier_manage','cashier_edit');
 			<ol class="breadcrumb mb-0 p-0">
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
 				</li>
-				<!--<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/cashier')}}"><i class="bx bx-user"></i> {{ __('lang.cashier')}}</a>
-				</li>-->
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/cashier')}}"><i class="bx bx-user"></i> {{ __('lang.cashierlist')}}</a>
+				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="fadeIn animated bx bx-list-plus"></i> {{ __('lang.editcash')}}</li>
 			</ol>
 		</nav>
@@ -55,6 +55,19 @@ helper::checkUserURLAccess('cashier_manage','cashier_edit');
 							<input type="email" name="email" class="form-control border-start-0" id="inputEmailAddress" placeholder="{{ __('lang.email')}}" value="{{$userData->email}}" />
 						</div>
 					</div>
+
+					<div class="col-md-6">
+						<label for="shiftname" class="form-label">{{ __('lang.shift')}} *</label>
+						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-time'></i></span>
+							<select name="shiftId" class="form-control" id="shiftId"  required>
+								<option value="">{{ __('lang.shiftselect')}}</option>
+								@foreach($shift as $key=>$Shift)
+									<option value="{{$Shift->id}}" >{{$Shift->title}}</option>
+								@endforeach
+							</select>	
+						</div>
+					</div>					
+					
 					<div class="col-6">
 						<label for="inputChoosePassword" class="form-label">{{ __('lang.choosepassword')}}</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-lock-open' ></i></span>
