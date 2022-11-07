@@ -2,7 +2,7 @@
 <?php
 use App\Helpers\AppHelper as Helper;
 helper::checkUserURLAccess('cashier_manage','');
-//helper::checkStoreId($storeId);
+helper::checkStoreId($storeId);
 ?>
 
 
