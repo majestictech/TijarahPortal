@@ -245,6 +245,8 @@ Auth::routes();
 	Route::get('admin/product/import', 'Admin\ProductController@import')->name('product.import');
 	Route::post('admin/product/import', 'Admin\ProductController@import')->name('product.import');
     Route::get('admin/product/{id}/delete','Admin\ProductController@destroy')->name('product.destroy');
+	
+	Route::get('admin/product/expirydate','Admin\ProductController@expirydate')->name('product.expirydate');
     
     //----------------Global Product----------------------------------
     

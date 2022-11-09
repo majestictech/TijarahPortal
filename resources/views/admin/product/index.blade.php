@@ -107,6 +107,8 @@ use App\Helpers\AppHelper as Helper;
 									<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
 									
 										<a class="dropdown-item" href="{{url('/admin/product/'.$ProductData->id.'/edit')}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.edit')}}</a>
+										
+										<a class="dropdown-item" href="{{url('/admin/product/expirydate')}}"><i class="fadeIn animated bx bx-edit"></i> Expiry Date </a>
 									
 										<a class="dropdown-item" href="{{route('product.destroy',['id'=>$ProductData->id])}}" onclick="return confirm('Are you sure you want to delete the Product?');"><i class="fadeIn animated bx bx-trash"></i> {{ __('lang.delete')}}</a>
 										

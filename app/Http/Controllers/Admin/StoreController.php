@@ -92,7 +92,7 @@ class StoreController extends Controller
     	
     	$storecount=count($stores);
 		
-
+		
         
         return view('admin.store.index', compact('stores','storecount','storetype','storeFilter','search','storeId'));
         
@@ -279,14 +279,15 @@ class StoreController extends Controller
 	
     public function create()
     {  
-		$subscriptiondata = DB::Table('subscriptionplan') 
-		->leftJoin()
-		$durations = DB :: Table('mas_duration')->select('id','duration')->get();
+		$subscriptionPlans = DB::Table('subscriptionplan as SP') 
+		->leftJoin('mas_duration', 'mas_duration.id', '=', 'SP.duration_id')
+		->select('SP.id','SP.plan', 'mas_duration.duration')->get();
+		
 		$storetype = StoreType::orderBy('id', 'DESC')->get();
 		$country = Country::orderBy('id', 'DESC')->get();
 		$appupdate = DB::Table('app_update')->orderBy('id', 'DESC')->get();
        
-		return view('admin.store.create', compact('storetype','country','appupdate','durations','subscriptiondata'));
+		return view('admin.store.create', compact('storetype','country','appupdate','subscriptionPlans'));
     }
 	
 	public function store(Request $request)
@@ -351,11 +352,12 @@ class StoreController extends Controller
 		$stores->vatNumber =$request->vatNumber;
 		$stores->printFooterEn =$request->printFooterEn;
 		$stores->printFooterAr =$request->printFooterAr;
+		$stores->subscriptionPlanId =$request->subscriptionPlanId;
 		$stores->subscriptionExpiry =$request->subscriptionExpiry;
 		$stores->printVat =$request->vatNumber;
 		$stores->printPh =$request->contactNumber;
 		$stores->appVersionUpdate =$request->appVersionUpdate;
-	
+		
         $stores->save();       
 		
 		
@@ -451,24 +453,40 @@ class StoreController extends Controller
 
     public function edit($id)	
     {
+		$subscriptionPlans = DB::Table('subscriptionplan as SP') 
+		->leftJoin('mas_duration', 'mas_duration.id', '=', 'SP.duration_id')
+		->select('SP.id','SP.plan', 'mas_duration.duration')->get();
 		
         //$stores = Store::find($id);s
         $country = Country::orderBy('id', 'DESC')->get();
         $storetype = StoreType::orderBy('id', 'DESC')->get();
 		//$storestype = StoreType::orderBy('id', 'DESC')->get();
 		$appupdate = DB::Table('app_update')->orderBy('id', 'DESC')->get();
-		$stores = DB::Table('stores as S')->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'contactName'"),'S.appVersionUpdate','users.email','S.storeName' ,'S.id','users.contactNumber','S.countryId','S.address','S.storeType','S.printFooterEn','S.printFooterAr','S.postalCode','S.city','S.latitude','S.longitude','S.regNo','S.state','S.appVersion','S.openclosetime','S.openintime','S.tagLine','S.deviceType','S.appType','S.shopSize','S.vatNumber','S.manageInventory','S.smsAlert','S.autoGlobalCat','S.onlineMarket','S.printStoreNameAr','S.printAddAr','S.loyaltyOptions','S.autoGlobalItems','S.chatbot','S.status','S.subscriptionExpiry')
+		$stores = DB::Table('stores as S')->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'contactName'"),'S.appVersionUpdate','users.email','S.storeName' ,'S.id','users.contactNumber','S.countryId','S.address','S.storeType','S.printFooterEn','S.printFooterAr','S.postalCode','S.city','S.latitude','S.longitude','S.regNo','S.state','S.appVersion','S.openclosetime','S.openintime','S.tagLine','S.deviceType','S.appType','S.shopSize','S.vatNumber','S.manageInventory','S.smsAlert','S.autoGlobalCat','S.onlineMarket','S.printStoreNameAr','S.printAddAr','S.loyaltyOptions','S.autoGlobalItems','S.chatbot','S.status','S.subscriptionPlanId','S.subscriptionExpiry')
 		->leftJoin('users', 'users.id', '=', 'S.userId')->leftJoin('mas_country','S.countryId', '=', 'mas_country.id')
 		->where('S.id', $id)->get();
+	
 		$stores = $stores[0];
 		
-		//die;
-		return view('admin.store.edit',compact('stores','country','storetype','appupdate'));
+		//$subscriptionData = DB::Table('subscriptionPlan as S')->where('S.id', $id)->get();
+		
+		
+		return view('admin.store.edit',compact('stores','country','storetype','appupdate','subscriptionPlans'));
 		
     }
 	
     public function update(Request $request)
     {
+
+		//$subscriptiondata = SubscriptionPlan::find($request->input('id'));
+		//$durations = DB :: Table('mas_duration')->select('id','duration')->get(); 
+		//$subscriptiondata->plan = $request->plan;
+		//$stores->duration_id = $request->duration;
+		
+		//$subscriptiondata->duration = $durations;
+        //$subscriptiondata->save(); 
+
+
 		$stores = new Store;
 		$user = new User;
 		$userrole = new UserRole;
@@ -526,6 +544,7 @@ class StoreController extends Controller
 		$stores->vatNumber =$request->vatNumber;
 		$stores->printFooterEn =$request->printFooterEn;
 		$stores->printFooterAr =$request->printFooterAr;
+		$stores->subscriptionPlanId =$request->subscriptionPlanId;
 		$stores->subscriptionExpiry =$request->subscriptionExpiry;
 		$stores->appVersionUpdate =$request->appVersionUpdate;
 		//print_r($stores->storeName);

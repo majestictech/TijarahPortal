@@ -54,13 +54,14 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_add');
 						</div>
 					</div>
 					
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
 
-						<select name="duration" class="form-select single-select" id="duration" required> Select Month
-							@foreach($durations as $kay=>$duration)			
-							<option value="{{$duration->id}}">  {{$duration->duration}}  </option>
-							@endforeach		
+						<select name="duration" class="form-select single-select" id="duration" required>
+							<option value="">{{ __('lang.selectplan')}}</option>
+								@foreach($durations as $kay=>$duration)			
+								<option value="{{$duration->id}}">  {{$duration->duration}}  </option>
+								@endforeach		
 						</select>
 					</div>
 					

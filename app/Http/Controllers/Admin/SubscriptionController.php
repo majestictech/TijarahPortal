@@ -17,17 +17,11 @@ class SubscriptionController extends Controller
     public function index()
     {		
 		//$Gender = config('app.Gender');
+		$subscriptionData = DB::Table ('subscriptionplan')->orderBy('id','DESC')->get();
+		//$subscriptionData = DB::Table ('subscriptionplan')->get();
 		
-		$subscriptiondata = DB::Table('subscriptionplan')->get();
-		
-		$subscriptioncount=count($subscriptiondata);
-		
-		//echo $subscriptiondata ;
-		//echo $subscriptioncount ;
-		//die;
 
-
-		return view('admin.subscription.index',compact('subscriptiondata','subscriptioncount'));
+		return view('admin.subscription.index',compact('subscriptionData'));
     }
 	
 	public function create()
@@ -67,19 +61,19 @@ class SubscriptionController extends Controller
     {
 		
 
-		$subscriptiondata = DB::Table('subscriptionplan as S')->where('S.id', $id)->get();
+		$subscriptionData = DB::Table('subscriptionPlan as S')->where('S.id', $id)->get();
 		//echo $subscriptiondata;
-
+		$durations = DB :: Table('mas_duration')->select('id','duration')->get();
 
 		
 		//die;
 		
 	   
-		$subscriptiondata = $subscriptiondata[0];
+		$subscriptionData = $subscriptionData[0];
 
 
 
-		return view('admin.subscription.edit',compact('subscriptiondata'));
+		return view('admin.subscription.edit',compact('subscriptionData','durations'));
     }
 	
 	public function update(Request $request)

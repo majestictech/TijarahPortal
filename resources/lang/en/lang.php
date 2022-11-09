@@ -409,6 +409,7 @@
   'producttags'=>'Product Tags',
   'enterproducttags'=>'Enter Product Tags',
   'pleaseenterproducttags'=>'Please Enter Product Tags.',
+  'stockexpiry'=>'Stock Expiry',
   
   
   'signin'=>'Sign In',
@@ -797,6 +798,8 @@
   'subscriptionplanmanagement' => 'Subscription Plan ',
   'subscriptionplansfeatures' => 'Subscription Plan Features',
   'subscriptionplansduration' => 'Duration',
+  'selectplan' => 'Select Plan',
+  'selectmonth' => 'Select Month',
 
  
  

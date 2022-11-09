@@ -41,20 +41,20 @@ helper::checkUserURLAccess('subscription_manage','');
 							</tr>
 						</thead>
 						<tbody>
-						@foreach($subscriptiondata as $key => $subScriptiondata)
+						@foreach($subscriptionData as $key => $subscriptionData)
 							<tr> 
-								<td>{{$subScriptiondata->plan}}</td>
-								<td>{{$subScriptiondata->price}}</td>
+								<td>{{$subscriptionData->plan}}</td>
+								<td>{{$subscriptionData->price}}</td>
 								<td>
 									<div class="btn-group">
 										<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
 										</button>
 										<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
 											@if(helper::checkUserRights('subadmin_manage','subadmin_edit'))
-											<a class="dropdown-item" href="{{url('/admin/subscription/'.$subScriptiondata->id).'/edit'}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.edit')}}</a>
+											<a class="dropdown-item" href="{{url('/admin/subscription/'.$subscriptionData->id).'/edit'}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.edit')}}</a>
 											@endif
 											@if(helper::checkUserRights('subadmin_manage','subadmin_del'))
-											<a class="dropdown-item" href="{{url('/admin/subscription/'.$subScriptiondata->id.'/delete')}}" onclick="return confirm('Are you sure you want to delete the Subscription?');"><i class="fadeIn animated bx bx-trash"></i> {{ __('lang.delete')}}</a>
+											<a class="dropdown-item" href="{{url('/admin/subscription/'.$subscriptionData->id.'/delete')}}" onclick="return confirm('Are you sure you want to delete the Subscription?');"><i class="fadeIn animated bx bx-trash"></i> {{ __('lang.delete')}}</a>
 											@endif
 										</div>
 									</div>

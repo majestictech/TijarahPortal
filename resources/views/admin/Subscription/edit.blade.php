@@ -34,43 +34,26 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_edit');
 				<div class="col-md-6 ">
 						<label for="subscriptionExpiry" class="form-label">Subcription Plan</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-tag' ></i></span>
-							<input type="text" required name="plan" class="form-control border-start-0" id="plan"  value="{{$subscriptiondata->plan}}" placeholder="Subcription Plan">
+							<input type="text" required name="plan" class="form-control border-start-0" id="plan"  value="{{$subscriptionData->plan}}" placeholder="Subcription Plan">
 						</div>
 					</div>
 					
 					<div class="col-md-6 ">
 						<label for="subscriptionExpiry" class="form-label">Price</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-tag' ></i></span>
-							<input type="number" required name="price" class="form-control border-start-0" id="price"  value="{{$subscriptiondata->price}}"  placeholder="Price">
+							<input type="number" required name="price" class="form-control border-start-0" id="price"  value="{{$subscriptionData->price}}"  placeholder="Price">
 						</div>
 					</div>
 					
 					<div class="col-md-6">
 						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
-						<!--<div class="form-check"> 
-							<input class="form-check-input" type="checkbox" name="feature[]" class="form-control border-start-0" id="check1" placeholder="{{ __('lang.basic')}}" checked/>
-  							<label class="form-check-label">Inventory Management</label>
-						</div>
-						<div class="form-check">
-							  <input class="form-check-input" type="checkbox" name="feature[]" class="form-control border-start-0" id="check2" placeholder="{{ __('lang.medium')}}" />
-							<label class="form-check-label">Bills Management</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="checkbox" name="feature[]" class="form-control border-start-0" id="check3" placeholder="{{ __('lang.Advanced')}}" />
-							<label class="form-check-label">Merchant App</label>
-						</div>-->
-										
-					<div class="col-md-4">
-						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
-
-						<select name="duration" class="form-select single-select" id="duration" required> Select Month
-							@foreach($durations as $kay=>$duration)			
-							<option value="{{$duration->id}}">  {{$duration->duration}}  </option>
-							@endforeach		
+						<select name="durationId" class="form-control" id="durationId"  required>
+							<option value="">{{ __('lang.selectmonth')}}</option>
+								@foreach($durations as $key=>$value)
+									<option value="{{$value->id}}" {{ ( $value->id == $subscriptionData->duration_id) ? 'selected' : '' }}
+									>{{$value->duration}}</option>
+								@endforeach	
 						</select>
-					</div>
-
-						
 					</div>
 				
 					
@@ -80,7 +63,7 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_edit');
 					
 					
 					<div class="col-12">
-						<input type="hidden" name="id" value = "{{$subscriptiondata->id}}">
+						<input type="hidden" name="id" value = "{{$subscriptionData->id}}">
 						<button type="submit" class="btn btn-primary px-5">{{ __('lang.editsubscription')}}</button>
 						<button type="reset" class="btn btn-secondary px-5">{{ __('lang.reset')}}</button>
 					</div>

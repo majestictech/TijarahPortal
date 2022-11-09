@@ -440,5 +440,10 @@ class ProductController extends Controller
 		return view('admin.product.view',compact('ProductData'));
 		
     }
+	 public function expirydate()
+    {
+		
+		return view('admin.product.expirydate');
+    }
 	
 }

@@ -336,15 +336,14 @@ helper::checkUserURLAccess('store_manage','store_add');
 						</div>
 					</div>
 					
+					
 					<div class="col-md-6">
-						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionduration')}} *</label>
-
-						
-						<select name="duration" class="form-select single-select" id="duration" required> Select Month
-							@foreach($subscriptiondata as $key=>$duration)			
-							<option value="{{$duration->id}}"> {{$duration->plan}} - {{$duration->duration_id}}  </option>
-							@endforeach		
-						</select>
+						<label for="stores" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
+						<select name="subscriptionPlanId" class="form-control" id="subscriptionPlanId"  required>
+							<option value="">{{ __('lang.selectplan')}}</option>
+								@foreach($subscriptionPlans as $key=>$value)
+									<option value="{{$value->id}}"> {{$value->plan}} </option>
+								@endforeach	
 						</select>
 					</div>
 					

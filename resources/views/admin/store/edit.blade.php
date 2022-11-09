@@ -351,28 +351,24 @@ helper::checkUserURLAccess('store_manage','store_edit');
 					</div>
 					-->
 					
-					<div class="col-6">
-					    <label class="form-label">{{ __('lang.status')}}</label><br/>
-					    <div class="form-group pt-2">
-							  <input class="radio-input mr-2" type="radio" id="active" value="Active" name="status" <?php if(isset($stores)){ if('Active' == $stores->status){ echo "checked"; } } ?>>
-							  <label class="mb-0" for="active">
-								{{ __('lang.active')}}
-							  </label>
-							
-							  <input class="checkbox-input mr-2 ml-2" type="radio" value="Suspended" id="suspended" name="status" <?php if(isset($stores)){ if('Suspended' == $stores->status){ echo "checked"; } } ?>>
-							  <label class="mb-0" for="suspended">
-								{{ __('lang.suspended')}}
-							  </label>
-						</div>
+					
+
+					<div class="col-md-6">
+						<label for="stores" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
+						<select name="subscriptionPlanId" class="form-control" id="subscriptionPlanId"  required>
+							<option value="">{{ __('lang.selectplan')}}</option>
+								@foreach($subscriptionPlans as $key=>$value)
+									<option value="{{$value->id}}" {{ ( $value->id == $stores->subscriptionPlanId) ? 'selected' : '' }}> {{$value->plan}} - {{$value->duration}}</option>
+								@endforeach	
+						</select>
 					</div>
 					
 					<div class="col-6">
 						<label for="subscriptionExpiry" class="form-label">{{ __('lang.subscriptionExpiry')}}</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-tag' ></i></span>
-							<input type="date" name="subscriptionExpiry" class="form-control border-start-0" id="subscriptionExpiry" value="{{$stores->subscriptionExpiry}}" placeholder="{{ __('lang.subscriptionExpiry')}}">
+							<input type="date" required value="{{ old('subscriptionExpiry') }}" name="subscriptionExpiry" class="form-control border-start-0" id="subscriptionExpiry" value="{{$stores->subscriptionExpiry}}" placeholder="{{ __('lang.subscriptionExpiry')}}">
 						</div>
 					</div>
-					
 					
 					 <div class="col-6">
 						<label for="storeType" class="form-label">{{ __('lang.appVersion')}} *</label>
@@ -388,6 +384,22 @@ helper::checkUserURLAccess('store_manage','store_edit');
 						</div>
 					</div>
 					
+
+					<div class="col-6">
+					    <label class="form-label">{{ __('lang.status')}}</label><br/>
+					    <div class="form-group pt-2">
+							  <input class="radio-input mr-2" type="radio" id="active" value="Active" name="status" <?php if(isset($stores)){ if('Active' == $stores->status){ echo "checked"; } } ?>>
+							  <label class="mb-0" for="active">
+								{{ __('lang.active')}}
+							  </label>
+							
+							  <input class="checkbox-input mr-2 ml-2" type="radio" value="Suspended" id="suspended" name="status" <?php if(isset($stores)){ if('Suspended' == $stores->status){ echo "checked"; } } ?>>
+							  <label class="mb-0" for="suspended">
+								{{ __('lang.suspended')}}
+							  </label>
+						</div>
+					</div>
+
 					<div class="col-12">
 						<input type="hidden" name="id" value = "{{$stores->id}}">
 						<button type="submit" class="btn btn-primary px-5">{{ __('lang.editstore')}}</button>
