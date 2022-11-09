@@ -61,10 +61,11 @@ helper::checkUserURLAccess('cashier_manage','cashier_edit');
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-time'></i></span>
 							<select name="shiftId" class="form-control" id="shiftId"  required>
 								<option value="">{{ __('lang.shiftselect')}}</option>
-								@foreach($shift as $key=>$Shift)
-									<option value="{{$Shift->id}}" >{{$Shift->title}}</option>
+								@foreach($shift as $key=>$value)
+									<option value="{{$value->id}}" {{ ( $value->id == $userData->shiftId) ? 'selected' : '' }} >{{$value->title}}</option>
 								@endforeach
-							</select>	
+								
+							</select>
 						</div>
 					</div>					
 					

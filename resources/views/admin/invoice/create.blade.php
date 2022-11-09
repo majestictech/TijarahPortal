@@ -197,6 +197,8 @@
 							<input type="date" class="form-control border-start-0" name="invoiceDate" id="invoiceDate" required>
 						</div>
 					</div>
+
+					
 					<!--<div class="row">
     			         <table class="table">									
     						<tbody id="tbody">
@@ -264,14 +266,22 @@
                 						</div>
             					    </div>
             					</td>
+								<td>
+									<div class="col-auto">
+										<label for="expiryDate" class="form-label">{{ __('lang.expirydate')}}*</label>
+										<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-file' ></i></span>
+										<input type="date" name="expiryDate" value="" class="form-control border-start-0" id="expiryDate">
+										</div>
+									</div>
+								</td>
 
                                 <td  style="vertical-align: middle;"><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>  
                             </tr>  
                         </table>  
  
                     </div>
-                    					<div class="col-12">
-					    <input type="hidden" name="storeId" value = "{{request()->route('id')}}" //>
+                    	<div class="col-12">
+					    <input type="hidden" name="storeId" value = "{{request()->route('id')}}" >
 						<button type="submit" class="btn btn-primary px-5">{{ __('lang.addinvoice')}}</button>
 					</div>
                     </form>  

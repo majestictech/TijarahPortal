@@ -53,28 +53,16 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_add');
 							<input type="number" required name="price" class="form-control border-start-0" id="price"  placeholder="Price">
 						</div>
 					</div>
-				
-					<div class="col-md-6">
-						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionplansfeatures')}} *</label>
-						@foreach($features as $kay=>$feature)
-						
-						<div class="form-check"> 
-							<input class="form-check-input" type="checkbox" name="feature[]"  value="{{$feature->value}}" class="form-control border-start-0" id="check1"  />
-  							<label class="form-check-label">{{$feature->name}}</label>
-						</div>
-						@endforeach
-						<!--
-							<div class="form-check">
-							  <input class="form-check-input" type="checkbox" name="Medium" value="{{$features}}"  class="form-control border-start-0" id="check2" placeholder="{{ __('lang.medium')}}" />
-							<label class="form-check-label">Bills Management</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="checkbox" name="Advanced" value="{{$features}}"  class="form-control border-start-0" id="check3" placeholder="{{ __('lang.Advanced')}}" />
-							<label class="form-check-label">Merchant App</label>
-						</div>
--->
-					</div>
 					
+					<div class="col-md-4">
+						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
+
+						<select name="duration" class="form-select single-select" id="duration" required> Select Month
+							@foreach($durations as $kay=>$duration)			
+							<option value="{{$duration->id}}">  {{$duration->duration}}  </option>
+							@endforeach		
+						</select>
+					</div>
 					
 					<div class="col-6">
 											

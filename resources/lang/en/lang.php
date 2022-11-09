@@ -789,12 +789,14 @@
   'subscription' => 'Subscription',
   'editsubscription' => 'Edit Subscription', 
   'subscriptionExpiry' => 'Subscription Expiry',
+  'subscriptionduration' => 'Subscription Plan Duration',
   'subscriptionplans' =>  'Subscription Plans',
   'addsubscription' => 'Add Subscription',
   'allsubscriptions' => 'All Subscriptions',
   'basic' => 'Basic Plan',
   'subscriptionplanmanagement' => 'Subscription Plan ',
   'subscriptionplansfeatures' => 'Subscription Plan Features',
+  'subscriptionplansduration' => 'Duration',
 
  
  

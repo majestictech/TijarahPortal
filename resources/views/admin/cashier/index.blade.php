@@ -30,7 +30,7 @@ helper::checkStoreId($storeId);
 <!--end breadcrumb-->
 <div class="row">
 	<div class="col-xl-12 mx-auto">
-		<h6 class="mb-0 text-uppercase">{{ __('lang.cashierlist')}}</h6>
+		<h6 class="mb-0 text-uppercase">{{ __('lang.cashierlist')}} dubai mall</h6>
 		<hr/>
 		<div class="card">
 			<div class="card-body">

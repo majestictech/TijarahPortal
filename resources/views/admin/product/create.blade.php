@@ -321,12 +321,13 @@ helper::checkUserURLAccess('inventory_manage','inventory_add');
 								<input type="file" name="productImage" class="form-control border-start-0" id="image">
 							</div>
 						</div>
+						<!--
 						<div class="col-6">
 							<label for="expiryDate" class="form-label">{{ __('lang.expirydate')}}</label>
 							<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-file' ></i></span>
 								<input type="date" name="expiryDate" class="form-control border-start-0" id="expiryDate">
 							</div>
-						</div>
+						</div>-->
 						
 						
 				<!--		

@@ -199,7 +199,7 @@ class ProductController extends Controller
 		
 		$product->price = $request->sellingPrice/(1+($taxdata->value/100));
 		$product->storeId = $request->storeId;
-		$product->expiryDate =$request->expiryDate;
+		//$product->expiryDate =$request->expiryDate;
         $product->save(); 
 		
 		
@@ -240,7 +240,7 @@ class ProductController extends Controller
 		$product->looseItem = $request->looseItem;
 		//$product->weightClassId = $request->weightClassId;
 		$product->taxClassId = $request->taxClassId;
-		$product->expiryDate =$request->expiryDate;
+		//$product->expiryDate =$request->expiryDate;
 		
 		$taxdata = Tax::WHERE('id', $request->taxClassId)->first();
 		

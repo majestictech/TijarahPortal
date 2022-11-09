@@ -33,23 +33,29 @@ class SubscriptionController extends Controller
 	public function create()
     {      
 		//$Gender = config('app.Gender');
-		$features = DB::Table('massfeature')->select('id', 'name', 'value')->get(); 
-		
-		return view('admin.subscription.create', compact('features'));
+		//$features = DB::Table('massfeature')->select('id', 'name', 'value')->get(); 
+
+		$durations = DB :: Table('mas_duration')->select('id','duration')->get();
+
+
+		return view('admin.subscription.create', compact('durations'));
     }
 	public function store(Request $request)
     {     
-        $subscriptiondata = new SubscriptionPlan;
+        $subscriptionData = new SubscriptionPlan;
 
 		//$features = DB::Table('massfeature')->select('id', 'name', 'value')->get(); 
+		//$durations = DB :: Table('mas_duration')->select('id','duration')->get();
 
-		$feature = implode(',', $request->get('feature'));
-        
-		$subscriptiondata->feature = $feature;
+		//$durations = implode(',', $request->duration);
+        //$subscriptiondata->duration_id = $durations;
+		//$subscriptiondata->duration = $durations;
 
-		$subscriptiondata->plan = $request->plan;
-		$subscriptiondata->price = $request->price;
-        $subscriptiondata->save(); 
+		$subscriptionData->plan = $request->plan;
+		$subscriptionData->price = $request->price;
+		$subscriptionData->duration_id = $request->duration;
+
+        $subscriptionData->save(); 
 
 		//echo $subscriptiondata;
 		//die;
@@ -73,7 +79,7 @@ class SubscriptionController extends Controller
 
 
 
-		return view('admin.subscription.edit',compact('subscriptiondata','features'));
+		return view('admin.subscription.edit',compact('subscriptiondata'));
     }
 	
 	public function update(Request $request)
@@ -82,14 +88,12 @@ class SubscriptionController extends Controller
         
 		
 		$subscriptiondata = SubscriptionPlan::find($request->input('id'));
-		$features = massfeature::find($request->input('id'));
+		//$durations = mas_duration::find($request->input('id'));
 
-		
-		
-		
+	
 		$subscriptiondata->plan = $request->plan;
 		$subscriptiondata->price = $request->price;
-		$subscriptiondata->feature = $feature;
+		//$subscriptiondata->duration = $durations;
         $subscriptiondata->save(); 
 
 		Helper::addToLog('subscriptionEdit',$request->plan);

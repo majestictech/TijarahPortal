@@ -278,12 +278,15 @@ class StoreController extends Controller
 	
 	
     public function create()
-    {    
+    {  
+		$subscriptiondata = DB::Table('subscriptionplan')->get(); 
+
+		$durations = DB :: Table('mas_duration')->select('id','duration')->get();
 		$storetype = StoreType::orderBy('id', 'DESC')->get();
 		$country = Country::orderBy('id', 'DESC')->get();
 		$appupdate = DB::Table('app_update')->orderBy('id', 'DESC')->get();
        
-		return view('admin.store.create', compact('storetype','country','appupdate'));
+		return view('admin.store.create', compact('storetype','country','appupdate','durations','subscriptiondata'));
     }
 	
 	public function store(Request $request)
@@ -352,6 +355,7 @@ class StoreController extends Controller
 		$stores->printVat =$request->vatNumber;
 		$stores->printPh =$request->contactNumber;
 		$stores->appVersionUpdate =$request->appVersionUpdate;
+	
         $stores->save();       
 		
 		

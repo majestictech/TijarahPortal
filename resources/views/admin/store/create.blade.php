@@ -337,18 +337,15 @@ helper::checkUserURLAccess('store_manage','store_add');
 					</div>
 					
 					<div class="col-md-6">
-					    <label class="form-label">{{ __('lang.status')}}</label><br/>
-						<div class="form-group pt-2">
-							  <input class="radio-input mr-2" type="radio" id="active" value="Active" name="status" checked>
-							  <label class="mb-0" for="active">
-								{{ __('lang.active')}}
-							  </label>
-							
-							  <input class="checkbox-input mr-2 ml-2" type="radio" value="Suspended" id="suspended" name="status">
-							  <label class="mb-0" for="suspended">
-								{{ __('lang.suspended')}}
-							  </label>
-						</div>
+						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionduration')}} *</label>
+
+						
+						<select name="duration" class="form-select single-select" id="duration" required> Select Month
+							@foreach($subscriptiondata as $key=>$duration)			
+							<option value="{{$duration->id}}"> {{$duration->plan}} - {{$duration->duration_id}}  </option>
+							@endforeach		
+						</select>
+						</select>
 					</div>
 					
 					<div class="col-6">
@@ -372,7 +369,20 @@ helper::checkUserURLAccess('store_manage','store_add');
 						</div>
 					</div>
 					
-					
+					<div class="col-md-6">
+					    <label class="form-label">{{ __('lang.status')}}</label><br/>
+						<div class="form-group pt-2">
+							  <input class="radio-input mr-2" type="radio" id="active" value="Active" name="status" checked>
+							  <label class="mb-0" for="active">
+								{{ __('lang.active')}}
+							  </label>
+							
+							  <input class="checkbox-input mr-2 ml-2" type="radio" value="Suspended" id="suspended" name="status">
+							  <label class="mb-0" for="suspended">
+								{{ __('lang.suspended')}}
+							  </label>
+						</div>
+					</div>
 					
 					<div class="col-12">
 						<button type="submit" class="btn btn-secondary px-5">{{ __('lang.addstore')}}</button>

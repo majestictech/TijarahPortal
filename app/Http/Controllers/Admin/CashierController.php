@@ -133,7 +133,7 @@ class CashierController extends Controller
 
          $userData = DB::Table('cashier as C')
          ->leftJoin('users', 'users.id', '=', 'C.userId')
-         ->select('users.firstName','users.lastName','users.email','C.id','users.contactNumber','users.status','C.storeId')
+         ->select('users.firstName','users.lastName','users.email','C.id','users.contactNumber','users.status','C.storeId','C.shiftId')
         ->where('C.id', $id)->get();
 		//$userData = DB::Table('users as U')->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber')->where('U.id', $id)->get();
 		$shift = Shift::orderBy('id', 'DESC')->get();
@@ -158,6 +158,10 @@ class CashierController extends Controller
 		$this->validate($request, [	'password' => 'min:6|:password_confirmation|same:password_confirmation',
 		'password_confirmation' => 'min:6'
      	]);
+		
+		
+		$cashier->shiftId = $request->shiftId;
+		$cashier->save(); 
 		
 		$user->firstName = $request->firstName;
 		$user->lastName = $request->lastName;

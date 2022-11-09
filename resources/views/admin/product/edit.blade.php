@@ -327,12 +327,13 @@ helper::checkUserURLAccess('store_manage','store_inventory');
 								<img src="data:image/png;base64,{{$ProductData->productImgBase64}}">
 							</div>
 						</div>
+						<!--
 						<div class="col-6">
 							<label for="expiryDate" class="form-label">{{ __('lang.expirydate')}}</label>
 							<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-file' ></i></span>
 								<input type="date" name="expiryDate" value="{{$ProductData->expiryDate}}" class="form-control border-start-0" id="expiryDate">
 							</div>
-						</div>
+						</div>-->
 					
 						
 						

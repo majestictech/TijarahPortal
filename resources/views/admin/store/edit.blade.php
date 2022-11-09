@@ -60,7 +60,7 @@ helper::checkUserURLAccess('store_manage','store_edit');
 							<select name="storeType" class="form-select single-select" id="storeType" aria-label="Example select with button addon" required>
 								<option value="">{{ __('lang.selectstoretype')}}</option>
 									@foreach($storetype as $key=>$value)
-										<option value="{{$value->id}}" {{ ( $value->id == $stores->storeType) ? 'selected' : '' }} >{{$value->name}} </option>
+										<option value="{{$value->id}}" {{ ( $value->id == $stores->storeType) ? 'selected' : '' }} >{{$value->name}}</option>
 									@endforeach
 							</select>
 						</div>
