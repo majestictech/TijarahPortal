@@ -1155,76 +1155,28 @@ $("#chart22").sparkline([3,5,3,7,5,10,3,6,5,0], {
 	
 /* Number of Bills Chart End */
 
-// Data retrieved from https://fas.org/issues/nuclear-weapons/status-world-nuclear-forces/
 Highcharts.chart('chart-h1', {
     chart: {
         type: 'area'
     },
-    title: {
-        text: ''
-    },
-    subtitle: {
-        text: ''
-    },
     xAxis: {
-        allowDecimals: false,
-        labels: {
-            formatter: function () {
-                return this.value; // clean, unformatted number for year
-            }
-        },
-        accessibility: {
-            rangeDescription: 'Range: 1940 to 2017.'
-        }
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     },
-    yAxis: {
-        title: {
-            text: 'Nuclear weapon states'
-        },
-        labels: {
-            formatter: function () {
-                return this.value / 1000 + 'k';
-            }
-        }
-    },
-    tooltip: {
-        pointFormat: '{series.name} had stockpiled <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
-    },
+
     plotOptions: {
-        area: {
-            pointStart: 1940,
-            marker: {
-                enabled: false,
-                symbol: 'circle',
-                radius: 2,
-                states: {
-                    hover: {
-                        enabled: true
-                    }
-                },
-                
+        series: {
+            fillColor: {
+                linearGradient: [0, 0, 0, 200],
+                stops: [
+                    [0, Highcharts.getOptions().colors[7]],
+                    [1, Highcharts.color(Highcharts.getOptions().colors[7]).setOpacity(0).get('0, 195, 1')]
+                ]
             }
-        },
-        fillColor: {
-            color: '#19a697' ,
-            borderColor: '#19a697'
-                }
-      
+        }
     },
+
     series: [{
-        name: 'USA',
-        data: [
-            null, null, null, null, null, 2, 9, 13, 50, 170, 299, 438, 841,
-            1169, 1703, 2422, 3692, 5543, 7345, 12298, 18638, 22229, 25540,
-            28133, 29463, 31139, 31175, 31255, 29561, 27552, 26008, 25830,
-            26516, 27835, 28537, 27519, 25914, 25542, 24418, 24138, 24104,
-            23208, 22886, 23305, 23459, 23368, 23317, 23575, 23205, 22217,
-            21392, 19008, 13708, 11511, 10979, 10904, 11011, 10903, 10732,
-            10685, 10577, 10526, 10457, 10027, 8570, 8360, 7853, 5709, 5273,
-            5113, 5066, 4897, 4881, 4804, 4717, 4571, 4018, 3822, 3785, 3805,
-            3750, 3708, 3708
-        ]
-        
+        data: [40, 90, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 170]
     }]
 });
 

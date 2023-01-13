@@ -33,7 +33,9 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function() {
 	//Route::group(['middleware' => 'auth.admin'], function () {
     // your routes
-
+/* this is test 
+content 
+for git */
 	Route::get('admin/settings', 'Admin\SettingsController@index')->name('settings.index');
 	Route::get('admin/settings/{id}/edit', 'Admin\SettingsController@edit')->name('settings.edit');
 	Route::post('admin/settings/update','Admin\SettingsController@update')->name('settings.update');
