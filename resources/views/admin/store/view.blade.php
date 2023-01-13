@@ -3,7 +3,7 @@
    <div class="content-page">
      <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-7">
+            <div class="col-lg-7 w-100">
                 <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                     <div>
                         @if($storedata->printStoreNameAr != null)

@@ -10,7 +10,7 @@ helper::checkUserURLAccess('subadmin_manage','');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-user-circle"></i> {{ __('lang.subadmin')}}</li>
 			</ol>
@@ -75,7 +75,7 @@ helper::checkUserURLAccess('subadmin_manage','');
 
 <script>
 var table = $('#myTable').DataTable({
-   "order": [[ 1, "asc" ]],
+   "order": [[ 3, "asc" ]],
               'columnDefs': [{
                     "targets": [3],
                     "orderable": false

@@ -89,7 +89,7 @@ function page_url(){
 				<a href="{{url('admin')}}">
 					<div class="parent-icon"><i class="bx bx-book-content"></i>
 					</div>
-					<div class="menu-title">{{ __('lang.dashboards')}}</div>
+					<div class="menu-title">{{ __('lang.dashboard')}}</div>
 				</a>
 			</li>
 			
@@ -345,6 +345,7 @@ function page_url(){
 					</a>
 				</li>
 			@endif
+			
 			
 			<!-- FAQ's Ends -->
 			</ul>

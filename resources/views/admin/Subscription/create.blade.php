@@ -15,7 +15,7 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_add');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/subscription')}}"><i class="bx bx-notepad"></i> {{ __('lang.subscription')}}</a>
 				</li>
@@ -43,21 +43,21 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_add');
 					<div class="col-md-6 ">
 						<label for="subscriptionExpiry" class="form-label">Subcription Plan</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-tag' ></i></span>
-							<input type="text" required name="plan" class="form-control border-start-0" id="plan"  placeholder="Subcription Plan">
+							<input type="text" name="plan" class="form-control border-start-0" id="plan"  placeholder="Subcription Plan" value="{{old('plan')}}" required>
 						</div>
 					</div>
 					
 					<div class="col-md-6 ">
 						<label for="subscriptionExpiry" class="form-label">Price</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-tag' ></i></span>
-							<input type="number" required name="price" class="form-control border-start-0" id="price"  placeholder="Price">
+							<input type="number" name="price" class="form-control border-start-0" id="price"  placeholder="Price" value="{{old('price')}}" required>
 						</div>
 					</div>
 					
 					<div class="col-md-6">
 						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
 
-						<select name="duration" class="form-select single-select" id="duration" required>
+						<select name="duration" class="form-select single-select" id="duration" value="{{old('duration')}}" required>
 							<option value="">{{ __('lang.selectplan')}}</option>
 								@foreach($durations as $kay=>$duration)			
 								<option value="{{$duration->id}}">  {{$duration->duration}}  </option>

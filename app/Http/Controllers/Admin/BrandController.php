@@ -71,6 +71,7 @@ class BrandController extends Controller
     {
         $BrandData = Brand::find($id);
         $BrandData->delete();
+		Helper::addToLog('brandDelete',$BrandData->brandName);
 		return redirect('admin/brand'); 
     }	
 	

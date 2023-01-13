@@ -3,15 +3,23 @@
 use App\Helpers\AppHelper as Helper;
 helper::checkUserURLAccess('consumers_manage','consumers_add');
 ?>
-
+ <style>
+     .error_msg{
+	color:red;
+	font-size:18px;
+	
+}
+ </style>
 <!--breadcrumb-->
 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
-				<!--<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/customer')}}"><i class="bx bx-group"></i> {{ __('lang.customers')}}</a>-->
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/store')}}"><i class="bx bx-store-alt"></i> {{ __('lang.stores')}}</a>
+				</li>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/customer').'/'.$id}}"><i class="bx bx-group"></i> {{ __('lang.customers')}}</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="fadeIn animated bx bx-list-plus"></i> {{ __('lang.addcustomer')}}</li>
 			</ol>
@@ -33,60 +41,57 @@ helper::checkUserURLAccess('consumers_manage','consumers_add');
 				</div>
 				<hr>
 				<form class="row g-3 pt-3" method="post" action="{{route('customer.store')}}" data-toggle="validator">
+				@if($errors->any())
+				<h4 class="error_msg">{{$errors->first()}}</h4>
+				@endif
 				@csrf
 					<div class="col-md-6 ">
 						<label for="name" class="form-label">{{ __('lang.name')}} *</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-tag'></i></span>
-							<input type="text" autofocus="autofocus" name="customerName" class="form-control border-start-0" id="name" placeholder="{{ __('lang.name')}}" required />
+							<input type="text" autofocus="autofocus" name="customerName" class="form-control border-start-0" id="name" placeholder="{{ __('lang.name')}}" value="{{old('customerName')}}" required />
 						</div>
 					</div>
 					<div class="col-md-6">
 						<label for="inputEmailAddress" class="form-label">{{ __('lang.email')}} *</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-message' ></i></span>
-							<input type="email" name="email" class="form-control border-start-0" id="inputEmailAddress" placeholder="{{ __('lang.email')}}" required />
+							<input type="email" name="email" class="form-control border-start-0" id="inputEmailAddress" placeholder="{{ __('lang.email')}}" value="{{old('email')}}" required />
 						</div>
 					</div>
-					<?php if(Auth::user()->roleId != 4 ){?>
-					<div class="col-md-6">
-						<label for="storename" class="form-label">{{ __('lang.store')}} *</label>
-						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-store'></i></span>
-							<select name="storeId" class="form-control" id="storeName" data-error="{{ __('lang.req_storeselect')}}" required>
-											<option value="">{{ __('lang.storeselect')}}</option>
-											@foreach($store as $key=>$Store)
-												<option value="{{$Store->id}}" >{{$Store->storeName}}</option>
-											@endforeach
-										</select>	
-						</div>
-					</div>
-						<?php } ?>
+					
 					<div class="col-md-6">
 						<label for="contactnumber" class="form-label">{{ __('lang.contactnumber')}} *</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent">+966</span>
-							<input type="number" name="contactNumber" class="form-control border-start-0" id="contactnumber" placeholder="{{ __('lang.contactnumber')}}" required />
+							<input type="number" name="contactNumber" class="form-control border-start-0" id="contactnumber" placeholder="{{ __('lang.contactnumber')}}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  maxlength="9"  value="{{old('contactNumber')}}" required />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="customerVat" class="form-label">{{ __('lang.vatnumber')}} *</label>
+						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-tag'></i></span>
+							<input type="number" name="customerVat" class="form-control border-start-0" id="customerVat" placeholder="{{ __('lang.vatnumber')}}"  min="15" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  maxlength="15" value="{{old('customerVat')}}" />
 						</div>
 					</div>
 					
 					<div class="col-md-6">
 						<label for="dob" class="form-label">{{ __('lang.dob')}} *</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-id-card'></i></span>
-							<input type="date" class="form-control border-start-0" name="dob" id="dob" placeholder="{{ __('lang.dob')}}" required>
+							<input type="date" class="form-control border-start-0" name="dob" id="dob" placeholder="{{ __('lang.dob')}}" value="{{old('dob')}}" required>
 						</div>
 					</div>
 					
 					<div class="col-md-6">
 						<label for="doa" class="form-label">{{ __('lang.doa')}}</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-id-card'></i></span>
-							<input type="date" class="form-control border-start-0" name="doa" id="doa" placeholder="Date of Anniversary" />
+							<input type="date" class="form-control border-start-0" name="doa" id="doa" placeholder="Date of Anniversary" value="{{old('doa')}}" />
 						</div>
 					</div>
 					
 					<div class="col-12">
 						<label for="inputAddress3" class="form-label">{{ __('lang.address')}} *</label>
-						<textarea class="form-control" name="address" id="inputAddress3" placeholder="Enter Address" rows="3" required></textarea>
+						<textarea class="form-control" name="address" id="inputAddress3" placeholder="Enter Address" rows="3" value="{{old('address')}}" required></textarea>
 					</div>
 					
 					<div class="col-12">
-					    <input type="hidden" name="storeId" value = "{{request()->route('id')}}" //>
+					    <input type="hidden" name="storeId" value = "{{request()->route('id')}}" />
 						<button type="submit" class="btn btn-primary px-5">{{ __('lang.addcustomer')}}</button>
 					</div>
 				</form>

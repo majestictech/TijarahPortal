@@ -1,7 +1,7 @@
 @include('admin.layout.header')							
 <?php
 use App\Helpers\AppHelper as Helper;
-helper::checkUserURLAccess('store_manage','');
+//helper::checkUserURLAccess('store_manage','');
 
 ?>
 <!--breadcrumb-->
@@ -9,7 +9,7 @@ helper::checkUserURLAccess('store_manage','');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-store-alt"></i> {{ __('lang.stores')}}</li>
 			</ol>
@@ -28,49 +28,48 @@ helper::checkUserURLAccess('store_manage','');
 	<div class="col-xl-12 mx-auto">
 		<h6 class="mb-0 text-uppercase">All Stores</h6>
 		<hr/>
-
-		
 		
 		<div class="card">
 			<div class="card-body">
-			     <form action="" method="GET" id ="filter_results">
+			    <form action="" method="GET" id ="filter_results">
 			       <div class="row"> 
-                	<div class="col-md-3 mb-3">
-    					<label for="storeFilter" class="form-label">{{ __('lang.filterby')}}</label>
-    					<div class="input-group">
-    						<button class="btn btn-outline-secondary" type="button"><i class='bx bx-store'></i>
-    						</button>
-    						<select name="storeFilter" class="form-select single-select" id="storeFilter" onChange="this.form.submit();">
-    							<option value="" @if(empty($storeFilter)) selected="selected" @endif>{{ __('lang.storetype')}}</option>
-    								@foreach($storetype as $key=>$storetypes)
-    								    <option value="{{ $storetypes->id }}" @if($storetypes->id==$storeFilter) selected="selected" @endif >{{ $storetypes->name }} ({!! App\Helpers\AppHelper::storeTypeStores($storetypes->id) !!})</option>
-    								@endforeach
-    						</select>
-    					</div>
-    				</div>
-    				
-    				<div class="col-md-3 mb-3 ">
-    				    <label for="search" class="form-label">Store Id</label>
-    				     <input type="text" name="storeId" class="form-control form-control-sm" value="{{$storeId}}"/>
-                       
-    				</div>
-    				
-    				<div class="col-md-3 mb-3 ">
-    				    <label for="search" class="form-label">Search</label>
-    				     <input type="text" name="search" class="form-control form-control-sm" value="{{$search}}"/>
-                       
-    				</div>
-    				<div class="col-md-3 mb-3 pt-4">
-    				      <label for="" class="form-label"></label>
-    				     <button type="submit" class="btn btn-primary px-5">Search</button>
-    				</div>
-    				
-    				
+						@if(Auth::user()->roleId != 11 )
+						<div class="col-md-3 mb-3">
+							<label for="storeFilter" class="form-label">{{ __('lang.filterby')}}</label>
+							
+							
+							<div class="input-group">
+								<button class="btn btn-outline-secondary" type="button"><i class='bx bx-store'></i>
+								</button>
+								<select name="storeFilter" class="form-select single-select" id="storeFilter" onChange="this.form.submit();">
+									<option value="" @if(empty($storeFilter)) selected="selected" @endif>{{ __('lang.storetype')}}</option>
+										@foreach($storetype as $key=>$storetypes)
+											<option value="{{ $storetypes->id }}" @if($storetypes->id==$storeFilter) selected="selected" @endif >{{ $storetypes->name }} ({!! App\Helpers\AppHelper::storeTypeStores($storetypes->id) !!})</option>
+										@endforeach
+								</select>
+							</div>
+							
+						</div>
+						@endif
+						
+						<div class="col-md-3 mb-3 ">
+							<label for="search" class="form-label">Store Id</label>
+							<input type="text" name="storeId" class="form-control form-control-sm" value="{{$storeId}}"/>                     
+						</div>
+						
+						<div class="col-md-3 mb-3 ">
+							<label for="search" class="form-label">Search</label>
+							<input type="text" name="search" class="form-control form-control-sm" value="{{$search}}"/>                      
+						</div>
+						<div class="col-md-3 mb-3 pt-4">
+							<label for="" class="form-label"></label>
+							<button type="submit" class="btn btn-primary px-5">Search</button>
+						</div>     
                     </div>
 			    </form>
 			   
 			    
-				<table class="table mb-0 table-striped table-bordered" id="myTable">
+				<table class="table mb-0 table-striped table-bordered">
 					<thead>
 						<tr>
 							<th scope="col" width="25%">{{ __('lang.storename')}}</th>
@@ -98,10 +97,10 @@ helper::checkUserURLAccess('store_manage','');
                             <td>{!! App\Helpers\AppHelper::todayStoreOrders($StoreData->id) !!}</td>
                             <td>{{$StoreData->subscriptionExpiry}}</td>
                             <td>
-								<div class="btn-group">
+								<div class="btn-group store-dropdown">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="bx bx-show"></i>
 									</button>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
+									<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end" style="height: 73vh">
 										<!--<a class="dropdown-item" href="{{url('/admin/category/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-spreadsheet"></i> Categories</a>-->
 										@if(helper::checkUserRights('store_manage','store_edit'))
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/edit')}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.edit')}}</a>
@@ -117,8 +116,11 @@ helper::checkUserURLAccess('store_manage','');
 											@endif
     									@endif
 										
-										<a class="dropdown-item" href="{{url('/admin/cashier/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-group"></i> {{ __('lang.storecashiers')}}</a>
-									
+										<!--<a class="dropdown-item" href="{{url('/admin/cashier/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-group"></i> {{ __('lang.cashier')}}</a>-->
+
+										<a class="dropdown-item" href="{{url('/admin/manageusers/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-group"></i> {{ __('lang.manageusers')}}</a>
+										
+										<a class="dropdown-item" href="{{url('/admin/customer/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-group"></i> {{ __('lang.storecustomers')}}</a>
 										
 										<a class="dropdown-item" href="{{url('/admin/store/lowinventoryemail?storeId='.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.lowinventory')}}</a>
 										
@@ -136,7 +138,9 @@ helper::checkUserURLAccess('store_manage','');
 										<a class="dropdown-item" href="{{url('/admin/invoice/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-detail"></i> {{ __('lang.invoices')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/purchaseorder/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-basket"></i> {{ __('lang.purchaseorderpo')}}</a>
 										<?php if(Auth::user()->roleId == 1){?>
-										    <a class="dropdown-item" class="button_edit" data-toggle="modal" data-target="#exampleModal{{$StoreData->id}}"/><i class="fadeIn animated bx bx-trash-alt"></i> {{ __('lang.delete')}} 
+										    <a class="dropdown-item" href="#">
+												<i class="fadeIn animated bx bx-trash-alt"></i> {{ __('lang.delete')}} 
+											</a>
 								    	   <!-- <a class="dropdown-item" href="{{route('store.destroy',['id'=>$StoreData->id])}}"  onclick="return confirm('Are you sure you want to delete the Store?\nNote: This will also delete all the data associated with the Store!');"><i class="fadeIn animated bx bx-trash-alt"></i> {{ __('lang.delete')}}</a>-->
 										<?php } ?>
 										<!--
@@ -195,6 +199,7 @@ helper::checkUserURLAccess('store_manage','');
 						<tr style="background-color:#ffcccc; vertical-align: middle !important;">
                             <td>{{$StoreData->storeName}}</td>
                             <td>{{$StoreData->appVersion}}</td>
+							<td>{{$StoreData->appType}} {{$StoreData->deviceType}}</td>
                             <td>{{$StoreData->contactNumber}}</td>
                             <td>{!! App\Helpers\AppHelper::lastStoreBilled($StoreData->id) !!}</td>
 							<td><a href="{{url('/admin/order/'.$StoreData->id)}}">{!! App\Helpers\AppHelper::totalStoreOrders($StoreData->id) !!}</a></td>
@@ -313,17 +318,10 @@ function changeInput(txt)
 */
 
 
-var table = $('#myTable').DataTable({
-   "aaSorting": [],
-              'columnDefs': [{
-                    "targets": [0,1,2,3,4,5],
-                    "orderable": false
-                }]
-          });
-</script>
+
 
 
 <style>
-    .dataTables_filter,.dataTables_info,.dataTables_paginate {display:none;}
+    .dataTables_filter {display:none;}
     .dropdown-menu,.dropdown-menu.dropdown-menu-right.dropdown-menu-lg-end {  margin-bottom: 20px !important;}
 </style>

@@ -41,8 +41,7 @@ class VatController extends Controller
     public function index()
     {
         
-        
-		$vat = Tax::orderBy('created_at', 'DESC')->get();
+        $vat = Tax::orderBy('created_at', 'DESC')->get();
 		$vatcount=count($vat);
         return view('admin.vat.index', compact('vat','vatcount'));
 	}
@@ -50,6 +49,11 @@ class VatController extends Controller
 	public function store(Request $request)
     {    
         $vat = new Tax;
+
+        $this->validate($request, [
+	        'name' => 'required',
+		    'value' => 'required'
+		   ]);
 		
         $vat->name = $request->name; 	
 		$vat->value = $request->value;
@@ -67,7 +71,17 @@ class VatController extends Controller
 		return view('admin.vat.edit',compact('vat'));
     }
 	public function update(Request $request)
-    {
+    {   
+
+        $vat = new Tax;
+        
+		$this->validate($request, [
+			
+		   'name' => 'required',
+			'value'=> 'required',
+		   
+		   ]);
+
         //Retrieve the employee and update
 		$vat = Tax::find($request->input('id'));
         $vat->name = $request->name; 	

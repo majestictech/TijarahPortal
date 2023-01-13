@@ -85,7 +85,7 @@ $Roles = config('app.Roles');
 							<td>{{$result->contactNumber}}</td>
 							<td>{{$result->email}}</td>
 							<td>{{$result->billCount}}</td>
-							<td>{{$result->totalSales}}</td>
+							<td> {{ __('lang.sar')}}  {{$result->totalSales}}</td>
 						</tr>
 						@endforeach
 					</tbody>

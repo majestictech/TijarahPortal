@@ -1,6 +1,428 @@
 <?php
  return [ 'welcome' => 'Hi :Name, Welcome',
+
+/*  Dashboard translation start here */
  'dashboarddesc' => 'Your dashboard gives you views of key performance or business process.',
+ 'dashboard'=>'Dashboard',
+ 'todaysorders'=>'Today\'s Orders', 
+ 'totalorders'=>'Total Orders',
+ 'todaysrevenue'=>'Today\'s Revenue',
+ 'customers' => 'Customers',
+ 'activestores'=>'Active Stores',
+ 'revenue' => 'Revenue',
+ 'number_of_bills' => 'Number of bills',
+ 'top_selling_items' => 'Top Selling Items',
+ 'name' => 'Name',
+ 'sellingprice'=>'Selling Price',
+ 'total_sales' => 'Total Sales',
+ 'inventory'=>'Inventory',
+ 'available'=>'Available',
+ 'low_inventory' => 'Low Inventory',
+ 'out_of_stock' => 'Out of Stock',
+ 'sliderimagelist'=>'Slider Image List',
+
+
+/* User Role Translation starts here */
+'userroles'=>'User Roles',
+'selectuserrole' => 'Select User Role',
+'vendors'=>'Vendors',
+'admin' => 'Admin',
+'subadmin' =>'Sub-Admin',
+'storecashier' => 'Store Cashier',
+'storemanager' => 'Store Manager',
+'storeadmin' => 'Store Admin',
+'addvendors'=>'Add Vendors',
+
+/* Vendors Translation starts here */
+'vendorname' => 'Vendor Name',
+'vendornoinvoices' => 'Vendor No. of Invoices',
+
+/* Invoice Translation starts here */
+'invoices'=>'Invoices',
+'addinvoices'=>'Add Invoices',
+'fromdate'=>'From Date',
+'todate'=>'To Date',
+'invoicenumber'=>'Invoice Number',
+'invoicedate'=>'Invoice Date',
+
+
+/* Purchase Orders Translation starts here */
+'purchaseorderpo'=>'Purchase Orders(PO)',
+'podate'=>'PO Date',
+'deliverydate'=>'Delivery Date',
+
+
+
+/* Configure Email Translation starts here */
+'configemail'=>'Configure Email',
+'config_email'=>'Configure Email',
+
+
+
+
+ //'low_inventory'=>'Low Inventory Email Address',
+ 'dayend_report'=>'Day End Report Email Address',
+ 'all_report'=>'All Reports Email Address',
+ 'updateemails'=>'Update Emails',
+
+
+/* User Role List Translation starts here */
+'appfeatures' => 'App Features',
+  'app_manage_dashboard' => 'Manage Dashboard',
+  'app_manage_inventory' => 'Manage Inventory',
+  'app_inventory_add' => 'Inventory Add',
+  'app_inventory_edit' => 'Inventory Edit',
+  'app_inventory_update' => 'Inventory Update',
+  'app_inventory_move' => 'Inventory Move',
+  'app_manage_purchase' => 'Manage Purchase',
+  'app_manage_invoice' => 'Manage Invoice',
+  'app_invoice_add' => 'Invoice Add',
+  'app_invoice_edit' => 'Invoice Edit',
+  'app_manage_vendors' => 'Manage Vendors',
+  'app_manage_vendorslist' => 'Manage Vendors List',
+  'app_vendor_add' => 'Vendors Add',
+  'app_vendor_edit' => 'Vendors Edit',
+  'app_manage_customers' => 'Manage Customers',
+  'app_manage_loyalty' => 'Manage Loyalty',
+  'app_customer_managepayment' => 'Customers Manage Payment',
+  'app_manage_reports' => 'Manage Reports',
+  'app_manage_store_users' => 'Manage Store Users',
+  'app_store_users_add' => 'Store Users Add',
+  'app_store_users_edit' => 'Store Users Edit',
+  'app_manage_settings' => 'Manage Settings',
+  'app_settings_account' => 'Settings: Account',
+  'app_settings_shopdetails' => 'Settings: Shop Details',
+  'app_settings_shopsettings' => 'Settings: Shop Settings',
+  'app_settings_onlinesettings' => 'Settings: Online Settings',
+  'app_settings_loyalty' => 'Settings: Loyalty',
+  'app_settings_printer' => 'Settings: Printer',
+  'app_settings_printersettings' => 'Settings: Printer Settings',
+  'app_settings_barcode' => 'Settings: Barcode',
+  'app_manage_orders' => 'Manage Orders',
+  'app_manage_rufund' => 'Orders Refund',
+
+  'storemanagement' => 'Store Management',
+    'store_manage' => 'Store Manage',
+    'store_add' => 'Store Add',
+    'store_edit' => 'Store Edit',
+    'store_del' => 'Store Delete',
+    'store_disable' => 'Store Disable',
+    'store_cashiers' => 'Store Cashiers',
+    'store_lowinventoryemail' => 'Store Configure Email',
+    'store_inventory' => ' Store Inventory',
+    
+    
+  'store_zeroinventory' => 'Store Zero Inventory ',
+    'store_emptyinventory' => 'Store Empty Inventory',
+    'store_bills' => 'Store Bills',
+    'store_sales' => 'Store Sales',
+
+    'store_shifts' => 'Store Shifts',
+    'store_vendors' => 'Store Vendors',
+    'store_invioces' => 'Store Invoices',
+    'store_purchaseorders' => 'Store Purchase Orders',
+
+
+  'category_management'  => 'Category Management',
+    'cat_manage' => 'Category Manage',
+    'cat_add' => 'Category Add',
+    'cat_edit' => 'Category Edit',
+    'cat_del' => 'Category Delete',
+  
+  'global_products'  => 'Global Products',
+    'globalproducts_manage' => 'Global Products Manage',
+    'globalproducts_import' => 'Global Products Import',
+    'globalproducts_edit' => 'Global Products Edit',
+    'globalproducts_del' => 'Global Products Delete',
+  
+  
+  'brand_management'  => 'Brand Management',
+    'brand_manage' => 'Brand Manage',
+    'brand_add' => 'Brand Add',
+    'brand_edit' => 'Brand Edit',
+    'brand_del' => 'Brand Delete',
+  
+  'vat_management'  => 'Vat Management',
+    'vat_manage' => 'Vat Manage',
+    'vat_add' => 'Vat Add',
+    'vat_edit' => 'Vat Edit',
+    'vat_del' => 'Vat Delete',
+  
+  
+  'consumers_management'  => 'Customers Management',
+    'consumers_manage' => 'Customer Manage',
+    'consumers_view' => 'Customer View',
+    'consumers_add' => 'Customer Add',
+    'consumers_edit' => 'Customer Edit',
+    'consumers_del' => 'Customer Delete',
+  
+  'cashier_management'  => 'Cashier Management',
+    'cashier_manage' => 'Cashier Manage',
+    'cashier_add' => 'Cashier Add',
+    'cashier_edit' => 'Cashier Edit',
+    'cashier_del' => 'Cashier Delete',
+  
+  'subadmin_management'  => 'Sub Admin Management',
+    'subadmin_manage' => 'Sub Admin Manage',
+    'subadmin_add' => 'Sub Admin Add',
+    'subadmin_edit' => 'Sub Admin Edit',
+    'subadmin_del' => 'Sub Admin Delete',
+  
+  'faq_management'  => 'FAQ Management',
+    'faq_manage' => 'FAQ Manage',
+    'faq_add' => 'FAQ Add',
+    'faq_edit' => 'FAQ Edit',
+    'faq_del' => 'FAQ Delete',
+  
+  'storetype_management'  => 'Store Type Management',
+    'storetype_manage' => 'Store Type Manage',
+    'storetype_add' => 'Store Type Add',
+    'storetype_edit' => 'Store Type Edit',
+    
+  'customerslider_management'  => 'Customer Slider Management',
+    'customerslider_manage' => 'Customer Slider Manage',
+    'customerslider_add' => 'Customer Slider Add',
+    'customerslider_edit' => 'Customer Slider Edit',
+    'customerslider_del' => 'Customer Slider Delete',
+  
+  'report_management'  => 'Report Management',
+    'report_manage' => 'Reports Manage',
+    'salesreport_manage' => 'Sales Reports',
+    'vatreport_manage' => 'VAT Reports',
+    'refundreport_manage' => 'Refund Reports',
+  
+    
+  'inventoryreport_manage' => 'Inventory Reports',
+    'purchasereport_manage' => 'Purchase Reports',
+    'mediareport_manage' => 'Media Reports',
+    'cashierreport_manage' => 'Cashier Reports',
+  
+  'vendor_management' => 'Vendor Management',
+    'vendor_manage' => 'Vendor Manage',
+  
+  'ordersbills_management' => 'Orders/Bills Management',
+    'orders_manage' => 'Orders/Bills Manage',
+  
+  'loyaltypoints_history' => 'Loyalty Points History',
+    'loyaltypoint_manage' => 'Loyalty Points History Manage',
+    
+  
+  'log_management' => 'Log Management',
+    'log_manage' => ' Log View',
+    
+  'app_update_management' => 'App Update Management',
+    'app_manage' => 'Push App Update',
+    
+  'notification_management' => 'Notification Management',
+    'notifications_manage' => 'Send Notifications View',
+  
+  
+  'global_products'  => 'Global Products',
+    'globalproducts_manage' => 'Global Products Manage',
+    'globalproducts_import' => 'Global Products Import',
+    'globalproducts_edit' => 'Global Products Edit',
+    'globalproducts_del' => 'Global Products Delete',
+
+
+/* Log Activity Translation starts here */
+'logactivity'=>'Log Activity',
+'search'=>'Search',
+
+
+/* Stores Translation starts here */
+'stores'=>'Stores',
+'storetype'=>'Store Type',
+'addstore'=>'Add Store',
+'storename'=>'Store Name',
+'appVersion'=>'App Version',
+'deviceType'=>'Device Type',
+'mobilenumber'=>'Mobile Number',
+'lastbill'=>'Last Bill',
+'subscriptionExpiry'=>'Subscription Expiry',
+'available' => 'Available',  
+'minimumquantity'=>'Minimum Quantity',
+'instockvalue'=>'In Stock Value',
+
+
+/* Edit Store Translation starts here */
+'editstore'=>'Edit Store',
+'storenamear'=>'Store name (Arabic)',
+'apptype'=>'Application Type',
+'shopsize'=>'Size of the shop',
+'vatnumber'=>'VAT Number',
+'registrationnumber'=>'Commercial Registration Number',
+'ownername'=>'Owner Name',
+'latitude'=>'Latitude',
+'longitude'=>'Longitude',
+'inventorylink'=>'Inventory Link',
+'smsalert'=>'SMS Alerts',
+'autoglobalcat'=>'Auto upload global categories',
+'onlinemarket'=>'Online Market place',
+'loyaltyoptions'=>'Loyalty Options',
+'chatbot'=>'Chatbot',
+'on'=>'On',
+'off'=>'Off',
+'autoglobalitems'=>'Auto upload global items',
+'storeaddress'=>'Store Address',
+'country'=>'Country',
+'state'=>'State', 
+'city'=>'City',
+'zippostalcode'=>'Zip/Postal Code',
+'shoptime' => 'Shop Opening and Closing Time',
+'shopopen' => 'Shop Opening Time',
+ 'shopclose' => 'Shop Closing Time',
+ 'footeren'=>'Footer',  
+ 'footerar'=>'Footer (Arabic)', 
+ 'subscriptionExpiry' => 'Subscription Expiry',
+ 'status'=>'Status',
+ 'active' => 'Active',
+ 'suspended' => 'Suspended',
+
+
+
+
+/* Reports Translation starts here */
+ 'reports'=>'Reports',
+ 'storereports'=>'Store Reports',
+ 'salesreports'=>'Sales Reports',
+ 'dailysalesreports'=>'Daily Sales Report',
+ 'billwisereport'=>'Bill Wise Report',
+ 'categoryreport'=>'Category Report',
+ 'productwisereport'=>'Product-Wise Report',
+ 'vatreports'=>'VAT Reports',
+ 'refundreports'=>'Refund Reports',
+ 'inventoryreports'=>'Inventory Reports',
+ 'purchasereports'=>'Purchase Reports',
+ 'mediareports'=>'Media Reports',
+ 'cashierreports'=>'Cashier Reports',
+ 'profit&lossreports' => 'Profit & Loss Reports',
+
+/* Shifts  Translation starts here */
+'shift'=>'Shift',
+'title'=>'Title',
+'addshift'=>'Add Shift',
+'editshift'=>'Edit Shift',
+'shifttime'=>'Shift Time',
+'shifts'=>'Shifts',
+'shiftselect'=>'Select Shift',
+
+/* all Store Translation starts here */
+ 'allstoreusers'=>'All Store Users',
+ 'role'=>'Role',
+
+
+/* CATEGORY LIST starts here */
+'categorylist'=>'Category List',
+'addcategory'=>'Add Category',
+'catimage' => 'Category Image',
+'categoryname'=>'Category Name',
+'action'=>'Action',
+'category' => 'Category',
+
+/*Edit CATEGORY LIST starts here */
+'editcategory'=>'Edit Category',
+'categoryname_ar'=>'Arabic Category Name',
+'categoryname_ur'=>'Urdu Category Name',
+'categoryname_ml'=>'Malayalam Category Name',
+'categoryname_bn'=>'Bengali Category Name',
+'parentcategory'=>'Parent Category',	
+
+
+/*  Global Products starts here */
+'globalproducts'=>'Global Products',
+'choosefile'=>'Choose File',
+'nofilechosen'=>'No file chosen',
+'product'=>'Product',
+'price'=>'Price',
+
+
+/* Store type translation starts here */
+'addstoretype'=>'Add Store Type',
+'allstoretype'=>'All Store Type',
+'devicetype'=>'Device Type',
+
+
+/* VAT translation starts here */
+'vat' =>'VAT',
+'addvat'=> 'Add VAT',
+'allvat'=>'All VAT',
+
+/* VAT translation starts here */
+'orders'=>'Orders/Bills',
+'allorders'=>'All Orders',
+'export' => 'Export',
+'placedon'=>'Placed On',
+'ordernumber'=>'Order Number',
+'payment'=>'Payment',
+'storename' => 'Store Name',
+'ordertype' => 'Order Type',
+
+/* Loyalty Points History List translation starts here */
+'loyaltypointshistorylist'=>'Loyalty Points History List',
+'allloyaltypoint'=>'All Loyalty Point History',
+'loyaltypoints'=>'Loyalty Points',
+'type'=>'Type',
+'date'=>'Date',
+
+
+/*  Subscription translation starts here */
+'subscription' => 'Subscription',
+'allsubscriptions' => 'All Subscriptions',
+'subscriptionplans' =>  'Subscription Plans',
+'addsubscription' => 'Add Subscription',
+
+
+/*  App update translation starts here */
+'pushapp'=>'Push App',
+'miniapp'=>'MINI',
+'plusapp'=>'PLUS',
+'uploadapk'=>'Upload APK',
+'sendto'=>'Send To',
+'appcode' => 'App Code',
+'appType'=>'App Type',
+'ecrappvr'=>'ECR App Version',
+
+/* Users Management translation starts here */
+
+'usersmanagement' => 'Users Management',
+'adduser'=>'Add User',
+'allusers' => 'All Users',
+'fullname'=>'Full Name',
+'phonenumber'=>'Phone Number',
+'email'=>'Email',
+'user' => 'User',
+
+/* Send Notification translation starts here */
+'sendnotification'=>'Send Notification',
+'notification'=>'Notification',
+'enternotificationhere'=>'Enter Notification here',
+
+
+ /* FAQs translation starts here  */
+ 'faqs'=>'FAQs',
+ 'addfaq'=>'Add FAQ',
+ 'allfaqs'=>'All FAQs',
+ 'addfaqs'=>'Add FAQs',
+ 'question'=>'Question',
+ 'answer'=>'Answer',
+ 'choosepassword'=>'Choose Password',
+ 'confirmpassword'=>'Confirm Password',
+ 'storeaddar'=>'Store Address (Arabic)',
+
+/* Customers translation starts here  */
+ 'allconsumers' => 'ALL CONSUMERS',
+ 'addcustomers' => 'Add Customers',
+ 'balancedue' =>'Balance Due',
+ 'registrationdate'=>'Registration Date',
+
+
+
+
+
+
+
+
+
  'message'=> 'Lernen wir die Lokalisierung mit Laravel',
  'todayorder' =>'Today\'s Orders', 
  'todayrevenue' =>'Today\'s Revenue',
@@ -28,22 +450,16 @@
  'downloadPNG'=>'Download PNG',
  'privacypolicy'=>'Privacy Policy',
  'termsofuse'=>'Terms of Use',
- 'categorylist'=>'Category List',
+
  'categorydesc1'=>'Use category list as to describe your overall core business from the provided list.',
  'categorydesc2'=>'Click the name of the category where you want to add a list item.',
- 'addcategory'=>'Add Category',
+
  'show'=>'Show',
  'pleasefillfield'=>'Please fill out this field.',
  'entries'=>'entries',	
- 'search'=>'Search',	
- 'categoryname'=>'Category Name',
- 'editcategory'=>'Edit Category',
- 'categoryname_ar'=>'Arabic Category Name',
- 'categoryname_ur'=>'Urdu Category Name',
- 'categoryname_ml'=>'Malayalam Category Name',
- 'categoryname_bn'=>'Bengali Category Name',
- 'parentcategory'=>'Parent Category',	
- 'action'=>'Action',	
+
+
+
  'view'=>'View',
  'edit'=>'Edit',
  'delete'=>'Delete',
@@ -67,8 +483,7 @@
  'description_bn'=>'Bengali Description',
  'description'=>'Description',
  'image'=>'Image',
- 'choosefile'=>'Choose File',
- 'nofilechosen'=>'No file chosen',
+
 'metatagtitle'=>'Meta Tag Title',
 'metatagdescription'=>'Meta Tag Description',
 'metatagkeyword'=>'Meta Tag Keyword',
@@ -76,16 +491,15 @@
 'vendorlist'=>'Vendor List', 
  'vendordesc'=>'A vendor provides you an overview of vendor list with access to the most important data,functions and controls.', 
 'addvendor'=>'Add Vendor', 
-'vendorname'=>'Vendor Name', 
+
 'editvendor'=>'Edit Vendor', 
 'vendordetails'=>'Vendor Details',
 'vendordetailsdesc'=>'A dashboard provides you the details of an individual vendor with the most important data.', 
 'contactname'=>'Contact Name', 
 'contactnumber'=>'Contact Number', 
-'phonenumber'=>'Phone Number',
-'state'=>'State', 
-'city'=>'City', 
-'email'=>'Email', 
+
+ 
+ 
 'entervendorname'=>'Enter Vendor Name', 
 'req_vendorname'=>'Please Enter Vendor Name.', 
 'entercontactname'=>'Enter Contact Name', 
@@ -97,7 +511,7 @@
 'req_phoneno'=>'Please Enter Phone No.', 
 'enterstate'=>'Enter State', 
 'req_state'=>'Please Enter State.', 
-'country'=>'Country', 
+ 
 'descvendor'=>'Description of product/service being displayed', 
 
 'driverlist'=>'Driver List', 
@@ -107,7 +521,7 @@
 'driverdetailsdesc'=>'A dashboard provides you the details of an individual driver with the most important data.', 
 'driversdesc1'=>'A dashboard provides you an overview of drivers list with access to the most important data,', 
 'adddriver'=>'Add Driver', 
-'fullname'=>'Full Name', 
+ 
 'gender'=>'Gender', 
 'vehicletype'=>'Vehicle Type', 
 'vehiclenumber'=>'Vehicle Number', 
@@ -139,16 +553,16 @@
  
   'orderlist'=>'Order List',
   'orderdesc'=>'A order dashboard enables manager to efficiently track, evaluate,and optimize all acquisition processes within a company.',
-  'date'=>'Date',
+
   'req_date'=>'Please Enter Date.',
-  'ordernumber'=>'Order Number',
+
   'store'=>'Store',
-  'stores'=>'Stores',
+ 
+  'chainstores'=>'Chain Stores',
   'newstore'=>'New Store',
   'orderstatus'=>'Order Status',
-  'payment'=>'Payment',
-  'appType'=>'App Type',
-  'deviceType'=>'Device Type',
+
+ 
   
   
   
@@ -214,19 +628,12 @@
   'eg2050'=>'e.g. 20% / $50',
   'req_percentageamountoff'=>'Please Enter Percentage/Amount off .',
   'promocodeduration'=>'Promocode Duration',
-  'fromdate'=>'From Date',
-  'todate'=>'To Date',
+  
   'entervouchercode'=>'Enter Voucher Code',
   'req_vouchercode'=>'Please Enter Voucher Code.',
  
  
-  'reports'=>'Reports',
-  'storereports'=>'Store Reports',
-  'salesreports'=>'Sales Reports',
-  'dailysalesreports'=>'Daily Sales Report',
-  'billwisereport'=>'Bill Wise Report',
-  'categoryreport'=>'Category Report',
-  'productwisereport'=>'Product-Wise Report',
+
   
   
   'revenuereports'=>'Revenue Reports',
@@ -239,35 +646,35 @@
   'refundedquantity'=>'Refunded Quantity',
   'refundedamount'=>'Refunded Amount',
   'vatreports'=>'VAT Reports',
-  'inventoryreports'=>'Inventory Reports',
+ 
   
   
   
-  'purchasereports'=>'Purchase Reports',
+
   'hsnreports'=>'HSN Reports',
   'reportdesc'=>'Reports are generated based on the data you gather. Register data and activities are tracked and stored that can be used for analysis via reports.',
   'exporttoexcel'=>'Export To Excel',
   
   
-  'sendnotification'=>'Send Notification',
-  'sendto'=>'Send To',
+  
+ 
   'req_sendto'=>'Please Select one of the above to which you want to send Notification',
   'all'=>'All',
   'storesnotloggedin'=>'All Stores Not Logged In Since Last 2 Days',
-  'notification'=>'Notification',
-  'enternotificationhere'=>'Enter Notification here',
+  
+ 
   'req_notification'=>'Please Enter Notification.',
   
   
-  'faqs'=>'FAQs',
+  
   'faqlist'=>'FAQ List',
   'FAQdesc'=>'Use FAQ list as to describe your overall core business from the provided list.',
-  'addfaq'=>'Add FAQ',
+  
   'editFAQ'=>'Edit FAQ',
-  'question'=>'Question',
+  
   'enterquestion'=>'Enter Question',
   'req_question'=>'Please Enter Question.',
-  'answer'=>'Answer',
+  
   'enteranswer'=>'Enter Answer',
   'req_answer'=>'Please Enter Answer.',
   
@@ -286,17 +693,18 @@
   'storedesc'=>'A dashboard provides you an overview of store list with access to the most important data.',
   'storedetails'=>'Store Details',
   'storedetailsdesc'=>'A dashboard provides you the details of an individual store with the most important data.', 
-  'addstore'=>'Add Store',
-  'editstore'=>'Edit Store',
-  'storename'=>'Store Name',
-  'storetype'=>'Store Type',
-  'addstoretype'=>'Add Store Type',
+  
+
+
+  
+  'storetypecategory'=>'Store Type Category',
+
   'editstoretype'=>'Edit Store Type',
   'enterstoretype'=>'Enter Store Type',
   'selectstoretype'=>'Select Store Type',
-  'allstoretype'=>'All Store Type',
-  'type'=>'Type',
-  'registrationnumber'=>'Commercial Registration Number',
+
+
+  
   'contactnumber'=>'Contact Number',
   'enterstorename'=>'Enter Store Name',
   'req_storename'=>'Please Enter Store Name.',
@@ -310,23 +718,23 @@
   'req_contactnumber'=>'Please Enter Contact Number.',
   'enterstoreaddress'=>'Enter Store Address',
   'req_storeaddress'=>'Please Enter Store Address.',
-  'storeaddress'=>'Store Address',
-  'zippostalcode'=>'Zip/Postal Code',
+  
+  
   'enterzippostalcode'=>'Enter Zip/Postal Code',
   'req_postalcode'=>'Please Enter Zip/Postal Code.',
   'entercityname'=>'Enter City Name',
   'req_cityname'=>'Please Enter City Name.',
   'selectcountry'=>'Select Country',
   'req_country'=>'Please Select Country.',
-  'latitude'=>'Latitude',
+  
   'enterlatitude'=>'Enter Latitude',
   'req_latitude'=>'Please Enter Latitude.',
-  'longitude'=>'Longitude',
+ 
   'enterlongitude'=>'Enter Longitude',
   'req_longitude'=>'Please Enter Longitude.',
-  'subscriptionExpiry'=>'Subscription Expiry',
+ 
   'storeCreatedOn'=>'Store Created On',
-  'sliderimagelist'=>'Slider Image List',
+  
   'addsliderimage'=>'Add Slider Image',
   'sliderimage'=>'Slider Image',
   'slider'=>'Slider',
@@ -349,11 +757,11 @@
   'addproduct'=>'Add Product',
   'editproduct'=>'Edit Product',
   'importexcelproduct'=>'Import Excel Product',
-  'product'=>'Product',
+
   'code'=>'Code',
-  'category'=>'Category',
+
   'selectcategory'=>'Select Category',
-  'price'=>'Price',
+  
   'costprice'=>'Cost Price',
   'entercostprice'=>'Enter Cost Price',
   'brandname'=>'Brand Name',
@@ -398,8 +806,8 @@
   'req_orderquantity'=>'Please Enter order quantity.',
   'enterminorderquantity'=>'Enter Min. order quantity',
   'enterorderquantity'=>'Enter order quantity',
-  'status'=>'Status',
-  'available'=>'Available',
+  
+  
   'notavailable'=>'Not available',
   'productdescdetails'=>'Description / Product Details',
   'productdescdetails_ar'=>'Description / Product Details (Arabic)',
@@ -410,6 +818,9 @@
   'enterproducttags'=>'Enter Product Tags',
   'pleaseenterproducttags'=>'Please Enter Product Tags.',
   'stockexpiry'=>'Stock Expiry',
+  'stock'=>'Stock',
+  'expirydate'=>'Expiry Date',
+  'editstock'=>'Edit Stock',
   
   
   'signin'=>'Sign In',
@@ -426,7 +837,7 @@
  
  
  'tijarah'=>'Tijarah',
- 'dashboards'=>'Dashboard',
+
  'categories'=>'Categories',
  'listcategories'=>'List Categories',
  'addcategories'=>'Add Categories',
@@ -435,16 +846,16 @@
  'addproducts'=>'Add Products',
  'liststores'=>'List Stores',
  'addstores'=>'Add Stores',
-  'vendors'=>'Vendors',
+ 
  'listvendors'=>'List Vendors',
- 'addvendors'=>'Add Vendors',
+
  'drivers'=>'Drivers',
  'listdrivers'=>'List Drivers',
  'adddrivers'=>'Add Drivers',
  'salesmen'=>'Salesmen',
  'listsalesmen'=>'List Salesmen',
  'addsalesmen'=>'Add Salesmen',
- 'orders'=>'Orders/Bills',
+
  'listorders'=>'List Orders',
  'returns'=>'Returns',
  'listreturns'=>'List Returns',
@@ -458,7 +869,7 @@
  'pushnotifications'=>'Push Notifications',
  'faqs'=>'FAQs',
  'listfaqs'=>'List FAQs',
- 'addfaqs'=>'Add FAQs',
+ 
  'english'=>'English',
  'arabic'=>'Arabic',
  'profile'=>'Profile',
@@ -511,34 +922,32 @@
  
  // RetailPOS //
  
- 'customers' => 'Consumers',
- 'customername' => 'Consumer Name',
- 'selectcustomer' => 'Select a Consumer Name',
- 'req_customername' => 'Please Select a Consumer.',
- 'listcustomers' => 'List Consumers',
- 'addcustomers' => 'Add Consumers',
- 'addcustomer' => 'Add Consumers',
- 'name' => 'Name',
- 'entercustomername' => 'Enter Consumer Name',
- 'req_customername' => 'Please Enter Consumer Name.',
+
+ 'storecustomers' => 'Store Customers',
+ 'customername' => 'Customer Name',
+ 'selectcustomer' => 'Select a Customer Name',
+ 'req_customername' => 'Please Select a Customer.',
+ 'listcustomers' => 'List Customers',
  
- 'customerlist'=>'Consumer List',
- 'customerdesc'=>'A dashboard provides you an overview of consumer list with access to the most important data, functions and controls.',
+
+ 'entercustomername' => 'Enter Customer Name',
+ 'req_customername' => 'Please Enter Customer Name.',
+ 
+ 'customerlist'=>'Customer List',
+ 'customerdesc'=>'A dashboard provides you an overview of Customer list with access to the most important data, functions and controls.',
  'invoicedesc'=>'A dashboard provides you an overview of invoice list with access to the most important data,',
- 'customerdetails'=>'Consumer Details',
- 'customerdetailsdesc'=>'A dashboard provides you the details of an individual Consumer with the most important data.', 
- 'editcustomer'=>'Edit Consumer',
+ 'customerdetails'=>'Customer Details',
+ 'customerdetailsdesc'=>'A dashboard provides you the details of an individual Customer with the most important data.', 
+ 'editcustomer'=>'Edit Customer',
  
  
- 'invoices'=>'Invoices',
+ 
  'invoicelist'=>'Invoice List',
  'editinvoice'=>'Edit Invoice',
  'listinvoices'=>'List Invoices',
- 'addinvoices'=>'Add Invoices',
- 'addinvoice'=>'Add Invoice',
- 'invoicedate'=>'Invoice Date',
+ 
  'req_invoicedate'=>'Please Enter Invoice Date',
- 'invoicenumber'=>'Invoice Number',
+
  'enterinvoicenumber'=>'Enter Invoice Number',
  'req_invoicenumber'=>'Please Enter Invoice Number.',
  'selectproduct'=>'Select a Product',
@@ -551,25 +960,25 @@
  'req_dob'=>'Please Enter Date of Birth',
 
 
- 'appVersion'=>'App Version',
- 'lastbill'=>'Last Bill',
- 'totalorders'=>'Total Orders',
- 'registrationdate'=>'Registration Date',
- 'todaysorders'=>'Today\'s Orders',
- 'todaysrevenue'=>'Today\'s Revenue',
+
+ 
+ 
+
  'settings'=>'Settings',
  
  
- 'loyaltypoints'=>'Loyalty Points',
+
  'loyaltypointstrans'=>'Loyalty Points Transaction',
  'bill'=>'Bill#',
  'amount'=>'Amount',
  'loyaltypointshistory'=>'Loyalty Points History',
- 'loyaltypointshistorylist'=>'Loyalty Points History List',
+
  'activestores'=>'Active Stores',
  'totalbills'=>'Total Bills',
  'totaltaxable'=>'Total Taxable Value (SAR)',
  'taxamount'=>'Tax Amount',
+
+ 'invoicenumber'=>'Invoice Number',
  'totalamount'=>'Total Amount (SAR)',
  
  
@@ -589,14 +998,14 @@
  'editadmin'=>'Edit Admin',
  'deleteadmin'=>'Delete Admin',
  'alladmins'=>'All Admins',
- 'subadmin' =>'Sub-Admin',
+
  'sublist'=>'Sub-Admin List',
  'addsub'=>'Add Sub-Admin',
  'firstname'=>'First Name',
  'lastname'=>'Last Name',
  'editsub' => 'Edit Sub-Admin',
  'loyaltypt' => 'Loyalty Points History',
- 'storename' => 'Store Name',
+ 
  'orderid' => 'Order Id',
  'loyaltypoint' => 'Loyalty Points',
  'type' => 'Type',
@@ -607,73 +1016,74 @@
  'updateprofile' => 'Update Profile',
  'enteropentime' => 'Enter Open Time',
  'enterclosesize' => 'Enter Close Time',
- 'shoptime' => 'Shop Opening and Closing Time',
- 'shopopen' => 'Shop Opening Time',
- 'shopclose' => 'Shop Closing Time',
+ 
+ 
  'tagline' => 'Tagline',
  'entertag' => 'Enter Tag Line',
- 'active' => 'Active',
- 'suspended' => 'Suspended',
- 'doa'=>'Date of Anniversary',
- 'vat'=>'VAT',
- 'catimage' => 'Category Image',
+
+ 'doa' =>'Date of Anniversary',
+ 'vatno' =>'VAT No.',
+
+ 
+
  'loyaltysetting' =>'Loyalty Points',
- 'inventory'=>'Inventory',
+
+ 'editinventory'=>'Edit',
+ 'inventoryData'=>'Inventory Data',
+ 'updateinventory'=>'Update Inventory',
  'inventoryreport'=>'Inventory Report',
- 'inventorylink'=>'Inventory Link',
- 'minimumquantity'=>'Minimum Quantity',
- 'instockvalue'=>'Instock Value',
+ 
+ 
+
  'availability'=>'Availability',
  'productname|brand|barcode'=>'Product Name| Brand | Barcodeame',
- 'autoglobalcat'=>'Auto upload global categories',
- 'autoglobalitems'=>'Auto upload global items',
- 'smsalert'=>'SMS Alerts',
- 'onlinemarket'=>'Online Market place',
- 'loyaltyoptions'=>'Loyalty Options',
- 'chatbot'=>'Chatbot',
- 'on'=>'On',
- 'off'=>'Off',
- 'ownername'=>'Owner Name',
- 'mobilenumber'=>'Mobile Number',
+ 
+
+ 
+
+ 
+
  'cashier'=>'Cashier',
- 'cashierlist'=>'All Cashier',
+
+
  'addcashier'=>'Add Cashier',
  'editcash'=>'Edit Cashier',
+ 'edit'=>'Edit',
  
  
  
- 'vat'=>'VAT',
+ 
  'sp(sar)'=>'SP (SAR)',
  'costprice(sar)'=>'Cost Price (SAR)',
  'tax%'=>'Tax%',
  'tax(sar)payable'=>'Tax (SAR) Payable',
  'qty'=>'Qty.',
  'total(sar)taxamount'=>'Total (SAR) Tax Amount',
- 'addvat'=> 'Add VAT',
+
  'allvendors'=>'All Vendors',
  'entervatpercent'=> 'Enter VAT in %',
  'entername'=>'Enter Category Name',
- 'allvat'=>'All VAT',
+
  'editvat'=>'Edit VAT',
  
  'productvar'=>'Product Variation',
  'mininventory'=>'Minimum Inventory',
  'variation'=>'Variation',
  'variationunit'=>'Variation Unit',
- 'devicetype'=>'Device Type',
- 'apptype'=>'Application Type',
- 'shopsize'=>'Size of the shop',
- 'vatnumber'=>'VAT Number',
  
  
- 'mediareports'=>'Media Reports',
+ 
+ 
+ 
+ 
+
  'mediatype'=>'Media Type',
  'salescount'=>'Sales Count',
  'receivedamount(sar)'=>'Received Amount (SAR)',
  'card'=>'Card',
  'credit'=>'Credit',
  'cash'=>'Cash',
- 'cashierreports'=>'Cashier Reports',
+ 
  'name'=>'Name',
  'id'=>'ID',
  'phoneno'=>'Phone No.',
@@ -684,21 +1094,15 @@
  
  
  
- 'shift'=>'Shift',
- 'title'=>'Title',
- 'addshift'=>'Add Shift',
- 'editshift'=>'Edit Shift',
- 'shifttime'=>'Shift Time',
- 'shifts'=>'Shifts',
- 'shiftselect'=>'Select Shift',
+
  
  
  
  'addpo'=>'Add Purchase Order',
  'selectvendor'=>'Select Vendor',
- 'podate'=>'PO Date',
- 'deliverydate'=>'Delivery Date',
- 'po'=>'Purchase Order',
+ 
+ 
+
  'editpo'=>'Edit Purchase Order',
  'shift'=>'Shift',
  'selectstore'=>'Select Store',
@@ -707,19 +1111,19 @@
  
  
  
- 'choosepassword'=>'Choose Password',
- 'confirmpassword'=>'Confirm Password',
- 'allconsumers'=>'All Consumers',
+ 
+ 
+ 'allcustomers'=>'All Customers',
  
  
  
  'salesoverview'=>'Sales Overview',
  'anotheraction'=>'Another action',
  'somethingelsehere'=>'Something else here',
- 'allfaqs'=>'All FAQs',
- 'allloyaltypoint'=>'All Loyalty Point History',
- 'placedon'=>'Placed On',
- 'allorders'=>'All Orders',
+ 
+
+
+
  'disable'=>'Disable',
  'storecashiers'=>'Store Cashiers',
  'zeroinventory'=>'Zero Inventory',
@@ -727,37 +1131,31 @@
  'bills'=>'Bills',
  'sales'=>'Sales',
  'shifts'=>'Shifts',
- 'purchaseorderpo'=>'Purchase Orders(PO)',
- 'configemail'=>'Configure Email',
+
  'purchases'=>'Purchases',
- 'purchasereports'=>'Purchase Reports',
+
  'vatamount'=>'Vat Amount',
  'taxes'=>'Taxes',
  'lowinventory'=>'Low Inventory Email',
  'allsubadmins'=>'All Sub-Admins',
- 'sellingprice'=>'Selling Price',
+
  'entersellingprice'=>'Enter Selling Price',
  
  
  
- 'config_email'=>'Configure Email',
- 'low_inventory'=>'Low Inventory Email Address',
- 'dayend_report'=>'Day End Report Email Address',
- 'all_report'=>'All Reports Email Address',
- 'updateemails'=>'Update Emails',
+ 
  'enable'=>'Enable',
  'id'=>'ID',  
 
  
- 'storenamear'=>'Store name (Arabic)',  
- 'storeaddar'=>'Store Address (Arabic)',  
- 'footeren'=>'Footer',  
- 'footerar'=>'Footer (Arabic)',  
- 'ecrappvr'=>'ECR App Version',
+   
+   
+ 
+ 
  'filterby'=>'Filter By',
  
  
- 'globalproducts'=>'Global Products',
+ 
  'editglobalproduct'=>'Edit Global Products',
  'alreadyuploaded'=>'You have already uploaded global products for this store.',
  
@@ -779,30 +1177,99 @@
   
   'appupdate'=>'App Update',
   'appcode'=>'App Version Code',
-  'pushapp'=>'Push App',
-  'miniapp'=>'MINI',
-  'plusapp'=>'PLUS',
-  'uploadapk'=>'Upload APK',
+ 
   
-  'logactivity'=>'Log Activity',
-  'userroles'=>'User Roles',
 
-  'subscription' => 'Subscription',
+
+
+
   'editsubscription' => 'Edit Subscription', 
-  'subscriptionExpiry' => 'Subscription Expiry',
+  
   'subscriptionduration' => 'Subscription Plan Duration',
-  'subscriptionplans' =>  'Subscription Plans',
-  'addsubscription' => 'Add Subscription',
-  'allsubscriptions' => 'All Subscriptions',
+
+
+
   'basic' => 'Basic Plan',
   'subscriptionplanmanagement' => 'Subscription Plan ',
   'subscriptionplansfeatures' => 'Subscription Plan Features',
   'subscriptionplansduration' => 'Duration',
   'selectplan' => 'Select Plan',
   'selectmonth' => 'Select Month',
+  
+  
+  'selectuser' => 'Select User',
 
+  'edituser' => 'Edit User',
+  'manageusers' => 'Manage Users',
+  'chooseusers' => 'Select User',
  
- 
- 
+  'userrole' => 'User Role',
+
+
+
+
+
+
+
+  
+
+
+
+  'sar' => 'SAR',
+
+
+    'total_bills' => 'Total Bills',
+   
+    'average_basket' => 'Average Basket',
+  
+    
+    
+
+    'store_wise_sales' => 'Store Wise Sales',
+    'allinvoices' => 'All Invoices',
+    'createinvoice' => 'Create Invoice',
+    'saveinvoice' => 'Save Invoice',
+    'addmore' => 'Add More',
+    'full' => 'Full',
+    'empty' => 'Empty',
+    'expiry' => 'Expiry',
+    'balancedue' => 'Balance Due',
+    'low' => 'Low',
+    'max' => 'Max',
+    'selectstatus' => 'Select Status',
+    'complete' => 'Complete',
+    'pending' => 'Pending',
+    'total' => 'Total',
+    'appdiscount' => 'App Discount',
+    'app_manage_discount' => 'App Manage Discount',
+
+    'selectstoretype' => 'Select Store Type',
+    'storeCompleted' => 'Store Completed',
+    'outForDelivery' => 'Out For Delivery',
+    'deliveryCompleted' => 'Delivery Completed',
+
+    'customerscredit' => 'Customers Credit',
+    'balance' => 'Balance',
+    
+    'brand' => 'Brand',
+    
+   
+
+    'reason' => 'Reason',
+
+    
+    'profit&loss' => 'Profit & loss',
+    'mrp(sar)' => 'MRP (SAR)',
+    'c.p(sar)' => 'C.P (SAR)',
+    's.p(sar)' => 'S.P (SAR)',
+    'c.p(sar)excl' => 'C.P (SAR) EXCL',
+    'qty' => 'Qty.',
+    'margin(sar)' => 'MARGIN (SAR)',
+    'totalmargin(sar)' => 'TOTAL MARGIN (SAR)',
+    'profit&lossprojection' => 'Profit & loss Projection',
+    'profitmargin' => 'Profit margin ',
+    'profit&loss' => 'Profit & loss'
+
+
  ]
 ?>

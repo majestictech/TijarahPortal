@@ -127,7 +127,7 @@ helper::checkUserURLAccess('globalproducts_manage','globalproducts_edit');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 
 				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-globe"></i> {{ __('lang.editglobalproduct')}}</li>
@@ -147,6 +147,9 @@ helper::checkUserURLAccess('globalproducts_manage','globalproducts_edit');
 				</div>
 				<hr>
                         <form class="row g-3 pt-3" method="post" enctype="multipart/form-data" action="{{route('globalproducts.update')}}" data-toggle="validator">
+						@if($errors->any())
+						<h4 class="error_msg">{{$errors->first()}}</h4>
+						@endif
 						@csrf
 						<div class="col-md-12">
 							<label for="productname" class="form-label">{{ __('lang.productname')}} *</label>

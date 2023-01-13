@@ -9,7 +9,7 @@ helper::checkUserURLAccess('storetype_manage','storetype_add');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/storetype')}}"><i class="bx bx-store-alt"></i> {{ __('lang.storetype')}}</a>
 				</li>
@@ -30,16 +30,32 @@ helper::checkUserURLAccess('storetype_manage','storetype_add');
 				</div>
 				<hr>
 				<form class="row g-3 pt-3" method="post" action="{{route('storetype.store')}}" data-toggle="validator">
+				@if($errors->any())
+				<h4 class="error_msg">{{$errors->first()}}</h4>
+				@endif
 				@csrf
-					<div class="col-md-12 ">
+					<div class="col-md-6 ">
 						<label for="name" class="form-label">{{ __('lang.storetype')}} *</label>
-						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-store-alt'></i></span>
-							<input type="text" autofocus="autofocus" name="name" class="form-control border-start-0" id="name" placeholder="{{ __('lang.enterstoretype')}}" required>
+						<div class="input-group"> <span class="input-group-text bg-transparent">
+							<i class='bx bx-store-alt'></i></span>
+							<input type="text" autofocus="autofocus" name="name" class="form-control border-start-0" id="name" placeholder="{{ __('lang.enterstoretype')}}" value="{{old('name')}}" required>
+						</div>
+					</div>
+					<div class="col-md-6 ">
+						<label for="storeTypeCategory" class="form-label">{{ __('lang.storetypecategory')}} *</label>
+						<div class="input-group" >
+							<button class="btn btn-outline-secondary" type="button">
+								<i class='bx bx-store'></i>
+							</button>
+							<select name="type" class="form-select single-select" id="type" value="{{old('type')}}"required>
+								<option selected>{{ __('lang.storetypecategory')}}</option>
+								<option value="normal">Normal</option>
+								<option value="chain">Chain</option>
+							</select>
 						</div>
 					</div>
 					
-					
-					<div class="col-12">
+					<div class="col-12 mt-3">
 						<button type="submit" class="btn btn-primary px-5">{{ __('lang.addstoretype')}}</button>
 					</div>
 				</form>

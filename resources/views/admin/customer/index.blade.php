@@ -9,7 +9,7 @@ helper::checkUserURLAccess('consumers_manage','');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-group"></i> {{ __('lang.customers')}}</li>
 			</ol>
@@ -30,13 +30,28 @@ helper::checkUserURLAccess('consumers_manage','');
 		<hr/>
 		<div class="card">
 			<div class="card-body">
-				<table class="table mb-0 table-striped table-bordered" id="myTable">
+				<!-- Search Start-->
+				<form action="" method="GET" id ="filter_results">
+					<div class="row">
+						<div class="col-md-3 mb-3 ">
+							<label for="search" class="form-label">{{ __('lang.search')}}</label>
+							<input type="text" name="search" class="form-control form-control-sm" value="{{$search}}"/>                      
+						</div>
+						<div class="col-md-3 mb-3 pt-4">
+							<label for="" class="form-label"></label>
+							<button type="submit" class="btn btn-primary px-5">{{ __('lang.search')}}</button>
+						</div>  
+					</div>
+				</form>
+				<!-- Search End-->
+				<table class="table mb-0 table-striped table-bordered" id="">
 					<thead>
 						<tr>
 							<th scope="col">{{ __('lang.name')}}</th>
 							<th scope="col">{{ __('lang.email')}}</th>
 							<th scope="col">{{ __('lang.contactnumber')}}</th>
-							<th scope="col">{{ __('lang.address')}}</th>
+							<th scope="col">{{ __('lang.vatnumber')}}</th>
+							<th scope="col">{{ __('lang.balancedue')}}</th>
 							<th scope="col">{{ __('lang.registrationdate')}}</th>
 							<th scope="col" width="15%">{{ __('lang.action')}}</th>
 						</tr>
@@ -47,7 +62,8 @@ helper::checkUserURLAccess('consumers_manage','');
                             <td>{{$customerData->customerName}}</td>
                             <td>{{$customerData->email}}</td>
                             <td>{{$customerData->contactNumber}}</td>
-							<td>{{$customerData->address}}</td>
+							<td>{{$customerData->customerVat}}</td>
+							<td>SAR {{$customerData->balanceDue}}</td>
 							<td>{{\Carbon\Carbon::parse($customerData->created_at)->format('d M Y')}}</td>
                             <td>
 								<div class="btn-group">
@@ -70,6 +86,9 @@ helper::checkUserURLAccess('consumers_manage','');
 					@endforeach
 					</tbody>
 				</table>
+					
+				{{ $customer->appends(array('search' => $search))->links() }}
+				
 			</div>
 		</div>
 	</div>

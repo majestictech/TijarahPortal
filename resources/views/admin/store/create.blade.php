@@ -15,7 +15,7 @@ helper::checkUserURLAccess('store_manage','store_add');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/store')}}"><i class="bx bx-store-alt"></i> {{ __('lang.stores')}}</a>
 				</li>
@@ -181,20 +181,24 @@ helper::checkUserURLAccess('store_manage','store_add');
 						</div>
 					</div>
 					
-					<div class="col-md-6">
-						<div class="form-group ">
+					@if(Auth::user()->roleId != '11')
+					<div class="col-md-6 d-hide" >
+						<div class="form-group">
 							  <label>{{ __('lang.autoglobalcat')}} *</label><br/>
     							  <input class="radio-input mr-2" type="radio" id="yes" value="yes" name="autoGlobalCat" checked>
 							  <label class="mb-0" for="yes">
 								{{ __('lang.yes')}}
 							  </label>
 							
-							  <input class="checkbox-input mr-2 ml-2" type="radio" value="no" id="no" name="autoGlobalCat">
+							  <input class="checkbox-input mr-2 ml-2 " type="radio" value="no" id="no" name="autoGlobalCat">
 							  <label class="mb-0" for="no">
 								{{ __('lang.no')}}
 							  </label>
 						</div>
 					</div>
+					@else
+						<input type="hidden" name="autoGlobalCat" value="yes" />
+					@endif
 
 					<div class="col-md-6">
 						<div class="form-group ">
@@ -228,21 +232,24 @@ helper::checkUserURLAccess('store_manage','store_add');
 					
 					
 				
-					
+					@if(Auth::user()->roleId != '11')
 					<div class="col-md-6">
 						<div class="form-group ">
 							  <label>{{ __('lang.autoglobalitems')}}</label><br/>
-							  <input class="radio-input mr-2" type="radio" id="yes" value="yes" name="autoGlobalItems" onclick="return confirm('Are you sure you want to upload Global Products to this Store?');" >
+							  <input class="radio-input mr-2" type="radio" id="yes" value="yes" name="autoGlobalItems" onclick="return confirm('Are you sure you want to upload Global Products to this Store?');"> 
 							  <label class="mb-0" for="yes">
 								{{ __('lang.yes')}}
 							  </label>
 							
-							  <input class="checkbox-input mr-2 ml-2" type="radio" value="no" id="no" name="autoGlobalItems" checked>
+							  <input class="checkbox-input mr-2 ml-2" type="radio" value="no" id="no" name="autoGlobalItems" checked >
 							  <label class="mb-0" for="no">
 								{{ __('lang.no')}}
 							  </label>
 						</div>
 					</div>
+					@else
+						<input type="hidden" name="autoGlobalItems" value="no" />
+					@endif
 					
 					
 					<div class="col-md-6">
@@ -335,25 +342,31 @@ helper::checkUserURLAccess('store_manage','store_add');
 							<input type="text" value="{{ old('printFooterAr') }}" name="printFooterAr" class="form-control border-start-0" id="printFooterAr" placeholder="{{ __('lang.footerar')}}">
 						</div>
 					</div>
-					
-					
+					@if(Auth::user()->roleId != '11')
 					<div class="col-md-6">
 						<label for="stores" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
-						<select name="subscriptionPlanId" class="form-control" id="subscriptionPlanId"  required>
+						<select name="subscriptionPlanId" class="form-select single-select" id="subscriptionPlanId" >
 							<option value="">{{ __('lang.selectplan')}}</option>
 								@foreach($subscriptionPlans as $key=>$value)
-									<option value="{{$value->id}}"> {{$value->plan}} </option>
+									<option value="{{$value->id}}" @if($value->id==$subscriptionPlanId) selected="selected" @endif> {{$value->plan}} </option>
 								@endforeach	
 						</select>
 					</div>
+					@else
+						<input type="hidden" name="subscriptionPlanId" value="{{$subscriptionPlanId}}" />
+					@endif
 					
+					@if(Auth::user()->roleId != '11')
 					<div class="col-6">
-						<label for="subscriptionExpiry" class="form-label">{{ __('lang.subscriptionExpiry')}}</label>
+						<label for="subscriptionExpiry" class="form-label">{{ __('lang.subscriptionExpiry')}} *</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-tag' ></i></span>
-							<input type="date" required value="{{ old('subscriptionExpiry') }}" name="subscriptionExpiry" class="form-control border-start-0" id="subscriptionExpiry" value="2024-01-01" placeholder="{{ __('lang.subscriptionExpiry')}}">
+							<input type="date" required name="subscriptionExpiry" class="form-control border-start-0" id="subscriptionExpiry" value="" placeholder="{{ __('lang.subscriptionExpiry')}}">
 						</div>
 					</div>
-					
+					@else
+						<input type="hidden" name="subscriptionExpiry" value="{{$subscriptionExpiryDate}}" />
+					@endif
+
 					<div class="col-6">
 						<label for="storeType" class="form-label">{{ __('lang.appVersion')}} *</label>
 						<div class="input-group">

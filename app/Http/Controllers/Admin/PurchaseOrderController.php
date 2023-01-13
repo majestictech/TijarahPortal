@@ -30,8 +30,8 @@ class PurchaseOrderController extends Controller
        
         $purchaseorder = DB:: Table('vendorPurchase as P')->leftJoin('storeVendors as S','S.id','=','P.vendorId')
         ->select('P.id','P.poDate','P.deliveryDate','S.vendorName')
-        ->orderBy('P.id', 'DESC');
-        get();
+        ->orderBy('P.id', 'DESC')
+        ->paginate(10);
         //print_r($purchaseorder);
         //die();
         return view('admin.purchaseorder.index', compact('purchaseorder'));
@@ -46,7 +46,7 @@ class PurchaseOrderController extends Controller
 		$purchaseorder = DB::Table('vendorPurchase as P')
 		->select('P.id','P.vendorId','P.poDate','P.deliveryDate')
 	    ->where('P.storeId',$storeId)
-		->orderBy('P.id', 'DESC')->get();
+		->orderBy('P.id', 'DESC')->paginate(10);
 		
 		return view('admin.purchaseorder.index', compact('purchaseorder','storeId'));
     }
@@ -55,6 +55,14 @@ class PurchaseOrderController extends Controller
 	public function store(Request $request)
     {    
         $purchaseorder = new VendorPurchase;
+        /* $this->validate($request, [
+			
+            'vendorId'=> 'required',
+            'poDate'=> 'required',
+            'deliveryDate'=> 'required',
+            'cp'=> 'required',
+            'quantity'=> 'required'
+           ]); */
         $purchaseorder->storeId = $request->storeId;
         //$data =  $request->json($purchaseorder->productId); //read json in request
         //return response()->json($data);  //send json respond

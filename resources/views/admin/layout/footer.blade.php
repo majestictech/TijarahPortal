@@ -7,7 +7,12 @@
 		<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
 		<!--End Back To Top Button-->
 		<footer class="page-footer">
-			<p class="mb-0">Copyright © 2021. All right reserved.</p>
+			<!--<p class="mb-0">Copyright © 2022. All right reserved.</p>-->
+			Copyright © <span id="copyright-year">2020</span>. All right reserved.
+
+			<script>
+				document.querySelector('#copyright-year').innerText = new Date().getFullYear();
+			</script>
 		</footer>
 	</div>
 	<!--end wrapper-->
@@ -18,7 +23,8 @@
 	<script src="{{ URL::asset('public/assets/js/bootstrap.bundle.min.js') }}"></script>
 	
 	<!--plugins-->
-	<script src="{{ URL::asset('public/assets/js/jquery.min.js') }}"></script>
+	
+	<!-- <script src="{{ URL::asset('public/assets/js/jquery.min.js') }}"></script> -->
 	<script src="{{ URL::asset('public/assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
 	<script src="{{ URL::asset('public/assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
 	<script src="{{ URL::asset('public/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
@@ -43,7 +49,7 @@
     <script src="https://cdn.datatables.net/datetime/1.1.0/js/dataTables.dateTime.min.js" type="text/javascript"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
-
+	<!-- <script src="{{ URL::asset('public/assets/js/jquery.min.js') }}"></script> -->
 	
 	<script>
 		new PerfectScrollbar('.chat-list');

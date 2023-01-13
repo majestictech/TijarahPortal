@@ -5,7 +5,7 @@
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-basket "></i> {{ __('lang.po')}}</li>
 			</ol>
@@ -24,7 +24,20 @@
 		<hr/>
 		<div class="card">
 			<div class="card-body">
-				<table class="table mb-0 table-striped table-bordered" id="myTable">
+				<form action="" method="GET" id ="filter_results">
+					<div class="row">
+						<div class="col-md-3 mb-3 ">
+							<label for="search" class="form-label">Search</label>
+							<input type="text" name="search" class="form-control form-control-sm" value=""/>                      
+						</div>
+						<div class="col-md-3 mb-3 pt-4">
+							<label for="" class="form-label"></label>
+							<button type="submit" class="btn btn-primary px-5">Search</button>
+						</div>  
+					</div>
+				</form>
+				<!--<table class="table mb-0 table-striped table-bordered" id="myTable"> -->
+				<table class="table mb-0 table-striped table-bordered" id="">
 					<thead>
 						<tr>
 							<th scope="col">{{ __('lang.vendorname')}}</th>
@@ -52,7 +65,7 @@
 					@endforeach
 					</tbody>
 				</table>
-		
+				{{ $purchaseorder->links() }}
 			</div>
 		</div>
 	</div>

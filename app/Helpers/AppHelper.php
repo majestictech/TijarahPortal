@@ -313,10 +313,16 @@ class AppHelper
               case "productAdd":
                 $message = "<b>{{user}}</b> ({{username}}) added a new product of <b>" . $value . "</b>";
                 break;
+              case "productImportAdd":
+                $message = "<b>{{user}}</b> ({{username}}) impoted a new product of <b>" . $value . "</b>";
+                break;
               case "productEdit":
                 $message = "<b>{{user}}</b> ({{username}}) updated the new product of <b>" . $value . "</b>";
                 break;
-                
+              case "productDelete":
+                $message = "<b>{{user}}</b> ({{username}}) deleted the new product of <b>" . $value . "</b>";
+                break;
+                  
               case "globalproductsEdit":
                 $message = "<b>{{user}}</b> ({{username}}) updated the global product of <b>" . $value . "</b>";
                 break;
@@ -326,6 +332,9 @@ class AppHelper
                 break;
               case "brandEdit":
                 $message = "<b>{{user}}</b> ({{username}}) updated the brand name of <b>" . $value . "</b>";
+                break;
+              case "brandDelete":
+                $message = "<b>{{user}}</b> ({{username}}) deleted the brand name of <b>" . $value . "</b>";
                 break;
                 
               case "storetypeAdd":
@@ -348,19 +357,19 @@ class AppHelper
                 $message = "<b>{{user}}</b> ({{username}}) delete the VAT of <b>" . $value . "</b>";
                 break;
               case "adminmanagementAdd":
-                $message = "<b>{{user}}</b> ({{username}}) added the ADMIN of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) added new admin user <b>" . $value . "</b>";
                 break;
               case "adminmanagementEdit":
-                $message = "<b>{{user}}</b> ({{username}}) updated the ADMIN of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) updated details for admin user <b>" . $value . "</b>";
                 break;
               case "subadminAdd":
-                $message = "<b>{{user}}</b> ({{username}}) added the SUBADMIN of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) added new subadmin user <b>" . $value . "</b>";
                 break;
               case "subadminEdit":
-                $message = "<b>{{user}}</b> ({{username}}) updated the SUBADMIN of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) updated details for admin user <b>" . $value . "</b>";
                 break;
               case "subadminDelete":
-                $message = "<b>{{user}}</b> ({{username}}) delete the SUBADMIN of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) deleted the subadmin <b>" . $value . "</b>";
                 break;
               case "appEdit":
                 $message = "<b>{{user}}</b> ({{username}}) updated the App of <b>" . $value . "</b>";
@@ -369,10 +378,10 @@ class AppHelper
                 $message = "<b>{{user}}</b> ({{username}}) added the FAQ of <b>" . $value . "</b>";
                 break;
               case "faqEdit":
-                $message = "<b>{{user}}</b> ({{username}}) updated the FAQ of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) updated details for FAQ of <b>" . $value . "</b>";
                 break;
               case "faqDelete":
-                $message = "<b>{{user}}</b> ({{username}}) delete the FAQ of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) deleted the FAQ of <b>" . $value . "</b>";
                 break;
               case "storeDisable":
                 $message = "<b>{{user}}</b> ({{username}}) disable the STORE of <b>" . $value . "</b>";
@@ -381,18 +390,77 @@ class AppHelper
                 $message = "<b>{{user}}</b> ({{username}}) enable the STORE of <b>" . $value . "</b>";
                 break;
               case "invoiceAdd":
-                $message = "<b>{{user}}</b> ({{username}}) added the INVOICE of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) added the invoice of <b>" . $value . "</b>";
                 break;
+              case "invoiceEdit":
+                $message = "<b>{{user}}</b> ({{username}}) updated details for invoice of <b>" . $value . "</b>";
+                break;  
               case "subscriptionAdd":
-                $message = "<b>{{user}}</b> ({{username}}) added the SUBSCRIPTION of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) added the subscription of <b>" . $value . "</b>";
                 break;
               case "subscriptionEdit":
-                $message = "<b>{{user}}</b> ({{username}}) updated the SUBSCRIPTION of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) updated details for subscription of <b>" . $value . "</b>";
                 break;
               case "subscriptionDelete":
-                $message = "<b>{{user}}</b> ({{username}}) deleted the SUBSCRIPTION of <b>" . $value . "</b>";
+                $message = "<b>{{user}}</b> ({{username}}) deleted the subscription of <b>" . $value . "</b>";
                 break;
-                  
+              case "vendorAdd":
+                $message = "<b>{{user}}</b> ({{username}}) added new vendor of <b>" . $value . "</b>";
+                break;
+              case "vendorEdit":
+                $message = "<b>{{user}}</b> ({{username}}) updated details for vendor of <b>" . $value . "</b>";
+                break; 
+              case "vendorDelete":
+                $message = "<b>{{user}}</b> ({{username}}) deleted the vendor of <b>" . $value . "</b>";
+                break;
+              case "associateAdd":
+                $message = "<b>{{user}}</b> ({{username}}) added the associate of <b>" . $value . "</b>";
+                break;
+              case "associateEdit":
+                $message = "<b>{{user}}</b> ({{username}}) updated details for associate of <b>" . $value . "</b>";
+                break;
+              case "associateDelete":
+                $message = "<b>{{user}}</b> ({{username}}) deleted the associate of <b>" . $value . "</b>";
+                break;
+              case "bannerAdd":
+                $message = "<b>{{user}}</b> ({{username}}) added the banner of <b>" . $value . "</b>";
+                break;
+              case "bannerEdit":
+                $message = "<b>{{user}}</b> ({{username}}) updated details for banner of <b>" . $value . "</b>";
+                break;
+              case "bannerDelete":
+                $message = "<b>{{user}}</b> ({{username}}) deleted the banner of <b>" . $value . "</b>";
+                break;
+              case "customerAdd":
+                $message = "<b>{{user}}</b> ({{username}}) added the customer of <b>" . $value . "</b>";
+                break;
+              case "customerEdit":
+                $message = "<b>{{user}}</b> ({{username}}) updated datails for customer of <b>" . $value . "</b>";
+                break;
+              case "customerDelete":
+                $message = "<b>{{user}}</b> ({{username}}) deleted the customer of <b>" . $value . "</b>";
+                break;  
+              case "customerScreenAdd":
+                $message = "<b>{{user}}</b> ({{username}}) added the customerScreen of <b>" . $value . "</b>";
+                break; 
+              case "customerScreenEdit":
+                $message = "<b>{{user}}</b> ({{username}}) updated details for customerScreen of <b>" . $value . "</b>";
+                break; 
+              case "customerScreenDelete":
+                $message = "<b>{{user}}</b> ({{username}}) deleted the customerScreen of <b>" . $value . "</b>";
+                break; 
+              case "driverAdd":
+                $message = "<b>{{user}}</b> ({{username}}) added the driver of <b>" . $value . "</b>";
+                break; 
+              case "driverEdit":
+                $message = "<b>{{user}}</b> ({{username}}) updated deails for driver of <b>" . $value . "</b>";
+                break; 
+              case "driverDelete":
+                $message = "<b>{{user}}</b> ({{username}}) deleted the driver of <b>" . $value . "</b>";
+                break; 
+              case "inventoryEdit":
+                $message = "<b>{{user}}</b> ({{username}}) updated details for Stock of Inventory";
+                break;
               
               
                 

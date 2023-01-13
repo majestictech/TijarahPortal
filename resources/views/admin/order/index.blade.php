@@ -9,7 +9,7 @@ helper::checkUserURLAccess('orders_manage','');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-list-ol"></i> {{ __('lang.orders')}}</li>
 			</ol>
@@ -24,8 +24,23 @@ helper::checkUserURLAccess('orders_manage','');
 		<div class="card">
 			<div class="card-body">
 	        <form action="" method="GET" id ="filter_results">
+			<input type="hidden" name="storeId" value="{{ $storeId}}">	
     		    <div class="row"> 
-                	<div class="col-md-4 mb-3">
+					<div class="col-md-3">
+							<label for="roleFilter" class="form-label">{{ __('lang.filterby')}}</label>
+							<div class="input-group">
+								<button class="btn btn-outline-secondary" type="button"><i class='bx bx-user-circle'></i>
+								</button>
+								<select name="orderFilter" class="form-select single-select" id="orderFilter" onChange="this.form.submit();">
+									<option value="" >{{ __('lang.selectstoretype')}}</option>
+										<option value="" @if($orderFilter == '') selected="selected" @endif>{{ __('lang.all')}}</option>
+										<option value="WalkIn" @if($orderFilter == 'WalkIn') selected="selected" @endif>{{ __('lang.storeCompleted')}}</option>
+										<option value="OutForDelivery"  @if($orderFilter == 'OutForDelivery') selected="selected" @endif>{{ __('lang.outForDelivery')}}</option>
+										<option value="DeliveryCompleted"  @if($orderFilter == 'DeliveryCompleted') selected="selected" @endif>{{ __('lang.deliveryCompleted')}}</option>
+								</select>
+							</div>
+						</div>
+                	<div class="col-md-3 mt-4 pt-1">
         				<div class="row input-daterange pb-4">
                             <div class="col-md-6">
                                 <input type="date" name="start_date" id="min" class="form-control" value="{{$startdate}}" placeholder="{{ __('lang.fromdate')}}"  />
@@ -36,18 +51,19 @@ helper::checkUserURLAccess('orders_manage','');
         				</div>
         			</div>
     			
-        		     <div class="col-md-2 mb-3 ">
+        		     <div class="col-md-2 mt-4 pt-1">
     				    <input type="text" name="search" style="height: 37px;" class="form-control form-control-sm" value="{{$search}}"/>
                     </div>
         		    
         		    
         		    
-        			<div class="col-md-3 mb-3 ">
-        			     <button type="submit" class="btn btn-primary px-5" name="searchBtn" value="yes">Search</button>
+        			<div class="col-md-2 mt-4 pt-1">
+					
+					<button type="submit" class="btn btn-primary px-5" name="searchBtn" value="yes">{{ __('lang.search')}}</button>
         			</div>
         			
-        			<div class="col-md-3 mb-3 ">
-        			    <button type="submit" class="btn btn-primary px-5" name="exportBtn" value="yes">Search & Export</button>
+        			<div class="col-md-2 mt-4 pt-1 text-end">
+        			    <button type="submit" class="btn btn-primary px-5" name="exportBtn" value="yes"> {{ __('lang.export')}} </button>
         			     <!--<a type="button" name="upload" href="{{route('order.export')}}" class="btn btn-primary px-5" style="height: 36px; border-radius: 2px; margin-left: 20px;" value="OK">Export</a>-->
         			</div>
     			
@@ -84,13 +100,19 @@ helper::checkUserURLAccess('orders_manage','');
       
 
 
-				<table class="table mb-0 table-striped table-bordered" id="example">
+				<table class="table mb-0 table-striped table-bordered" id="0">
 					<thead>
 						<tr>
 							<th scope="col">{{ __('lang.placedon')}}</th>
 							<th scope="col">{{ __('lang.ordernumber')}}</th>
 							<th scope="col">{{ __('lang.payment')}}</th>
-							<th scope="col">{{ __('lang.storename')}}</th>
+
+							<?php if(Auth::user()->roleId != 4 ){?>
+								<th scope="col">{{ __('lang.storename')}}</th>
+							<?php } ?>
+
+							<th scope="col">{{ __('lang.ordertype')}}</th>
+
 							<th scope="col">{{ __('lang.action')}}</th>
 						</tr>
 					</thead>
@@ -99,8 +121,23 @@ helper::checkUserURLAccess('orders_manage','');
     						<tr>
                                 <td>{{\Carbon\Carbon::parse($orderData->created_at)->format('d M Y')}}</td>
                                 <td>{{$orderData->orderId}}</td>
-                                <td>SAR {{$orderData->totalAmount}}</td>
-                                <td>{{$orderData->storeName}}</td>
+                                <td> {{ __('lang.sar')}} {{$orderData->totalAmount}}</td>
+
+								<?php if(Auth::user()->roleId != 4 ){?>
+                                	<td>{{$orderData->storeName}}</td>
+								<?php } ?>
+
+								<!--<td class="orderType">{{$orderData->orderType}}</td>-->
+								<td class="orderType">
+									@if ($orderData->orderType ==  'WalkIn') 
+										 <?php echo 'Walk In';?>
+									@elseif ($orderData->orderType ==  'OutForDelivery') 
+										 <?php echo 'Out For Delivery';?>
+									@elseif ($orderData->orderType ==  'Delivered') 
+										 <?php echo 'Delivered';?>
+									@endif
+								</td>
+
                                 <td>
     								<div class="btn-group">
     									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
@@ -119,7 +156,7 @@ helper::checkUserURLAccess('orders_manage','');
                 
                 @if ($postcount > 0)
 				<div class="pagination_links">
-				{{$orders->appends(array('search' => $search,'start_date'=>$startdate,'end_date'=>$enddate))->links()}}
+				{{$orders->appends(array('storeId' => $storeId	,'search' => $search,'start_date'=>$startdate,'end_date'=>$enddate))->links()}}
 				</div>
 				@endif
 			</div>
@@ -172,14 +209,28 @@ $(document).ready(function() {
 </script>-->
 
 <script>
-
+/*
 $('#example').dataTable( {
 paging: false,
-searching: false
+searching: false,
+ordre: false
 } );
+*/
+</script>
+<script>
 
+
+/*
+var table = $('#myTable').DataTable({
+   "order": [[ 4, "asc" ]],
+              'columnDefs': [{
+                    "targets": [4],
+                    "orderable": false
+                }]
+          });
+		  */
 </script>
 <style>
-    .dataTables_filter,.dataTables_info,.dataTables_paginate {display:none;}
+   /* .dataTables_filter,.dataTables_info,.dataTables_paginate {display:none;} */
     
 </style>

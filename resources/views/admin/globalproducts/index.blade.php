@@ -9,7 +9,7 @@ helper::checkUserURLAccess('globalproducts_manage','');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-globe"></i> {{ __('lang.globalproducts')}}</li>
 			</ol>
@@ -165,6 +165,7 @@ $(document).ready(
             );
     });
 </script>
+
 
 <style>
     .dataTables_filter,.dataTables_info,.dataTables_paginate {display:none;}

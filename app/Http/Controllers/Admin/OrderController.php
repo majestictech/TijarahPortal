@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Orders;
 use DB;
+use Auth;
 use Carbon\Carbon;
 use App\Helpers\AppHelper as Helper;
 use App\Http\Controllers\Controller;
@@ -24,13 +25,49 @@ class OrderController extends Controller
         $startdate = $request->start_date;
         $enddate = $request->end_date;
         $export = $request->exportBtn;
+        //$orderFilter = isset($_GET['orderFilter']) && !empty($_GET['orderFilter']) ? $_GET['orderFilter'] : '';
+        $orderFilter = $request->orderFilter;
+        $orderFilter = trim($orderFilter);
+        //print_r( $orderFilter);
+        //die;
+		
+		if(Auth::user()->roleId != 11 ) {	
+			$orders = DB::Table('orders_pos as O');
+		}
+		else {
+			// This is Chain Admin
+			
+			$orders = DB::Table('chainstores as CS')->Join('orders_pos as O','CS.storeId','=','O.storeId');
+		}
+		
+		$orders = $orders->Join('stores as S','S.id','=','O.storeId')->select('O.id','O.orderId','O.created_at','O.totalAmount','O.orderType','S.storeName as storeName');
+		
+		
         
-	    $orders = DB::Table('orders_pos as O')->leftJoin('stores as S','S.id','=','O.storeId')
-        ->select('O.id','O.orderId','O.created_at','O.totalAmount','S.storeName as storeName')->orderBy('O.created_at', 'DESC');
         
+		if(Auth::user()->roleId == 11 ) {	
+			$parentUserId = auth()->user()->id;
+			$orders = $orders->where('CS.parentUserId',  $parentUserId);
+		
+        }
+        else if(Auth::user()->roleId == 4 )
+        {
+            $storeId = helper::getStoreId();
+            $orders = $orders->where('O.storeId',$storeId);
+        }
+		
+        $storeId = !empty($request->storeId) ? $request->storeId : '';
+	    if(!empty($storeId)) 
+	        $orders = $orders->where('O.storeId',$request->storeId);
+
+
+        /*Search Start */
         if(isset($request->start_date) && isset($request->end_date)) {
             $startdate = $request->start_date . ' 00:00:00';
+          // print_r ($startdate = $request->start_date);
             $enddate = $request->end_date . ' 23:59:59';
+            //print_r ($enddate = $request->end_date);
+            //die;
             
             //$orders = $orders->whereBetween('O.created_at',[$request->start_date,$request->end_date]);
             
@@ -40,16 +77,20 @@ class OrderController extends Controller
             
             
         }
-        
         if(isset($search)) {
-            $orders = $orders->where('S.storeName', 'LIKE', '%' . $search . '%' );
-            print_r($search);
-	        die;
+            $orders = $orders->where('S.storeName', 'LIKE', '%' . $search . '%' )
+            ->orWhere('O.orderId', 'LIKE', '%' . $search . '%' );
+            //print_r($search);
+	        //die;
         }
-	    if(!empty($request->storeId))
-	        $orders = $orders->where('O.storeId',$request->storeId);
+        if(!empty($orderFilter)) {
+            $orders = $orders->where('O.orderType', 'LIKE', '%' . $orderFilter . '%' );
+            //print_r($search);
+	        //die;
+        }
+        /*Search End */
 	    
-	    $orders = $orders->paginate(10);
+	    $orders = $orders->orderBy('O.created_at', 'DESC')->paginate(10);
 	    
         $postcount=count($orders);
         
@@ -59,7 +100,7 @@ class OrderController extends Controller
         }
         $startdate = $request->start_date;
         $enddate = $request->end_date;
-        return view('admin.order.index', compact('orders','postcount','search','todayDate','startdate','enddate'));
+        return view('admin.order.index', compact('orders','postcount','search','todayDate','startdate','enddate', 'orderFilter', 'storeId'));
 	
 	  
 	  
@@ -190,6 +231,7 @@ class OrderController extends Controller
     }
 	public function update(Request $request)
 	{
+        
 		//print_r($request);
 		//die;
 		
