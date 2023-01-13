@@ -108,9 +108,23 @@ $Roles = config('app.Roles');
 							<th scope="col">{{ __('lang.vendorname')}}</th>
 							<th scope="col">{{ __('lang.vatamount')}}</th>
 							<th scope="col">{{ __('lang.totalamount')}}</th>
+							<th scope="col">{{ __('lang.invoicedate')}}</th>
+							<th scope="col">{{ __('lang.invoicenumber')}}</th>
 							
 						</tr>
 					</thead>
+					<tbody>
+						@foreach($completeData as $key => $data)
+						<tr>
+							<td>@if(isset(json_decode($data->vendorDetail)->vendorName)) {{ json_decode($data->vendorDetail)->vendorName }} @endif</td>
+							
+							<td>{{$data->vatAmount}}</td>
+							<td>{{$data->totalAmount}}</td>
+							<td>{{$data->invoiceDate}}</td>
+							<td>{{$data->invoiceNumber}}</td>
+						</tr>
+						@endforeach
+					</tbody>
 				</table>
 				
 			</div>

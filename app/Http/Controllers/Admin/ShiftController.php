@@ -10,6 +10,8 @@ use App\Settings;
 use DB;
 use App\Helpers\AppHelper as helper;
 use App\Shift;
+use Illuminate\Support\Facades\Hash;
+
 
 class ShiftController extends Controller
 {
@@ -21,7 +23,7 @@ class ShiftController extends Controller
     public function index()
     {      
 
-		$shift = Shift::orderBy('created_at', 'DESC')->get();
+		$shift = Shift::orderBy('created_at', 'DESC')->paginate(10);
         return view('admin.shift.index', compact('shift'));
 	}
 	
@@ -33,7 +35,7 @@ class ShiftController extends Controller
 		$shift = DB::Table('shifts as S')
 		->select('S.id','S.title','S.hoursOfServiceFrom','S.hoursOfServiceTo')
 	    ->where('S.storeId',$storeId)
-		->orderBy('S.id', 'DESC')->get();
+		->orderBy('S.id', 'DESC')->paginate(10);
 		
 		return view('admin.shift.index', compact('shift','storeId'));
     }
@@ -41,7 +43,13 @@ class ShiftController extends Controller
 	public function store(Request $request)
     {    
         $shift = new Shift;
-		
+
+		$this->validate($request, [
+			'title'=> 'required',
+			'hoursOfServiceFrom'=> 'required',
+			'hoursOfServiceTo'=> 'required'
+		]);
+
         $shift->title = $request->title; 	
 		$shift->hoursOfServiceFrom = $request->hoursOfServiceFrom;
 		$shift->hoursOfServiceTo = $request->hoursOfServiceTo;
@@ -67,6 +75,11 @@ class ShiftController extends Controller
 
 	public function update(Request $request)
     {
+		$this->validate($request, [
+			'title'=> 'required',
+			'hoursOfServiceFrom'=> 'required',
+			'hoursOfServiceTo'=> 'required'
+		]);
 		$shift = Shift::find($request->input('id'));
 		$shift->title = $request->title; 
 		$shift->hoursOfServiceFrom = $request->hoursOfServiceFrom;

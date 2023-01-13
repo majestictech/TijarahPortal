@@ -58,7 +58,7 @@ class CustomerScreenController extends Controller
 			$customerScreen->save();
 				
 		}
-		
+		Helper::addToLog('customerScreenAdd',$request->file('customerScreenImage'));
         return redirect('admin/customerscreen/' . $request->storeId);
     }
    
@@ -94,6 +94,8 @@ class CustomerScreenController extends Controller
 			$customerScreen->save();
 				
 		}
+		Helper::addToLog('customerScreenEdit',$request->file('customerScreenImage'));
+
         return redirect('admin/customerscreen/' . $request->storeId);  
     }
 	

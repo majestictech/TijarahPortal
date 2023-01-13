@@ -15,7 +15,7 @@ class UserRoleController extends Controller
     {      
 	  
         $roleFilter = $request->roleFilter;
-	    $userRoles = MasRole::select('id','name','userRights')->get();
+	    $userRoles = MasRole::select('id','name','userRights')->orderBy('orderRoles','ASC')->get();
 	    
 	    //$myString = "9,admin@example.com,8";
         //$myArray = explode(',', $myString);

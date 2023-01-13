@@ -10,7 +10,7 @@ helper::checkUserURLAccess('subscription_manage','');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-notepad"></i> {{ __('lang.subscription')}}</li>
 			</ol>
@@ -72,6 +72,10 @@ helper::checkUserURLAccess('subscription_manage','');
 @include('admin.layout.footer')
 <script>
 var table = $('#myTable').DataTable({
-   "order": [[ 2, "asc" ]]
+   "order": [[ 2, "asc" ]],
+              'columnDefs': [{
+                    "targets": [3],
+                    "orderable": false
+                }]
           });
 </script>

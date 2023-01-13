@@ -30,7 +30,10 @@ helper::checkUserURLAccess('app_manage','');
 			    
 		
 				
-				<form class="row g-3 pt-3 mb-3" method="post" action="{{route('appupdate.store')}}" data-toggle="validator" enctype="multipart/form-data"> 
+				<form class="row g-3 pt-3 mb-3" method="post" action="{{route('appupdate.store')}}" data-toggle="validator" enctype="multipart/form-data">
+				@if($errors->any())
+				<h4 class="error_msg">{{$errors->first()}}</h4>
+				@endif
 				@csrf
 					<div class="mb-3 col-md-6">
 						<label class="form-label">{{ __('lang.sendto')}} *</label>
@@ -38,7 +41,7 @@ helper::checkUserURLAccess('app_manage','');
 							<button class="btn btn-outline-secondary" type="button"><i class='bx bx-search'></i>
 							</button>
 							
-							<select name="appType" class="form-select single-select" id="inputGroupSelect03" aria-label="Example select with button addon" data-error="{{ __('lang.req_sendto')}}" required>
+							<select name="appType" class="form-select single-select" id="inputGroupSelect03" aria-label="Example select with button addon" data-error="{{ __('lang.req_sendto')}}" value="{{old('appType')}}" required>
 								<option value="MINI">{{ __('lang.miniapp')}}</option>
 								<option value="PLUS">{{ __('lang.plusapp')}}</option>
 							</select>
@@ -47,15 +50,15 @@ helper::checkUserURLAccess('app_manage','');
 					</div>
 					<div class="col-6">
 						<label class="form-label">{{ __('lang.appVersion')}} *</label>
-							<input type="text" name="appVer" class="form-control" placeholder="{{ __('lang.appVersion')}}" required>
+							<input type="text" name="appVer" class="form-control" placeholder="{{ __('lang.appVersion')}}" value="{{old('appVer')}}" required>
 					</div>
 					<div class="col-4">
 						<label class="form-label">{{ __('lang.appcode')}} *</label>	
-						    <input type="text" name="appCode" class="form-control" placeholder="{{ __('lang.appcode')}}" required>
+						    <input type="text" name="appCode" class="form-control" placeholder="{{ __('lang.appcode')}}" value="{{old('appCode')}}" required>
 					</div>
 					<div class="col-4">
 						<label class="form-label">{{ __('lang.uploadapk')}} *</label>	
-						    <input type="file" name="appfile" class="form-control border-start-0" id="file" required>
+						    <input type="file" name="appfile" class="form-control border-start-0" id="file" value="{{old('appfile')}}" required>
 					</div>
 					<!--<div class="col-4">
 						<label class="form-label">Push app to all stores *</label><br/>	
@@ -73,9 +76,9 @@ helper::checkUserURLAccess('app_manage','');
 				<table class="table mb-0 mt-4 table-striped table-bordered" id="myTable">
 					<thead>
 						<tr>
-							<th scope="col">App Type</th>
+							<th scope="col">{{ __('lang.appType')}}</th>
 							<th scope="col">{{ __('lang.appVersion')}}</th>
-							<th scope="col">App Code</th>
+							<th scope="col">{{ __('lang.appcode')}}</th>
 						</tr>
 					</thead>
 					<tbody>

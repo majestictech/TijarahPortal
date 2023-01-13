@@ -43,23 +43,52 @@ class CustomerController extends Controller
     {		
         //$Gender = config('app.Gender');
         $id = "";
+		
+		$search = isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search']: '' ;
+		$search = trim($search);
+
         // $storeId = helper::getStoreId();
         $customer = DB::Table('customers as C')
-        ->select('C.email','C.customerName' ,'C.id','C.contactNumber','C.address','C.doa','C.dob','C.created_at')
-        ->where('C.storeName',$storeId)
-        ->orderBy('C.id', 'DESC')
-        ->get();
+        ->select('C.email','C.customerName' ,'C.id','C.contactNumber','C.customerVat','C.balanceDue','C.doa','C.dob','C.created_at')
+        ->where('C.storeName',$storeId);
+        
+		if(!empty($search)) {
+			$customer =  $customer->where(function($query) use ($search) {
+				$query->orWhere('C.customerName', 'LIKE', '%' . $search . '%' )
+				->orWhere ('C.email', 'LIKE', '%' . $search . '%' )
+				->orWhere ('C.contactNumber', 'LIKE', '%' . $search . '%' )
+				->orWhere ('C.customerVat', 'LIKE', '%' . $search . '%' );
+			});
+		}
+		
+		$customer = $customer->orderBy('C.id', 'DESC')->paginate(10);
 		
 		$customercount=count($customer);
-		return view('admin.customer.index',compact('customer','storeId','customercount','storeId'));
+		return view('admin.customer.index',compact('customer','storeId','customercount','storeId', 'search'));
     }
     
 
     public function create($id)
-    {    
+    {   
+		
+		/*
+		$customerStoreId = DB::Table('customers as C')
+        ->select('C.id','C.contactNumber','C.customerVat','C.storeName')
+        ->where('C.storeName',505)->get();
+		
+		//$customerStoreId = $customerStoreId->toJson();
+		//$customerStoreId = json_decode($customerStoreId);
+		//$customerStoreIdCount = count($customerStoreId)-1;
+
+		print_r($customerStoreId[0]);
+		die;
+		*/
+
 		$store = Store::orderBy('id', 'DESC')->get();
 		$customer = DB::Table('customers as C')->leftJoin('stores as S','S.id','=','C.storeName')->select('C.email','C.dob','C.customerName' ,'C.id','C.contactNumber','C.address','C.doa','C.storeName','S.id as sId')
-		->where('C.id', $id)->get();
+		->where('C.id', $id)->orderBy('id', 'DESC')->paginate(10);
+		//print_r($id);
+		//die;
 		$country = Country::orderBy('id', 'DESC')->get();
        
 		return view('admin.customer.create', compact('customer','country','store','id'));
@@ -68,13 +97,62 @@ class CustomerController extends Controller
 	public function store(Request $request)
     {      	 
         $customer = new Customer;
-		////$storeId = helper::getStoreId();
+
+		/* $this->validate($request, [
+			'customerName'=> 'required',
+			'email' => [
+				'required',
+				'unique:users,email',
+			 ],
+			 'contactNumber'=> 'required',
+			 'customerVat'=> 'required',
+			 'dob'=> 'required',
+			 'address'=> 'required',
+		   ]); */
+		//$storeId = helper::getStoreId();
+		
+
+		/*
+		$currentStoreID = $request->storeName;
+		$customerStoreId = DB::Table('customers as C')
+        ->select('C.id','C.contactNumber','C.customerVat','C.storeName')
+        ->where('C.storeName',$currentStoreID)->get();
+        
+		*/
+		/* 
+		//Number Unique Start
+		$this->validate($request, [
+			'contactNumber'=>'unique:customers,contactNumber'
+			
+			//'contactNumber'=>'unique:customers,contactNumber| unique:customers,storeName',$ignoreStoreID
+
+			/*'contactNumber' => [
+				'required',
+				Rule::unique('customers')->where(function ($query) use($storeName,$contactNumber) {
+					return $query->where('storeName', $storeName)
+					->where('hostname', $hostname);
+				}),
+			],
+			*/
+			// ]);
+		//Number Unique End
+
+
 		$customer->customerName = $request->customerName;
 		$customer->email = $request->email;
 		$customer->contactNumber = $request->contactNumber;         	
+		        	
 		$customer->address = $request->address;
 		$customer->dob = $request->dob;
 		$customer->doa = $request->doa;
+		
+
+		if(!empty($request->customerVat))
+			$this->validate($request, [	
+			'customerVat' => 'min:15|max:15'
+     	]);
+		$customer->customerVat = $request->customerVat; 
+
 		//$customer->storeName = $request->storeName;
 		if (Auth::user()->roleId != 4){
             $customer->storeName = $request->storeId;
@@ -84,7 +162,7 @@ class CustomerController extends Controller
         }
 
         $customer->save();   
-        
+		Helper::addToLog('customerAdd',$request->customerName);
         return redirect('admin/customer/' . $request->storeId); 
 		
         /*if(Auth::user()->roleId != 4)
@@ -98,9 +176,9 @@ class CustomerController extends Controller
     {
 		
         $country = Country::orderBy('id', 'DESC')->get();
-		$customer = DB::Table('customers as C')->leftJoin('stores as S','S.id','=','C.storeName')->select('C.email','C.dob','C.customerName' ,'C.id','C.contactNumber','C.address','C.doa','C.storeName','S.id as sId')
-		->where('C.id', $id)->get();
-		$customer = $customer[0];
+		$customer = DB::Table('customers as C')->leftJoin('stores as S','S.id','=','C.storeName')->select('C.email','C.dob','C.customerName' ,'C.customerVat' ,'C.id','C.contactNumber','C.address','C.doa','C.storeName','S.id as sId')
+		->where('C.id', $id)->first();
+		//$customer = $customer[0];
 		
 		return view('admin.customer.edit',compact('customer','country'));
 		
@@ -110,7 +188,14 @@ class CustomerController extends Controller
     {
 		$customer = new Customer;
 		
-			
+		$this->validate($request, [
+			'customerName'=> 'required',
+			'email' => 'required',
+			'contactNumber'=> 'required',
+			'customerVat'=> 'required',
+			 'dob'=> 'required',
+			 'address'=> 'required',
+		   ]);	
 		$customer = Customer::find($request->input('id'));
 		
 	
@@ -121,10 +206,16 @@ class CustomerController extends Controller
 		$customer->address = $request->address;
 		
 		$customer->dob = $request->dob;
-		
+		$customer->doa = $request->doa;
+
+		if(!empty($request->customerVat))
+			$this->validate($request, [	
+			'customerVat' => 'min:15|max:15'
+     	]);
+		 $customer->customerVat = $request->customerVat; 
 		
         $customer->save();
-        
+        Helper::addToLog('customerEdit',$request->customerName);
          return redirect('admin/customer/' . $request->storeId); 
 		 
         /*if(Auth::user()->roleId != 4)
@@ -141,7 +232,7 @@ class CustomerController extends Controller
        
 		
         $customer->delete();
-        
+        Helper::addToLog('customerDelete',$customer->customerName);
         return redirect()->back();
 		
 		/*if(Auth::user()->roleId != 4)
@@ -162,14 +253,12 @@ class CustomerController extends Controller
 		->where('C.id', $id)->first();
 		
 		$customerstore = DB::Table('customers as C')
-		->leftJoin('orders_pos','orders_pos.customerId','=','C.id')
+		->join('orders_pos','orders_pos.customerId','=','C.id')
 		->leftJoin('storecustomers', 'storecustomers.customerId', '=', 'C.id')
-		
 		->leftJoin('stores','stores.Id','=','orders_pos.storeId')
 		->select('orders_pos.id as orderid','storecustomers.loyaltyPoints','stores.storeName','orders_pos.orderDetail','orders_pos.orderId','orders_pos.totalAmount')
 		->where('C.id', $id)
-	
-		->get();
+		->paginate(5, ['*'], 'customerstore');
 		
 		$customerloyalty = DB::Table('customers as C')
 		->leftJoin('storecustomers', 'storecustomers.customerId', '=', 'C.id')
@@ -182,9 +271,6 @@ class CustomerController extends Controller
 		->leftJoin('stores','stores.id','=','L.storeId')
 		->select('L.orderId','L.id','L.points','stores.storeName','L.type','L.created_at')
 		->where('L.customerId',$id)
-		
-		
-
 		->get();
 		
 		
@@ -194,8 +280,17 @@ class CustomerController extends Controller
 		->leftJoin('customers','customers.id','=','O.customerId')
 		->leftJoin('storecustomers','storecustomers.customerId','=','O.customerId')
 		->select('O.id','O.orderId','stores.storename','stores.address','O.created_at','O.totalAmount','O.paymentStatus','O.orderDetail','storecustomers.loyaltyPoints','customers.customerName','customers.email','customers.contactNumber')
-		->where('O.customerId', $id)->first();
+		->where('O.customerId', $id)->orderBy('id', 'DESC')->first();
 		
+		
+
+		$customersCredit = DB::Table('customers_credit')->where('customerId',$id)	
+		->orderBy('id', 'DESC')->paginate(2, ['*'], 'customersCredit');
+
+		//print_r($currentOrderId);
+		//die;	
+
+
 		/*
 		if (empty($orderdata))
 		    $orderDetail = '';
@@ -212,7 +307,7 @@ class CustomerController extends Controller
             }
     	}
     	
-        return view('admin.customer.view',compact('customer','customerstore','customerloyalty','loyaltytransactions','orderdata','orderDetail'));
+        return view('admin.customer.view',compact('customer','customerstore','customerloyalty','loyaltytransactions','orderdata','orderDetail', 'customersCredit'));
 		
 		
 	
@@ -230,6 +325,7 @@ class CustomerController extends Controller
 		->first();
 		//print_r($loyaltytransactions);
 		//die;
+		
 		return view('admin.customer.loyaltyview', compact('loyaltytransactions'));
 	
 	}

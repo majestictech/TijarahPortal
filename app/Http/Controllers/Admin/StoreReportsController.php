@@ -12,7 +12,47 @@ class StoreReportsController extends Controller
 {
     public function index($storeId)
     {      
-		return view('admin.storereports.index',compact('storeId'));
+
+        $storedata = DB::Table('stores as S')->leftJoin('mas_country', 'mas_country.id', '=', 'S.countryId')->leftJoin('users', 'users.id', '=', 'S.userId')->leftJoin('mas_storetype','mas_storetype.id','=','S.storeType')
+		->select('S.id','S.storeName','users.contactNumber','users.email','S.regNo','S.state','S.city','S.appVersion','mas_country.nicename','users.firstName','mas_storetype.name','users.lastName','S.address','S.latitude','S.longitude','S.deviceType','S.appType','S.shopSize','S.vatNumber','S.printStoreNameAr','S.printAddAr','S.manageInventory','S.smsAlert','S.printFooterEn','S.printFooterAr','S.autoGlobalCat','S.onlineMarket','S.loyaltyOptions','S.autoGlobalItems','S.chatbot', DB::raw("DATE_FORMAT(S.subscriptionExpiry, '%d-%b-%Y') as subscriptionExpiryDate") ,DB::raw("DATE_FORMAT(S.created_at, '%d-%b-%Y') as storeCreatedOn"),'users.id as userId')
+		->where('S.id', $storeId)->first();
+		
+		
+		$orderplaced=DB::Table('orders_pos as O')->leftJoin('stores as S','S.userId','=','O.userId')
+		->select('O.id','O.created_at','S.id')
+		->whereDate('O.created_at', Carbon::today())
+		->where('S.id', $storeId)
+		->get();
+		
+		$todayorderCount = $orderplaced->count();
+	    
+	    
+		
+        $customer = DB::Table('customers as C')->leftJoin('stores as S','S.id' ,'=','C.storeName')
+        ->select('C.id')
+         ->where('S.id', $storeId)->
+         get();
+
+		$allcustomer = $customer->count();
+		
+
+
+		$orderplaced=DB::Table('orders_pos as O')->leftJoin('stores as S','S.userId','=','O.userId')
+		->select('O.id','O.created_at','S.id')
+		->where('S.id', $storeId)
+		->get();
+
+		$allorderCount = $orderplaced->count();
+		
+
+    	$revenue = DB::Table('stores as S')->leftJoin('orders_pos as O','O.userId','=','S.userId')
+                ->select(DB::raw('SUM(O.totalAmount) as totalAmount'))->whereDate('O.created_at', Carbon::today())
+                ->where('S.id', $storeId)
+                ->get();
+		
+		$revenue = $revenue[0]->totalAmount;
+
+		return view('admin.storereports.index',compact('storeId', 'orderplaced','storedata','todayorderCount','allorderCount','allcustomer','revenue'));
     }
 	
 	public function salesreports($storeId)
@@ -433,9 +473,7 @@ class StoreReportsController extends Controller
     }
 	
 	public function purchasereports($storeId)
-    {      
-		$type = "productcustom";
-		
+    {
 		if(isset($_GET['start']))
 			$startDate = $_GET['start'];
 		else
@@ -458,11 +496,13 @@ class StoreReportsController extends Controller
 		
 	    $totalSumAmount = 0;
 
+		/*
         $queryData = DB::table('reports')
                 //->select('productName','price',DB::raw('ROUND((SUM(price)*quantity),2) as totalamount'),DB::raw('ROUND((SUM(price)),2) as totalPrice'), DB::raw('ROUND((SUM(quantity) - SUM(refundQuantity)),2) as qty'),DB::raw('ROUND((SUM(total) - SUM(refundTotal)),2) as totalAmount'))
                 ->select('productName','price')
                 ->where('storeId',$storeId);
         
+		
         if($type == 'producttoday') {
 
             $checkDate = Carbon::now()->toDateString();
@@ -500,22 +540,52 @@ class StoreReportsController extends Controller
             $fromDate = $customStartDate;
             $toDate = $customEndDate;
         }
+		*/
+		
+		$fromDate = $customStartDate;
+        $toDate = $customEndDate;
+			
+		$queryData = DB::table('vendorinvoice')
+                //->select('productName','price',DB::raw('ROUND((SUM(price)*quantity),2) as totalamount'),DB::raw('ROUND((SUM(price)),2) as totalPrice'), DB::raw('ROUND((SUM(quantity) - SUM(refundQuantity)),2) as qty'),DB::raw('ROUND((SUM(total) - SUM(refundTotal)),2) as totalAmount'))
+                ->select('vendorDetail','vatAmount','totalAmount','invoiceDate','invoiceNumber')
+                ->where('storeId',$storeId);
         
         $completeData = $queryData->get();
+
+		//print_r($completeData[0]->vendorDetail);
+		//$completeData = json_decode($completeData->vendorDetail, true);
+		//$completeData = count($completeData);
+		//print_r($completeData);
+
+		//die;
+		//print_r($completeData);
+		//die;
         
-        foreach($completeData as $data) 
-        {
-            //$totalSumAmount += $data->totalAmount;
-        }
+       
+			//print_r($vendorDetailData);
+			//print_r('<br>');
+			//die;
+		//print_r($vendorDetailData);
+		/*
+		foreach($vendorDetailData as $key=>$xyz) 
+		{
+			print_r($xyz);
+
+			//$totalSumAmount += $data->totalAmount;
+		}
+		
+		die;*/
 
         $queryData = $queryData->paginate(10);
-        
+		
         $results['productdata'] = $queryData;
         $results['fromDate'] = $fromDate;
         $results['toDate'] = $toDate;
         $results['totalSumAmount'] = round($totalSumAmount,2);
 
-		return view('admin.storereports.purchasereports',compact('storeId','results'));
+		
+		
+		return view('admin.storereports.purchasereports',compact('storeId','results','completeData'));
     }
 	
 	public function inventoryreports($storeId)
@@ -627,7 +697,7 @@ class StoreReportsController extends Controller
 	    ->where('storeId','=',$storeId)->first();
 	    
 	    $resultsOther = DB::table('orders_pos')->select(DB::raw('Count(id) as otherCount'), DB::raw('SUM(totalAmount - refundTotalAmount) as otherAmount'))
-	    ->where('paymentStatus', '=', 'Other')
+	    ->where('paymentStatus', '=', 'CREDIT')
 	    ->whereBetween(DB::raw('Date(created_at)'), [$customStartDate, $customEndDate])
 	    ->where('storeId','=',$storeId)->first();
 
@@ -655,6 +725,7 @@ class StoreReportsController extends Controller
 	
 	public function cashierreports($storeId)
     {
+		
 		if(isset($_GET['start']))
 			$startDate = $_GET['start'];
 		else
@@ -692,5 +763,47 @@ class StoreReportsController extends Controller
 	    $results = $results->groupBy('Name', 'userId', 'U.contactNumber', 'U.email')->get();
 		
 		return view('admin.storereports.cashierreports',compact('storeId','results','startDate','endDate','search'));
+    }
+
+	public function profitlossreports($storeId)
+    {
+		
+		if(isset($_GET['start']))
+			$startDate = $_GET['start'];
+		else
+			$startDate = '';
+		
+		if(isset($_GET['end']))
+			$endDate = $_GET['end'];
+		else
+			$endDate = '';
+		
+	    if(isset($_GET['search']))
+			$search = $_GET['search'];
+		else
+			$search = '';
+	    
+	    $customStartDate = $startDate . ' 00:00:00';
+		$customEndDate = $endDate . ' 23:59:59';
+		
+	    if(empty($startDate)) {
+	        $customStartDate = new Carbon('first day of January 2021');
+	    }
+	        
+	    if(empty($endDate))
+	        $customEndDate = Carbon::now()->toDateString() . ' 23:59:59';
+		
+	    $results = DB::table('cashier as C')->select(DB::raw('CONCAT(U.firstName, " ", U.lastName) AS Name'), 'U.id as userId', 'U.contactNumber', 'U.email', DB::raw('Count(O.id) as billCount'), DB::raw('SUM(O.totalAmount - O.refundTotalAmount) as totalSales'))
+	    ->leftJoin('users as U','U.id','=','C.userId')
+	    ->leftJoin('orders_pos as O','O.userId','=','C.userId')
+	    ->whereBetween(DB::raw('Date(O.created_at)'), [$customStartDate, $customEndDate])
+	    ->where('C.storeId','=',$storeId);
+	    
+	    if(!empty($search))
+		    $results = $results->where('U.firstName', 'LIKE', $search.'%');
+		    
+	    $results = $results->groupBy('Name', 'userId', 'U.contactNumber', 'U.email')->get();
+		
+		return view('admin.storereports.profitlossreports',compact('storeId','results','startDate','endDate','search'));
     }
 }

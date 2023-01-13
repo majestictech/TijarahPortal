@@ -9,7 +9,7 @@ helper::checkUserURLAccess('vat_manage','vat_add');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/vat')}}"><i class="bx bx-box"></i> {{ __('lang.vat')}}</a>
 				</li>
@@ -30,11 +30,14 @@ helper::checkUserURLAccess('vat_manage','vat_add');
 				</div>
 				<hr>
 				<form class="row g-3 pt-3" method="post" action="{{route('vat.store')}}" data-toggle="validator">
+				@if($errors->any())
+				<h4 class="error_msg">{{$errors->first()}}</h4>
+				@endif
 				@csrf
 					<div class="col-md-12 ">
 						<label for="name" class="form-label">{{ __('lang.name')}} *</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-box'></i></span>
-							<input type="text" autofocus="autofocus" name="name" class="form-control border-start-0" id="name" placeholder="{{ __('lang.entername')}}" required>
+							<input type="text" autofocus="autofocus" name="name" class="form-control border-start-0" id="name" placeholder="{{ __('lang.entername')}}" value="{{old('name')}}" required>
 						</div>
 					</div>
 					
@@ -42,7 +45,7 @@ helper::checkUserURLAccess('vat_manage','vat_add');
 					<div class="col-md-12">
 						<label for="value" class="form-label">{{ __('lang.vat')}} *</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-comment-detail' ></i></span>
-							<input type="number" name="value" class="form-control border-start-0" id="value" placeholder="{{ __('lang.entervatpercent')}}" required>
+							<input type="number" name="value" class="form-control border-start-0" id="value" placeholder="{{ __('lang.entervatpercent')}}" value="{{old('value')}}" required>
 						</div>
 					</div>
 					

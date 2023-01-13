@@ -8,7 +8,7 @@ helper::checkUserURLAccess('cat_manage','cat_edit');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/category')}}"><i class="bx bx-category"></i> {{ __('lang.category')}}</a>
 				</li>
@@ -29,6 +29,9 @@ helper::checkUserURLAccess('cat_manage','cat_edit');
 				</div>
 				<hr>
 				<form class="row g-3 pt-3" data-toggle="validator" method="post" action="{{route('category.update')}}" enctype="multipart/form-data">
+				@if($errors->any())
+				<h4 class="error_msg">{{$errors->first()}}</h4>
+				@endif
 						@csrf
                             <div class="col-md-6 ">
 								<label for="storename" class="form-label">{{ __('lang.categoryname')}} *</label>

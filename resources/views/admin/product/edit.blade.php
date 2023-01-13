@@ -127,7 +127,7 @@ helper::checkUserURLAccess('store_manage','store_inventory');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				@if(Auth::user()->roleId != 4)
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/store')}}"><i class="bx bx-store-alt"></i> {{ __('lang.stores')}}</a>
@@ -150,6 +150,9 @@ helper::checkUserURLAccess('store_manage','store_inventory');
 				</div>
 				<hr>
                         <form class="row g-3 pt-3" method="post" enctype="multipart/form-data" action="{{route('product.update')}}" data-toggle="validator">
+						@if($errors->any())
+				<h4 class="error_msg">{{$errors->first()}}</h4>
+				@endif
 						@csrf
 						<div class="col-md-12">
 							<label for="productname" class="form-label">{{ __('lang.productname')}} *</label>

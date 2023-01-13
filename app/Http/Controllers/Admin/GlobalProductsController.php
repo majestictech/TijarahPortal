@@ -167,8 +167,20 @@ class GlobalProductsController extends Controller
 	
 	public function update(Request $request)
     {
+
+		$product = new ProductGlobal;
+		$this->validate($request, [
+			'name'=> 'required',
+			//'arabicname'=> 'required',
+			'barCode'=> 'required',
+			'sellingPrice'=> 'required',
+			'taxClassId'=> 'required'
+		   ]);
+
 		$product = ProductGlobal::find($request->input('id'));
         $product->name = $request->name;
+       // $product->name_ar = $request->arabicname;
+        //$product->name_ar = $request->arabicname;
 		$product->code = $request->code;
 		$product->barCode = $request->barCode;
 		$product->storeId = $request->storeId;

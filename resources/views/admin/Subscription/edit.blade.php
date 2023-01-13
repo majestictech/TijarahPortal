@@ -9,7 +9,7 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_edit');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/subscription')}}"><i class="bx bx-notepad"></i> {{ __('lang.subscription')}}</a>
 				</li>
@@ -31,7 +31,7 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_edit');
 				<hr>
 				<form class="row g-3 pt-3" data-toggle="validator" method="post" action="{{route('subscription.update')}}" >
 				@csrf
-				<div class="col-md-6 ">
+					<div class="col-md-6 ">
 						<label for="subscriptionExpiry" class="form-label">Subcription Plan</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-tag' ></i></span>
 							<input type="text" required name="plan" class="form-control border-start-0" id="plan"  value="{{$subscriptionData->plan}}" placeholder="Subcription Plan">
@@ -46,14 +46,23 @@ helper::checkUserURLAccess('subadmin_manage','subadmin_edit');
 					</div>
 					
 					<div class="col-md-6">
-						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
+						<!--<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
 						<select name="durationId" class="form-control" id="durationId"  required>
 							<option value="">{{ __('lang.selectmonth')}}</option>
 								@foreach($durations as $key=>$value)
 									<option value="{{$value->id}}" {{ ( $value->id == $subscriptionData->duration_id) ? 'selected' : '' }}
 									>{{$value->duration}}</option>
 								@endforeach	
-						</select>
+						</select> -->
+
+						<label for="subscriptionplans" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
+						<div class="input-group">
+							<select name="duration" class="form-select single-select" id="durationId">
+							@foreach($durations as $key=>$value)
+								<option value="{{$value->id}}" {{ ( $value->id == $subscriptionData->duration_id) ? 'selected' : '' }}> {{$value->duration}}</option>
+								@endforeach		
+							</select>
+						 </div>
 					</div>
 				
 					

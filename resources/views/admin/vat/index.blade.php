@@ -10,7 +10,7 @@ helper::checkUserURLAccess('vat_manage','');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-box"></i> {{ __('lang.vat')}}</li>
 			</ol>
@@ -62,7 +62,8 @@ helper::checkUserURLAccess('vat_manage','');
 					@endforeach
 					</tbody>
 				</table>
-		
+
+
 			</div>
 		</div>
 	</div>
@@ -72,10 +73,12 @@ helper::checkUserURLAccess('vat_manage','');
 @include('admin.layout.footer')
 <script>
 var table = $('#myTable').DataTable({
-   "order": [[ 1, "asc" ]],
+   "order": [[ 2, "asc" ]],
               'columnDefs': [{
                     "targets": [0,2],
                     "orderable": false
                 }]
           });
 </script>
+
+

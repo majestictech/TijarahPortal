@@ -54,14 +54,17 @@
 									</div>
 									<div class="form-body">
 										<form class="row g-3" method="POST" action="{{ route('login') }}">
-										@csrf
-										
+										@if($errors->any())
+											<h4 class="error_msg">{{$errors->first()}}</h4>
+										@endif
+										<!--
 										@if ($errors->has('email'))
                                             <span class="invalid-feedback">
                                                 <strong>{{ $errors->first('email') }}</strong>
                                             </span>
                                         @endif
-										
+										-->
+										@csrf
 											<div class="col-12">
 												<label for="inputEmailAddress" class="form-label">Email Address</label>
 												<input type="email" name="email" class="form-control" id="inputEmailAddress" required autofocus placeholder="Email Address">

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Helpers\AppHelper as Helper;
 use DB;
 use App\User;
+use App\Vendor;
 use App\Country;
 use App\UserRole;
 use App\StoreVendor;
@@ -16,22 +17,26 @@ class VendorController extends Controller
 {
 	public function index()
     {  
-        $vendors = DB::Table('storeVendors as V')->leftJoin('stores', 'stores.id', '=', 'V.storeId')->select('stores.storeName','V.id','V.vendorName','V.contactNumber','V.email')->orderBy('V.id', 'DESC')->get();
+		//die;
+        $vendors = DB::Table('storeVendors as V')->leftJoin('stores', 'stores.id', '=', 'V.storeId')->select('stores.storeName','V.id','V.vendorName','V.contactNumber','V.email')->orderBy('V.id', 'DESC')->paginate(10);
 		    
 		 $vendorcount=count($vendors);
 	  return view('admin.vendor.index',compact('vendors','vendorcount'));
     }
 	
-    public function create()
+    public function create($id)
     {   
 		$country = Country::orderBy('id', 'DESC')->get();
-		return view('admin.vendor.create',compact('country'));
+		return view('admin.vendor.create',compact('country', 'id'));
     }
     
-    	    public function storeindex($storeId)
+	public function storeindex($storeId)
     {     
-		$vendors = new StoreVendor;
+		//die;
 		$storeId = helper::getStoreId();
+		
+		$vendors = new StoreVendor;
+		
 		
 		$vendors = DB::Table('storeVendors as S')->leftJoin('stores', 'stores.id', '=', 'V.storeId')
 		->select('stores.storeName','V.id','V.vendorName','V.contactNumber','V.email')
@@ -40,12 +45,37 @@ class VendorController extends Controller
 		
 		return view('admin.vendor.index', compact('vendors','storeId'));
     }
-    
+
     
     
 	public function store(Request $request)
     {    
-        $user = new User;
+		
+
+		$vendorstore = new StoreVendor;
+
+		$this->validate($request, [
+			'vendorName'=>'unique:storeVendors,vendorName|required',
+			'VatNumber'=>'required',
+			'email' => [
+				'required',
+				'unique:users,email',
+			 ],
+			'contactNumber'=> 'unique:users,contactNumber|min:6|max:9|required',
+		]);
+
+	    $vendorstore->vendorName = $request->vendorName;
+		
+		$vendorstore->email = $request->email;
+	   
+		$vendorstore->contactNumber = $request->contactNumber;
+	    $vendorstore->VatNumber = $request->VatNumber;
+	    $vendorstore->storeId = $request->storeId;
+	    $vendorstore->save();	
+		Helper::addToLog('vendorAdd',$request->firstName);
+		return redirect('admin/vendor/' . $request->storeId); 
+		
+        /*$user = new User;
         $vendor = new Vendor;
         $userrole = new UserRole;
 		
@@ -77,7 +107,11 @@ class VendorController extends Controller
             //error msg
             return Redirect::back()->withErrors(['Something went wrong.']);
         }
-        //return redirect('admin/vendor');             
+		Helper::addToLog('vendorAdd',$request->firstName);
+		*/
+        //return redirect('admin/vendor');     
+		
+		
     }
     
 	public function destroy($id)
@@ -91,6 +125,8 @@ class VendorController extends Controller
 		$roleData = UserRole::select('id')->where('userId',$userId);
         $userData->delete();
         $roleData->delete();
+
+		Helper::addToLog('vendorAdd',$vendorData->firstName);
 		return redirect('admin/vendor');  
 		
     }
@@ -133,7 +169,7 @@ class VendorController extends Controller
 		$vendor->description = $request->description;	
         $vendor->save(); 
         
-        Helper::addToLog('vendorEdit');
+        Helper::addToLog('vendorEdit',$request->firstName);
  
         return redirect('admin/vendor');  
     }

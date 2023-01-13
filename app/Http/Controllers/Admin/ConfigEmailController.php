@@ -73,13 +73,17 @@ class ConfigEmailController extends Controller
 	
 	
 	 public function create($id)
-    {      
+    {     
+		
 		return view('admin.configemail.create');
     }
 	
 		public function edit($id)	
     {
+		
+		
 		$stores = DB::Table('stores as CE')
+		
 		->select('CE.id','CE.lowInventory','CE.dayEndReport','CE.allReport')
 		->where('CE.id', $id)->get();
 		$stores = $stores[0];
@@ -93,6 +97,11 @@ class ConfigEmailController extends Controller
 	
     public function update(Request $request)
     {
+		$this->validate($request, [
+			'lowInventory'=> 'required',
+		   'dayEndReport'=> 'required',
+		   'allReport'=> 'required'
+		]);
 		$stores = new Store;
 		$stores = Store::find($request->input('id'));
 		

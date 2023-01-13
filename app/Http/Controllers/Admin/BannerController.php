@@ -72,7 +72,7 @@ class BannerController extends Controller
 		
 		
         $banner->save();
-
+		Helper::addToLog('bannerAdd',$request->category);
         return redirect('admin/banner'); 
    
 	}
@@ -81,6 +81,7 @@ class BannerController extends Controller
     {
         $BannerData = Banner::find($id);
         $BannerData->delete();
+		Helper::addToLog('bannerDelete',$BannerData->category);
 		 return redirect('admin/banner'); 
     }	
 	
@@ -122,7 +123,7 @@ class BannerController extends Controller
 		
         $banner->save(); 
 		
-		
+		Helper::addToLog('bannerEdit',$request->category);
         return redirect()->route('banner.index')->with('info','Banner Updated Successfully');
     }
 

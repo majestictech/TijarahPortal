@@ -10,26 +10,36 @@ use App\Http\Controllers\Controller;
 use App\Settings;
 use DB;
 use App\StoreType;
+use App\StoreTypeCategory;
 
 class StoreTypeController extends Controller
 {
     public function create()
-    {      
+    {		
 		return view('admin.storetype.create');
     }
 
     public function index()
     {      
-
-		$storetype = StoreType::orderBy('created_at', 'DESC')->get();
+		$storetype = DB::Table('mas_storetype')
+         ->select('id','name','type')
+		->orderBy('created_at', 'DESC')->get();
         return view('admin.storetype.index', compact('storetype'));
 	}
 	
 	public function store(Request $request)
     {    
         $storetype = new StoreType;
+
+        $this->validate($request, [
+			
+            'name' => 'required',
+            'type'=> 'required'
+            
+        ]);
 		
         $storetype->name = $request->name; 	
+        $storetype->type = $request->type; 	
         $storetype->save();
         
         Helper::addToLog('storetypeAdd',$request->name);
@@ -41,13 +51,34 @@ class StoreTypeController extends Controller
 		
        //get user data
 		$storetype = StoreType::find($id);
+		
+		//$storetype = DB::Table('storetype as ST')
+         //->leftJoin('storetypecat as STC', 'STC.id', '=', 'ST.storeTypeCat')
+         //->select('STC.firstName','STC.lastName','STC.email','ST.id','users.contactNumber','users.status','C.storeId','C.shiftId', 'users.roleId', 'C.storeId')
+        //->where('C.id', $id)
+		//->get();
+		
+		
 		return view('admin.storetype.edit',compact('storetype'));
     }
 	public function update(Request $request)
     {
+
+        $storetype = new StoreType;
+       
+
+
+        $this->validate($request, [
+			
+            'name' => 'required',
+            'type' => 'required'
+            
+            ]);        
+
         //Retrieve the employee and update
-		$storetype = StoreType::find($request->input('id'));
+        $storetype = StoreType::find($request->input('id'));
         $storetype->name = $request->name; 
+		$storetype->type = $request->type; 	
         $storetype->save();  
 		
 		Helper::addToLog('storetypeEdit',$request->name);

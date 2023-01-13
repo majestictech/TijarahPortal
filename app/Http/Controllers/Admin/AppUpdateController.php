@@ -33,6 +33,13 @@ class AppUpdateController extends Controller
         */
         //$inputData['appfile'] = $request->appfile->getClientOriginalName();
         $appupdate = new AppUpdate;
+
+        $this->validate($request, [
+		    'appCode'=> 'required',
+		    'appVer'=> 'required',
+		    'appfile'=> 'required'
+		   ]);
+
         $appupdate->appCode = $request->appCode; 
         $appupdate->appVer = $request->appVer; 
         $appupdate->appType = $request->appType; 

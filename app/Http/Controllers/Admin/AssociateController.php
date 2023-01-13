@@ -9,7 +9,7 @@ use DB;
 use App\UserRole;
 use App\User;
 use Illuminate\Support\Facades\Hash;
-
+use App\Helpers\AppHelper as Helper;
 class AssociateController extends Controller
 {
     public function index()
@@ -53,7 +53,7 @@ class AssociateController extends Controller
         $user->save(); 
 
 		
-		
+		Helper::addToLog('associateAdd',$request->firstName);
         return redirect('admin/associate');             
     }
 	
@@ -65,7 +65,7 @@ class AssociateController extends Controller
 		
         $userdata->delete();
 		
-		
+		Helper::addToLog('associateDelete',$userdata->firstName);
 		return redirect('admin/associate');  
 		
     }	
@@ -101,7 +101,7 @@ class AssociateController extends Controller
 			
 		
         $user->save(); 
- 
+		Helper::addToLog('associateEdit',$request->firstName);
         return redirect('admin/associate');  
     }
 

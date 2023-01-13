@@ -12,6 +12,8 @@ use App\Helpers\AppHelper as Helper;
 use DB;
 use PDF;
 use App\Product;
+use App\ProductInventoryBatch;
+use App\InventoryLogs;
 use App\Weight;
 use App\Brand;
 use App\Tax;
@@ -40,8 +42,8 @@ class ProductController extends Controller
         //Excel::import(new ProductImport, storage_path('inventory.csv'));
         Excel::import(new ProductImport, request()->file('file'));
 		
-		
-         return redirect()->back();     
+		Helper::addToLog('productImportAdd','file');
+        	return redirect()->back();     
     }
     
     
@@ -73,21 +75,23 @@ class ProductController extends Controller
 	
     public function index()
     {   
-
+		
 		$product = new Product;
 		//$product = Product::orderBy('created_at', 'DESC')->get();
 		$product = DB::Table('products as P')->leftJoin('categories', 'categories.id', '=', 'P.categoryId')
-		->select('P.id','P.name','P.code','P.price','P.productImage','P.minOrderQty','categories.name AS catName','P.productImgBase64')
+		->select('P.id', 'P.name', 'P.code', 'P.price', 'P.productImage', 'P.minOrderQty', 'P.inventoryData', 'categories.name AS catName', 'P.productImgBase64')
 		->orderBy('P.id', 'DESC')->paginate(10);
     	$productcount= count($product);
 
-		return view('admin.product.index', compact('product','globalproduct','productcount'));
+		return view('admin.product.index', compact('product','globalproduct','productcount')); 
     }
     
     public function storeindex($storeId)
     {   
         
-        
+        die;
+        die;
+        die;
 		$product = new Product;
 		$storeId = helper::getStoreId();
 		
@@ -100,7 +104,7 @@ class ProductController extends Controller
 		return view('admin.product.index', compact('product','storeId'));
     }
     
-            public function export(Request $request) 
+     public function export(Request $request) 
     {
         return Excel::download(new ProductExport($request->storeId), 'products.xls');
     }
@@ -137,6 +141,9 @@ class ProductController extends Controller
 	public function store(Request $request)
     {
 		$product = new Product;
+
+		
+
 		$product_ar = new Product_AR;
 		
 					
@@ -215,6 +222,16 @@ class ProductController extends Controller
 	
 	public function update(Request $request)
     {
+
+		$product = new Product;
+
+		$this->validate($request, [
+			'name'=> 'required',
+			'name_ar'=> 'required',
+			'sellingPrice'=> 'required',
+			'taxClassId'=> 'required'
+		   ]);
+
 		$product = Product::find($request->input('id'));
         $product->name = $request->name;
 		$product->code = $request->code;
@@ -426,6 +443,8 @@ class ProductController extends Controller
 		$product_ml->delete();
 		$product_bn->delete();
 		
+
+		Helper::addToLog('productDelete','file');
 		return redirect()->back();
 		
     }
@@ -440,10 +459,75 @@ class ProductController extends Controller
 		return view('admin.product.view',compact('ProductData'));
 		
     }
-	 public function expirydate()
+
+
+	 public function expirydate($productId)
     {
+		//die;
+		$expiryDate = DB::Table('productInventoryBatch AS PI')
+		->select('PI.id','PI.inventory', 'PI.expiryDate')->where('PI.productId', $productId)->orderBy('id','DESC')->get();
 		
-		return view('admin.product.expirydate');
+		$ProductData = DB::Table('products')->select('storeId')->where('id', $productId)->first();
+		
+		$storeId = $ProductData->storeId;		
+		
+		return view('admin.product.expirydate',compact('expiryDate','storeId'));
     }
+
+
+
+	public function editInventory($id)
+	{
+		$stockReasons = DB::Table('mas_reason')->where('type','stock')->get();
+		// print_r($stockReason);
+		//die; 
+
+		$inventoryData = DB::Table('productInventoryBatch AS PI')
+		->select('PI.id','PI.inventory', 'PI.expiryDate')->where('PI.id',$id)->get();
+
+		//print_r($inventoryData);
+		//die;
+
+		$inventoryData = $inventoryData[0];
+		
+		return view('admin.product.stockedit',compact('inventoryData', 'stockReasons'));
+	}
+
+
+	public function updateInventory(Request $request)
+	{
+		
+		$inventoryLogs = new InventoryLogs;
+		$inventoryUpdate = ProductInventoryBatch::find($request->input('id'));
+		
+		$id =  $inventoryUpdate->productId;
+		//echo $request->inventory;
+		//die;
+		$this->validate($request, [
+			'reduceQuantity'=> 'required',
+			//'reasonId'=> 'required',
+			
+		   ]);
+		/*Inventory Logs Start  */
+		$inventoryLogs->productId = $inventoryUpdate->productId;
+		$inventoryLogs->expiryId = $inventoryUpdate->id;
+		$inventoryLogs->reduceQuantity = $request->reduceQuantity;
+		$inventoryLogs->reasonId = $request->reasonId;
+	/* 	$inventoryLogs->productId = 43;
+		$inventoryLogs->expiryId =2;
+		$inventoryLogs->reduceQuantity = 2;
+		$inventoryLogs->reasonId =2; */
+		/*Inventory Logs End  */
+
+		$inventoryUpdate->inventory = $inventoryUpdate->inventory - $request->reduceQuantity;
+		//$inventoryUpdate->reasonId = $request->reasonId;
+		$inventoryUpdate->id = $request->id;
+		//die;
+		$inventoryUpdate->save();
+		$inventoryLogs->save();
+		
+		Helper::addToLog('inventoryEdit',$request->inventory);
+		return redirect('admin/product/expirydate/'.$id); 
+	}
 	
 }

@@ -89,14 +89,14 @@ function page_url(){
 				<a href="{{url('admin')}}">
 					<div class="parent-icon"><i class="bx bx-layout"></i>
 					</div>
-					<div class="menu-title">{{ __('lang.dashboards')}}</div>
+					<div class="menu-title">{{ __('lang.dashboard')}}</div>
 				</a>
 			</li>
 			
 		    <?php if(Auth::user()->roleId == 1 ){?>
 		    	<li>
 					<a href="{{url('/admin/userroles')}}">
-						<div class="parent-icon"><i class="bx bx-book-content"></i>
+						<div class="parent-icon"><i class="bx bx-user-circle"></i>
 						</div>
 						<div class="menu-title">{{ __('lang.userroles')}}</div>
 					</a>
@@ -113,6 +113,7 @@ function page_url(){
 				</li>
 			@endif
 			
+			<?php if(Auth::user()->roleId != 11 ){?>
 			@if(helper::checkUserRights('store_manage'))
 			   	<li>
 					<a href="{{url('/admin/store')}}">
@@ -123,6 +124,19 @@ function page_url(){
 				</li>
 			
 			@endif
+			<?php } ?>
+
+			<?php if(Auth::user()->roleId == 11 ){?>
+			   	<li>
+					<a href="{{url('/admin/chainstores')}}">
+						<div class="parent-icon"><i class="fadeIn animated bx bx-store-alt"></i>
+						</div>
+						<div class="menu-title">{{ __('lang.chainstores')}}</div>
+					</a>
+				</li>
+			<?php } ?>
+			
+
 			
 			@if(helper::checkUserRights('cat_manage'))
 			    <li>
@@ -256,7 +270,7 @@ function page_url(){
 			@if(helper::checkUserRights('loyaltypoint_manage'))
     		    <li>
 					<a href="{{url('/admin/loyaltyhistory')}}">
-						<div class="parent-icon"><i class="fadeIn animated bx bx-hive"></i>
+						<div class="parent-icon"><i class="fadeIn animated bx bx-layer"></i>
 						</div>
 						<div class="menu-title">{{ __('lang.loyaltypointshistory')}}</div>
 					</a>
@@ -343,17 +357,28 @@ function page_url(){
 			    <li class="menu-label">{{ __('lang.appupdate')}}</li>
 				<li>
 					<a href="{{url('/admin/appupdate/create')}}">
-						<div class="parent-icon"><i class="fadeIn animated bx bx-user-circle"></i>
+						<div class="parent-icon"><i class="fadeIn animated bx bx-devices"></i>
 						</div>
 						<div class="menu-title">{{ __('lang.appupdate')}}</div>
 					</a>
 				</li>
 			@endif
 				
-			
-			<li class="menu-label">{{ __('lang.settings')}}</li>
+			<?php if(Auth::user()->roleId != 11 ){?>
+				<li class="menu-label">{{ __('lang.settings')}}</li>
+			<?php } ?>
 			<!-- AdminManagement Starts -->
-				<?php if(Auth::user()->roleId == 1 ){?>
+			<?php if(Auth::user()->roleId == 1 || Auth::user()->roleId == 2 ){?>
+				<li>
+					<a href="{{url('admin/usersmanagement')}}">
+						<div class="parent-icon"><i class="fadeIn animated bx bxs-user-detail"></i>
+						</div>
+						<div class="menu-title">{{ __('lang.usersmanagement')}}</div>
+					</a>
+				</li>
+				<?php } ?>
+
+			<!-- AdminManagement Starts 
 				<li>
 					<a href="{{url('/admin/adminmanagement')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-user-circle"></i>
@@ -361,8 +386,8 @@ function page_url(){
 						<div class="menu-title">{{ __('lang.adminmanagement')}}</div>
 					</a>
 				</li>
-				<?php } ?>
-				<!-- Subadmin Starts -->
+				
+				// Subadmin Starts 
 				@if(helper::checkUserRights('subadmin_manage'))	
 				<li>
 					<a href="{{url('/admin/subadmin')}}">
@@ -372,6 +397,7 @@ function page_url(){
 					</a>
 				</li>
 			@endif
+			 Subadmin End -->
 			@if(helper::checkUserRights('notifications_manage'))	
 				<li>
 					<a href="{{url('/admin/pushnotification/create')}}">
@@ -382,7 +408,7 @@ function page_url(){
 				</li>
 			@endif
 			@if(helper::checkUserRights('faq_manage'))	
-				<!-- Subadmin Starts -->
+				
 				<li>
 					<a href="{{url('/admin/faq')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-help-circle"></i>
@@ -531,6 +557,8 @@ function page_url(){
 											<div class="d-flex align-items-center">
 												<div class="notify bg-light-danger text-danger"><i class="bx bx-cart-alt"></i>
 												</div>
+									
+									
 												<div class="flex-grow-1">
 													<h6 class="msg-name">New Orders <span class="msg-time float-end">2 min
 												ago</span></h6>
@@ -775,7 +803,7 @@ function page_url(){
 					</div>
 					<div class="user-box dropdown">
 						<a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<img src="{{ URL::asset('public/assets/images/avatars/avatar-2.png') }}" class="user-img" alt="user avatar">
+							<img src="{{ URL::asset('public/assets/images/avatars/avatar-26.jpg') }}" class="user-img" alt="user avatar">
 							<div class="user-info ps-3">
 								<p class="user-name mb-0"><?php echo auth()->user()->firstName . " " . auth()->user()->lastName; ?></p>
 								<p class="designattion mb-0"><?php echo auth()->user()->email; ?></p>

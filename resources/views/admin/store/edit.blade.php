@@ -9,7 +9,7 @@ helper::checkUserURLAccess('store_manage','store_edit');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/store')}}"><i class="bx bx-store-alt"></i> {{ __('lang.stores')}}</a>
 				</li>
@@ -30,6 +30,9 @@ helper::checkUserURLAccess('store_manage','store_edit');
 				</div>
 				<hr>
 				<form class="row g-3 pt-3" method="post" action="{{route('store.update')}}" data-toggle="validator">
+				@if($errors->any())
+				<h4 class="error_msg">{{$errors->first()}}</h4>
+				@endif
 				@csrf
 					<div class="col-md-6 ">
 						<label for="storename" class="form-label">{{ __('lang.storename')}} *</label>
@@ -168,7 +171,8 @@ helper::checkUserURLAccess('store_manage','store_edit');
 						</div>
 					</div>
 					
-					<div class="col-md-6">
+					@if(Auth::user()->roleId != '11')
+					<div class="col-md-6" >
 						<div class="form-group ">
 							  <label>{{ __('lang.autoglobalcat')}} *</label><br/>
 							  <input class="radio-input mr-2" type="radio" id="yes" value="yes" name="autoGlobalCat" <?php if(isset($stores)){ if('Yes' == $stores->autoGlobalCat){ echo "checked"; } } ?>>
@@ -182,6 +186,9 @@ helper::checkUserURLAccess('store_manage','store_edit');
 							  </label>
 						</div>
 					</div>
+					@else
+						<input type="hidden" name="autoGlobalCat" value="yes" />
+					@endif
 
 					<div class="col-md-6">
 						<div class="form-group ">
@@ -225,6 +232,7 @@ helper::checkUserURLAccess('store_manage','store_edit');
     						</div>
     					</div>
     				@else
+						@if(Auth::user()->roleId != '11')
      					<div class="col-md-6">
     						<div class="form-group ">
     							  <label>{{ __('lang.autoglobalitems')}}</label><br/>
@@ -238,7 +246,11 @@ helper::checkUserURLAccess('store_manage','store_edit');
     								{{ __('lang.no')}}
     							  </label>
     						</div>
-    					</div>   				
+    					</div>
+						@else
+						<input type="hidden" name="autoGlobalItems" value="no" />
+						@endif
+						
     				@endif
 					
 					
@@ -352,23 +364,30 @@ helper::checkUserURLAccess('store_manage','store_edit');
 					-->
 					
 					
-
+					@if(Auth::user()->roleId != '11')
 					<div class="col-md-6">
 						<label for="stores" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
-						<select name="subscriptionPlanId" class="form-control" id="subscriptionPlanId"  required>
+						<select name="subscriptionPlanId" class="form-control" id="subscriptionPlanId" >
 							<option value="">{{ __('lang.selectplan')}}</option>
 								@foreach($subscriptionPlans as $key=>$value)
 									<option value="{{$value->id}}" {{ ( $value->id == $stores->subscriptionPlanId) ? 'selected' : '' }}> {{$value->plan}} - {{$value->duration}}</option>
 								@endforeach	
 						</select>
-					</div>
+					</div> 
+					@else
+						<input type="hidden" name="subscriptionPlanId" value="{{$subscriptionPlanId}}" />
+					@endif
 					
+					@if(Auth::user()->roleId != '11')
 					<div class="col-6">
 						<label for="subscriptionExpiry" class="form-label">{{ __('lang.subscriptionExpiry')}}</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-tag' ></i></span>
-							<input type="date" required value="{{ old('subscriptionExpiry') }}" name="subscriptionExpiry" class="form-control border-start-0" id="subscriptionExpiry" value="{{$stores->subscriptionExpiry}}" placeholder="{{ __('lang.subscriptionExpiry')}}">
+							<input type="date" required name="subscriptionExpiry" class="form-control border-start-0" id="subscriptionExpiry" value="{{$stores->subscriptionExpiry}}" placeholder="{{ __('lang.subscriptionExpiry')}}">
 						</div>
 					</div>
+					@else
+						<input type="hidden" name="subscriptionExpiry" value="{{$subscriptionExpiryDate}}" />
+					@endif
 					
 					 <div class="col-6">
 						<label for="storeType" class="form-label">{{ __('lang.appVersion')}} *</label>

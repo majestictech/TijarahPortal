@@ -10,7 +10,7 @@ helper::checkUserURLAccess('storetype_manage','');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page"><i class="bx bx-store-alt"></i> {{ __('lang.storetype')}}</li>
 			</ol>
@@ -35,6 +35,7 @@ helper::checkUserURLAccess('storetype_manage','');
 					<thead>
 						<tr>
 							<th scope="col">{{ __('lang.storetype')}}</th>
+							<th scope="col">{{ __('lang.type')}}</th>
 							<th scope="col" width="15%">{{ __('lang.action')}}</th>
 						</tr>
 					</thead>
@@ -42,6 +43,7 @@ helper::checkUserURLAccess('storetype_manage','');
 					@foreach($storetype as $key =>$storetypedata)
 						<tr>
                             <td>{{$storetypedata->name}}</td>
+                            <td>{{$storetypedata->type}}</td>
                             <td>
 								<div class="btn-group">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
@@ -56,6 +58,7 @@ helper::checkUserURLAccess('storetype_manage','');
 									
 									</div>
 								</div>
+								
 							</td>
 						</tr>
 					@endforeach
@@ -71,9 +74,9 @@ helper::checkUserURLAccess('storetype_manage','');
 @include('admin.layout.footer')
 <script>
 var table = $('#myTable').DataTable({
-   "order": [[ 0, "asc" ]],
+   "order": [[ 2, "asc" ]],
               'columnDefs': [{
-                    "targets": [1],
+                    "targets": [2],
                     "orderable": false
                 }]
           });

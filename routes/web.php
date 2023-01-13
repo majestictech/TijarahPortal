@@ -30,15 +30,24 @@ Route::get('/', 'Admin\AdminIndexController@index');
 
 Auth::routes();
 
-//Route::group(['middleware' => ['auth']], function() {
-	Route::group(['middleware' => 'auth.admin'], function () {
+Route::group(['middleware' => ['auth']], function() {
+	//Route::group(['middleware' => 'auth.admin'], function () {
     // your routes
-
+/* this is test 
+content 
+for git */
 	Route::get('admin/settings', 'Admin\SettingsController@index')->name('settings.index');
 	Route::get('admin/settings/{id}/edit', 'Admin\SettingsController@edit')->name('settings.edit');
 	Route::post('admin/settings/update','Admin\SettingsController@update')->name('settings.update');
 	
-
+	//-------------- Users-Management---------------
+	Route::get('admin/usersmanagement','Admin\UsersManagementController@index')->name('usersmanagement.index');
+	Route::get('admin/usersmanagement/create','Admin\UsersManagementController@create')->name('usersmanagement.create');
+	Route::post('admin/usersmanagement/create','Admin\UsersManagementController@store')->name('usersmanagement.store');
+	Route::get('admin/usersmanagement/{id}/edit','Admin\UsersManagementController@edit')->name('usersmanagement.edit');
+	Route::post('admin/usersmanagement/update','Admin\UsersManagementController@update')->name('usersmanagement.update');
+	
+	/*
 	//-------------- Admin-Management---------------
 	Route::get('admin/adminmanagement', 'Admin\AdminManagementController@index')->name('adminmanagement.index');
 	Route::get('admin/adminmanagement/create','Admin\AdminManagementController@create')->name('adminmanagement.create');
@@ -56,7 +65,7 @@ Auth::routes();
 	Route::post('admin/subadmin/update','Admin\SubAdminController@update')->name('subadmin.update');
 	Route::get('admin/subadmin/{id}/view','Admin\SubAdminController@view')->name('subadmin.view');
 	
-
+	*/
 	
 		//-------------- Associate ---------------
 	
@@ -104,7 +113,9 @@ Auth::routes();
 	Route::get('admin/store/{id}/disable','Admin\StoreController@disableStore');
 	Route::get('admin/store/{id}/enable','Admin\StoreController@enableStore');
 	Route::get('admin/store/lowinventoryemail', 'Admin\StoreController@lowinventoryemail');
+
 	
+	Route::get('admin/chainstores', 'Admin\StoreController@index');
 	
 		//----------- StoreType-------------------------------------
 	
@@ -215,6 +226,10 @@ Auth::routes();
 	//----------------Invoice----------------------------------
 
 	Route::get('admin/invoice/create/{id}', 'Admin\InvoiceController@create')->name('invoice.create');
+	Route::post('admin/invoice/fetchProduct', 'Admin\InvoiceController@fetchProduct')->name('fetchProduct');
+	
+	//Route::post('/fetchProduct', [InvoiceController::class, 'fetchProduct'])->name('fetchProduct');
+
 	Route::post('admin/invoice/create','Admin\InvoiceController@store')->name('invoice.store');
 	Route::get('admin/invoice', 'Admin\InvoiceController@index')->name('invoice.index');
 	
@@ -246,8 +261,9 @@ Auth::routes();
 	Route::post('admin/product/import', 'Admin\ProductController@import')->name('product.import');
     Route::get('admin/product/{id}/delete','Admin\ProductController@destroy')->name('product.destroy');
 	
-	Route::get('admin/product/expirydate','Admin\ProductController@expirydate')->name('product.expirydate');
-    
+	Route::get('admin/product/expirydate/{id}/edit','Admin\ProductController@editInventory')->name('product.expirydate.edit');
+	Route::get('admin/product/expirydate/{id}','Admin\ProductController@expirydate')->name('product.expirydate');
+	Route::post('admin/product/expirydate/update','Admin\ProductController@updateInventory')->name('expirydate.update');	
     //----------------Global Product----------------------------------
     
   // Route::get('admin/globalproducts/globalimport', 'Admin\GlobalProductsController@globalimport')->name('product.globalimport');
@@ -275,8 +291,18 @@ Auth::routes();
 	Route::post('admin/customerscreen/update','Admin\CustomerScreenController@update')->name('customerscreen.update');
 	
 	
+	//-------------- Manage Users ---------------
+	/*
+	Route::get('admin/manageusers', 'Admin\ManageUsersController@index')->name('manageusers.index');
+	Route::get('admin/manageusers/create','Admin\ManageUsersController@create')->name('manageusers.create');
+	Route::get('admin/manageusers/{id}/edit','Admin\ManageUsersController@edit')->name('manageusers.edit');
+	Route::post('admin/manageusers/store','Admin\ManageUsersController@store')->name('manageusers.store');
+	Route::post('admin/manageusers/update','Admin\ManageUsersController@update')->name('manageusers.update');
+	*/
+
 	
-		//-------------- Cashier ---------------
+
+	//--------------   Cashier---------------
 	
 	Route::get('admin/cashier', 'Admin\CashierController@index')->name('cashier.index');
 	Route::get('admin/cashier/{id}/edit','Admin\CashierController@edit')->name('cashier.edit');
@@ -288,6 +314,17 @@ Auth::routes();
 	
 		//------------------Cashier Store-----------------------------
 	Route::get('admin/cashier/{id}', 'Admin\StoreController@cashiers');
+	Route::get('admin/manageusers/{id}', 'Admin\CashierController@storeindex');
+
+	//-------------- Manage Users ---------------
+	
+	Route::get('admin/manageusers', 'Admin\CashierController@index')->name('cashier.index');
+	Route::get('admin/manageusers/{id}/edit','Admin\CashierController@edit')->name('cashier.edit');
+	Route::get('admin/manageusers/{id}/delete','Admin\CashierController@destroy')->name('cashier.destroy');
+	Route::get('admin/manageusers/create/{id}','Admin\CashierController@create')->name('cashier.create');
+	Route::post('admin/manageusers/create','Admin\CashierController@store')->name('cashier.store');
+	Route::post('admin/manageusers/update','Admin\CashierController@update')->name('cashier.update');
+	Route::get('admin/manageusers/{id}/view','Admin\CashierController@view')->name('cashier.view');
 	
 
 		//-------------- Cashier ---------------
@@ -323,7 +360,8 @@ Auth::routes();
 	Route::get('admin/vendor', 'Admin\VendorController@index')->name('vendor.index');
 	Route::get('admin/vendor/{id}/edit','Admin\VendorController@edit')->name('vendor.edit');
 	Route::get('admin/vendor/{id}/delete','Admin\VendorController@destroy')->name('vendor.destroy');
-	Route::get('admin/vendor/create','Admin\VendorController@create')->name('vendor.create');
+	//Route::get('admin/vendor/create','Admin\VendorController@create')->name('vendor.create');
+	Route::get('admin/vendor/create/{id}','Admin\VendorController@create')->name('vendor.create');
 	Route::post('admin/vendor/create','Admin\VendorController@store')->name('vendor.store');
 	Route::post('admin/vendor/update','Admin\VendorController@update')->name('vendor.update');
 	Route::get('admin/vendor/{id}/view','Admin\VendorController@view')->name('vendor.view');
@@ -437,6 +475,7 @@ Auth::routes();
 	Route::get('admin/storereports/purchasereports/{id}', 'Admin\StoreReportsController@purchasereports');
 	Route::get('admin/storereports/mediareports/{id}', 'Admin\StoreReportsController@mediareports');
 	Route::get('admin/storereports/cashierreports/{id}', 'Admin\StoreReportsController@cashierreports');
+	Route::get('admin/storereports/profitlossreports/{id}', 'Admin\StoreReportsController@profitlossreports');
 
 	//----------------Report----------------------------------
 
@@ -603,3 +642,6 @@ Route::post('admin/appupdate/create','Admin\AppUpdateController@store')->name('a
 
 Route::get('admin/customerdisplay', 'UserController@customerdisplay');
 Route::get('admin/sliderimages', 'UserController@sliderImages');
+
+//----------- Chain Stores -------------------------------------
+	

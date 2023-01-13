@@ -9,7 +9,9 @@ helper::checkUserURLAccess('consumers_manage','consumers_edit');
 	<div class="ps-1">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb mb-0 p-0">
-				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboards')}}</a>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('admin')}}"><i class="bx bx-home-alt"></i> {{ __('lang.dashboard')}}</a>
+				</li>
+				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/store')}}"><i class="bx bx-store-alt"></i> {{ __('lang.stores')}}</a>
 				</li>
 				<li class="breadcrumb-item"><a class="text-primary" href="{{url('/admin/customer/'.$customer->sId)}}"><i class="bx bx-group"></i> {{ __('lang.customers')}}</a>
 				</li>
@@ -33,6 +35,9 @@ helper::checkUserURLAccess('consumers_manage','consumers_edit');
 				</div>
 				<hr>
 				<form class="row g-3 pt-3" method="post" action="{{route('customer.update')}}" data-toggle="validator">
+				@if($errors->any())
+				<h4 class="error_msg">{{$errors->first()}}</h4>
+				@endif
 				@csrf
 					<div class="col-md-6 ">
 						<label for="name" class="form-label">{{ __('lang.name')}} *</label>
@@ -50,7 +55,13 @@ helper::checkUserURLAccess('consumers_manage','consumers_edit');
 					<div class="col-md-6">
 						<label for="contactnumber" class="form-label">{{ __('lang.contactnumber')}} *</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent">+966</span>
-							<input type="number" name="contactNumber" class="form-control border-start-0" id="contactnumber" placeholder="{{ __('lang.contactnumber')}}" value="{{$customer->contactNumber}}" required />
+							<input type="number" name="contactNumber" class="form-control border-start-0" id="contactnumber" placeholder="{{ __('lang.contactnumber')}}" value="{{$customer->contactNumber}}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  maxlength="9" required />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<label for="customerVat" class="form-label">{{ __('lang.vatnumber')}} *</label>
+						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-tag'></i></span>
+							<input type="number" name="customerVat" class="form-control border-start-0" id="customerVat" placeholder="{{ __('lang.vatnumber')}}" value="{{$customer->customerVat}}"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  maxlength="15" minlength="15"  />
 						</div>
 					</div>
 					
@@ -64,7 +75,7 @@ helper::checkUserURLAccess('consumers_manage','consumers_edit');
 					<div class="col-md-6">
 						<label for="doa" class="form-label">{{ __('lang.doa')}}</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-id-card'></i></span>
-							<input type="date" class="form-control border-start-0" name="address" id="doa" placeholder="Date of Anniversary" value="{{$customer->doa}}" />
+							<input type="date" class="form-control border-start-0" name="doa" id="doa" placeholder="Date of Anniversary" value="{{$customer->doa}}" />
 						</div>
 					</div>
 					
@@ -75,7 +86,7 @@ helper::checkUserURLAccess('consumers_manage','consumers_edit');
 					
 					<div class="col-12">
 						<input type="hidden" name="id" value = "{{$customer->id}}">
-						<input type="hidden" name="storeId" value = "{{$customer->storeName}}" //>
+						<input type="hidden" name="storeId" value = "{{$customer->storeName}}" />
 						<button type="submit" class="btn btn-primary px-5">{{ __('lang.editcustomer')}}</button>
 						<button type="reset" class="btn btn-primary px-5">{{ __('lang.reset')}}</button>
 					</div>

@@ -10,6 +10,7 @@ use App\UserRole;
 use App\User;
 use App\Driver;
 use App\VehicleType;
+use App\Helpers\AppHelper as Helper;
 
 class DriverController extends Controller
 {
@@ -64,7 +65,7 @@ class DriverController extends Controller
 		$userrole->roleId = '5';
 		
 		$userrole->save(); 
-		
+		Helper::addToLog('driverAdd',$request->fullName);
         return redirect('admin/driver');             
     }
 	
@@ -80,6 +81,7 @@ class DriverController extends Controller
 		$roleData = UserRole::select('id')->where('userId',$userId);
         $userData->delete();
         $roleData->delete();
+		Helper::addToLog('driverDelete',$driverData->fullName);
 		return redirect('admin/driver');  
 		
     }	
@@ -125,7 +127,7 @@ class DriverController extends Controller
 		$driver->hoursOfServiceFrom = $request->hoursOfServiceFrom;
 		$driver->hoursOfServiceTo = $request->hoursOfServiceTo;	
         $driver->save(); 
- 
+		Helper::addToLog('driverEdit',$request->fullName);
         return redirect('admin/driver');  
     }
 

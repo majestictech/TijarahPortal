@@ -65,6 +65,15 @@ class CategoryController extends Controller
         //die;
         
         $category = new Category;
+
+		$this->validate($request, [
+			'name'=> 'required',
+			//'arabicname'=> 'required',
+			'catImage'=> 'required',
+			'storeType'=> 'required'
+		   ]);
+		$category->name_ar = $request->arabicname;
+
 		$catRelation = new CatRelation;
 		$category_ar = new Category_AR;
 		$category_ur = new Category_UR;
@@ -199,8 +208,16 @@ class CategoryController extends Controller
 	
 	public function update(Request $request)
     {	
+
+		$category = new Category;
+
+		$this->validate($request, [
+			'name'=> 'required',
+			//'arabicname'=> 'required',
+			'storeType'=> 'required'
+		   ]);
+		$category->name_ar = $request->arabicname;
 		$category = Category::find($request->input('id'));
-		
 		$category->name = $request->name;
 		$category->description = $request->description;
 		$category->storeType = $request->storeType;

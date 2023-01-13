@@ -48,7 +48,7 @@ class ProductExport extends DefaultValueBinder implements FromCollection, WithHe
 		->leftJoin('mas_taxclass as MTC','MTC.id','=','P.taxClassId')
 		->leftJoin('mas_weightclass as MWC','MWC.id','=','P.weightClassId')
 		->select('P.name as name_en','PAR.name as name_ar','B.brandName','P.code','P.barCode','P.sellingPrice','P.price','P.costPrice','C.name','P.weight','MWC.name as weight_class','MTC.value','P.status',
-		'P.storeId','P.splPrice','P.splPriceFrom','P.splPriceTo','P.inventory','P.minInventory','P.description','P.productTags','P.metaTitle','P.metaDescription','P.metaKeyword')
+		'P.storeId','P.splPrice','P.splPriceFrom','P.splPriceTo','P.inventory','P.inventoryData','P.minInventory','P.description','P.productTags','P.metaTitle','P.metaDescription','P.metaKeyword',)
 		->where('P.storeId','=',  $storeId)
 		->get();
 		
@@ -86,6 +86,7 @@ class ProductExport extends DefaultValueBinder implements FromCollection, WithHe
             'splPriceFrom',
             'splPriceTo',
             'Inventory',
+            'Inventory Data',
             'Min Inventory',
             'description',
             'productTags',

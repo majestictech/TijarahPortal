@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Store;
+use App\ChainStores;
 use App\User;
 use App\Country;
 use Maatwebsite\Excel\Facades\Excel;
@@ -20,6 +21,8 @@ use App\Shift;
 use App\Exports\ProductExport;
 use App\Exports\ReportExport;
 use App\Exports\ExportTest;
+
+use Illuminate\Support\Str;
 
 // For Log Activity and Other
 use App\Helpers\AppHelper as Helper;
@@ -39,9 +42,9 @@ use Hash;
 class StoreController extends Controller
 {   
     public function index(Request $request)
-    {   
-        
-        
+
+
+    {           
         
         $storetype = StoreType::orderBy('id', 'DESC')->get();
         
@@ -49,11 +52,28 @@ class StoreController extends Controller
         $storeId = $request->storeId;
         $search = $request->search;
         
-        $stores=DB::Table('stores as S')->leftJoin('mas_country as C', 'C.id', '=', 'S.countryId')->leftJoin('mas_storetype as M', 'M.id', '=', 'S.storeType')->leftJoin('users', 'users.id', '=', 'S.userId')
-           ->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'fullName'"),'S.id','M.name AS storeType','S.storeName','users.contactNumber','S.regNo','S.city','C.nicename','S.appVersion','S.deviceType','S.appType','S.shopSize','S.vatNumber','S.status','S.subscriptionExpiry');
+		if(Auth::user()->roleId != 11 ) {		
+			$stores=DB::Table('stores as S')->leftJoin('mas_country as C', 'C.id', '=', 'S.countryId')->leftJoin('mas_storetype as M', 'M.id', '=', 'S.storeType')->leftJoin('users', 'users.id', '=', 'S.userId')
+			   ->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'fullName'"),'S.id','M.name AS storeType','S.storeName','users.contactNumber','S.regNo','S.city','C.nicename','S.appVersion','S.deviceType','S.appType','S.shopSize','S.vatNumber','S.status','S.subscriptionExpiry');
+		}
+		else {
+			$parentUserId = auth()->user()->id;
+			
+			$stores=DB::Table('chainstores as CS')->leftJoin('stores as S', 'S.id', '=', 'CS.storeId')->leftJoin('mas_country as C', 'C.id', '=', 'S.countryId')->leftJoin('mas_storetype as M', 'M.id', '=', 'S.storeType')->leftJoin('users', 'users.id', '=', 'S.userId')
+           ->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'fullName'"),'S.id','M.name AS storeType','S.storeName','users.contactNumber','S.regNo','S.city','C.nicename','S.appVersion','S.deviceType','S.appType','S.shopSize','S.vatNumber','S.status','S.subscriptionExpiry')->where('CS.parentUserId', $parentUserId);
+		   //print_r($stores);
+		}
            
+
+	
         
-        if(!empty($storeId)) {
+    	
+    	
+    	
+    	
+		//print_r($stores);
+
+		if(!empty($storeId)) {
     	    $stores = $stores->where('S.id', $storeId);
     	}
     	else {
@@ -77,18 +97,24 @@ class StoreController extends Controller
             }
     		else
     		{
-        		$stores = $stores->where ('S.storeName', 'LIKE', '%' . $search . '%' )
-               ->orWhere ('users.contactNumber', 'LIKE', '%' . $search . '%' )
-               ->orWhere ('S.appVersion', 'LIKE', '%' . $search . '%' )
-               ->orWhere ('S.deviceType', 'LIKE', '%' . $search . '%' )
-               ->orWhere ('S.appType', 'LIKE', '%' . $search . '%' );
+        		
+				$stores = $stores->where(function($query) use ($search) {
+					$query->orWhere ('users.contactNumber', 'LIKE', '%' . $search . '%' )
+					->orWhere ('S.storeName', 'LIKE', '%' . $search . '%' )
+					->orWhere ('S.appVersion', 'LIKE', '%' . $search . '%' )
+					->orWhere ('S.deviceType', 'LIKE', '%' . $search . '%' )
+					->orWhere ('S.appType', 'LIKE', '%' . $search . '%' );
+				});
+				
+				
+				
     		    
     		}
     	}
-    	
-    	
-    	
-    	$stores = $stores->orderBy('S.id', 'DESC')->paginate(10);
+
+		$stores = $stores->orderBy('S.id', 'DESC')->paginate(10);
+
+		//die;
     	
     	$storecount=count($stores);
 		
@@ -99,7 +125,7 @@ class StoreController extends Controller
        
     }
   
-    
+  
     
 	public function categories($storeId)
 	{
@@ -191,37 +217,115 @@ class StoreController extends Controller
 	
 	public function products($storeId)
 	{
+		
+		$search = isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : '';
+		$search = trim($search);
+		$inventoryFilter = isset($_GET['inventoryFilter']) && !empty($_GET['inventoryFilter']) ? $_GET['inventoryFilter'] : 'instock';
+
+		
+			
+		//$search = $request->search;
+		//echo $search;
+		
+
+
+		DB::enableQueryLog();
+
+
 		$product = new Product;
 		//$product = Product::orderBy('created_at', 'DESC')->get();
 		$product = DB::Table('products as P')->leftJoin('categories', 'categories.id', '=', 'P.categoryId')
+		->select('P.id','P.name','P.code','P.price','P.productImage','P.minOrderQty','categories.name AS catName','P.productImgBase64','P.sellingPrice', 'P.status', 'P.inventory', 'P.minInventory', 'P.updated_at')
+		->where('P.storeId', $storeId);
+
 		
-		->select('P.id','P.name','P.code','P.price','P.productImage','P.minOrderQty','categories.name AS catName','P.productImgBase64','P.sellingPrice')
-		->where('P.storeId', $storeId)->get();
+		if($inventoryFilter == "Available" || $inventoryFilter == "Not Available" ) {
+			$product = $product->where('P.status',$inventoryFilter);
+		
+		}
+		else if($inventoryFilter == "lowinventory") {
+			
+			//$product = $product->where('P.minInventory','>','P.inventory')->where('P.inventory','>', 0);
+			$product = $product->whereRaw('P.inventory < P.minInventory')->where('P.inventory','>', 0);
+			//$product = $product->where('P.inventory','<', 'P.minInventory');
+			//die;
+		}
+		else if($inventoryFilter == "instock") {
+			$product = $product->where('P.inventory','>', 0);
+		}
+		else if($inventoryFilter == "outofstock") {
+			$product = $product->where('P.inventory','<=', 0);
+		}
+		
+		if(!empty($search)) {
+			$product = $product->where(function($query) use ($search) {
+				
+				$query->orWhere('P.name', 'LIKE', '%' . $search . '%' )
+				->orWhere ('P.code', 'LIKE', '%' . $search . '%' );
+			});
+		}
+		
+		//echo $inventoryFilter;
+		//echo count($product);
+		//die;
+		
+		/*
+		$query = $product->orderBy('updated_at', 'desc')->toSql();
+
+		$bindings = $product->getBindings();
+
+		$sql = Str::replaceArray('?', $bindings, $query);
+		*/
+		
+		//dd($sql);
+
+		
+		
+
+		$product = $product->orderBy('updated_at', 'desc')->paginate(10);
+
 		$productcount = count($product);
+		
+		
 		/*$imageStr = $product['productImgBase64']; // Or wherever you get your string from
         $image = base64_decode(str_replace('data:image/png;base64,', '', $imageStr));
 		$base64code = $product->getBase64Image();*/
+		
+		//dd($sql);
 
 		//print_r($productcount);
 		//die();
-		return view('admin.product.index', compact('product','storeId','productcount'));
+		return view('admin.product.index', compact('product','storeId','productcount','search', 'inventoryFilter'));
 	}
 	
 	
 	public function shifts($storeId)
 	{
+		$search = isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : '';
+
 		$shift = DB::Table('shifts as S')
 		->select('S.id','S.title','S.hoursOfServiceFrom','S.hoursOfServiceTo')
-		->where('S.storeId', $storeId)->get();
+		->where('S.storeId', $storeId);
 
-		return view('admin.shift.index', compact('shift','storeId'));
+		if(!empty($search)) {
+			$shift = $shift->where(function($query) use ($search) {
+				$query->orWhere('S.title', 'LIKE', '%' . $search . '%' )
+				->orWhere ('S.hoursOfServiceFrom', 'LIKE', '%' . $search . '%' )
+				->orWhere ('S.hoursOfServiceTo', 'LIKE', '%' . $search . '%' );
+			});
+		}
+
+		$shift = $shift->paginate(10);
+		$shiftcount = count($shift);
+
+		return view('admin.shift.index', compact('shift','storeId','shiftcount','search'));
 	}
 
 	public function purchaseorders($storeId)
 	{
 		$purchaseorder = DB::Table('vendorPurchase as P')->leftJoin('storeVendors as S','S.id','=','P.vendorId')
 		->select('P.id','S.vendorName','P.poDate','P.deliveryDate')
-		->where('P.storeId', $storeId)->get();
+		->where('P.storeId', $storeId)->paginate(10);
 
 		return view('admin.purchaseorder.index', compact('purchaseorder','storeId'));
 	}
@@ -230,13 +334,13 @@ class StoreController extends Controller
 	
     public function cashiers($storeId)
 	{
-		$cashier = DB::Table('cashiers as C')->leftJoin('users', 'users.id', '=', 'C.userId')
+		$cashier = DB::Table('cashier as C')->leftJoin('users', 'users.id', '=', 'C.userId')
 		->select('users.firstName','users.lastName','users.email','C.id','users.contactNumber','users.status')
 		->where('C.storeId', $storeId)->get();
 
 		return view('admin.cashier.index', compact('cashier','storeId'));
 	}
-	
+		
 	public function devices($storeId)
 	{
         $device = StoreDevice::where('storeId',$storeId)
@@ -248,6 +352,7 @@ class StoreController extends Controller
 
 	public function customers($storeId)
 	{
+	
 		$customer = DB::Table('customers as C')
 		->select('C.email','C.customerName' ,'C.id','C.contactNumber','C.address','C.doa','C.dob')
 		->where('C.storeName', $storeId)->get();
@@ -260,41 +365,145 @@ class StoreController extends Controller
 	
 	public function invoices($storeId)
 	{
-		$invoice = DB::Table('vendorInvoice as I')->leftJoin('storeVendors as S','S.id','=','I.vendorId')
-		->select('I.id','S.vendorName','I.invoiceNumber','I.invoiceDate')
-		->where('I.storeId', $storeId)->get();
+		//die;
+		$statusFilter = isset($_GET['statusFilter']) && !empty($_GET['statusFilter']) ? $_GET['statusFilter'] : '';
 
-		return view('admin.invoice.index', compact('invoice','storeId'));
+		$startDate = isset($_GET['startDate']) && !empty($_GET['startDate']) ? $_GET['startDate'] : '';
+		$endDate = isset($_GET['endDate']) && !empty($_GET['endDate']) ? $_GET['endDate'] : '';
+
+		$search = isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : '';
+		$search = trim($search);
+
+		$invoice = DB::Table('vendorInvoice as I')->leftJoin('storeVendors as S','S.id','=','I.vendorId')
+		->select('I.id','S.vendorName','I.invoiceNumber','I.invoiceDate','I.status', 'I.created_at')
+		->where('I.storeId', $storeId);
+
+		if(!empty($statusFilter)) {
+			$invoice = $invoice->where('I.status', $statusFilter);
+		}
+
+		if( !empty($startDate) && !empty($endDate)) {
+			$invoice = $invoice->whereBetween(DB::raw('Date(I.created_at)'),[$startDate,$endDate]);
+		}
+		if(!empty($search)) {
+			$invoice = $invoice->where(function($query) use ($search) {
+				$query->orWhere('S.vendorName', 'LIKE', '%' . $search . '%' )
+				->orWhere ('I.invoiceNumber', 'LIKE', '%' . $search . '%' )
+				->orWhere ('I.invoiceDate', 'LIKE', '%' . $search . '%' );
+			});
+		}
+
+		$invoice = $invoice->orderBy('I.id', 'DESC')->paginate(10);
+		
+		$invoicecount = count($invoice);
+		
+		return view('admin.invoice.index', compact('invoice','storeId','search', 'startDate', 'endDate', 'statusFilter'));
 	}
 	
 	public function vendors($storeId)
 	{
+		$search = isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : '';	
+		$search = trim($search);
+
 		$vendors = DB::Table('storeVendors as V')->leftJoin('stores', 'stores.id', '=', 'V.storeId')
 		->select('stores.storeName','V.id','V.vendorName','V.contactNumber','V.email')
-		->where('V.storeId', $storeId)->get();
+		->where('V.storeId', $storeId);
 
-		return view('admin.vendor.index', compact('vendors','storeId'));
+	/* 	$vendors = DB::Table('storeVendors as V')->leftJoin('stores', 'stores.id', '=', 'V.storeId')
+		->leftJoin('vendorInvoice as I', 'I.vendorId', '=', 'V.id')
+		->select('stores.storeName','V.id','V.vendorName','V.contactNumber','V.email', 'I.vendorId', DB::raw('count(*) as total FROM I WHERE I.vendorId = V.id'))
+		>groupBy('I.vendorId')
+		->where('V.storeId', $storeId); */
+
+	
+
+		
+		
+
+		if(!empty($search)) {
+			$vendors = $vendors->where(function($query) use ($search) {
+				$query->orWhere('V.vendorName', 'LIKE', '%' . $search . '%' )
+				->orWhere ('V.contactNumber', 'LIKE', '%' . $search . '%' )
+				->orWhere ('V.email', 'LIKE', '%' . $search . '%' );
+			});
+		}
+
+		$vendors = $vendors->orderBy('V.id', 'DESC')->paginate(10);
+		
+		return view('admin.vendor.index', compact('vendors','storeId','search'));
+
 	}
 	
 	
     public function create()
     {  
+		
 		$subscriptionPlans = DB::Table('subscriptionplan as SP') 
 		->leftJoin('mas_duration', 'mas_duration.id', '=', 'SP.duration_id')
 		->select('SP.id','SP.plan', 'mas_duration.duration')->get();
 		
-		$storetype = StoreType::orderBy('id', 'DESC')->get();
-		$country = Country::orderBy('id', 'DESC')->get();
+		$subscriptionPlanId = 0;
+		$subscriptionExpiryDate = '';
+		
+		if(Auth::user()->roleId != 11 ) {	
+			$storetype = StoreType::orderBy('name', 'ASC')->get();
+		}
+		else {
+			// If user is Chain Admin
+			
+			// Don not show chain store types
+			$storetype = StoreType::orderBy('name', 'ASC')->where('type','!=','chain')->get();
+			
+			// Extract Subscription details from parent
+			$parentUserId = auth()->user()->id;
+			$parentStore = DB::Table('stores')->select('subscriptionPlanId', 'subscriptionExpiry')->where('userId',$parentUserId)->first();
+			
+			$subscriptionPlanId = $parentStore->subscriptionPlanId;
+			$subscriptionExpiryDate = $parentStore->subscriptionExpiry;
+		}
+		
+		
+		$country = Country::orderBy('name', 'ASC')->get();
 		$appupdate = DB::Table('app_update')->orderBy('id', 'DESC')->get();
+		
+		
        
-		return view('admin.store.create', compact('storetype','country','appupdate','subscriptionPlans'));
+		return view('admin.store.create', compact('storetype','country','appupdate','subscriptionPlans','subscriptionPlanId','subscriptionExpiryDate'));
     }
 	
 	public function store(Request $request)
-    {      	 
+    {    
+		  	 
         $stores = new Store;
+
+		$this->validate($request, [
+			
+		   'storeName'=> 'required',
+		   'printStoreNameAr'=> 'required',
+		   'storeType'=> 'required',
+		   'regNo'=> 'required',
+		   'address'=> 'required',
+		   'printAddAr'=> 'required',
+		   'country'=> 'required',
+		   'subscriptionPlanId'=> 'required',
+		   'subscriptionExpiry'=> 'required',
+		   'appVersionUpdate'=> 'required',
+		   'contactName'=> 'required',
+		   'password' => 'min:6|required_with:passwordConfirmation|same:passwordConfirmation',
+			'passwordConfirmation' => 'min:6',
+		   'email' => [
+			   'required',
+			   'unique:users,email',
+			],
+		   'contactNumber'=> 'unique:users,contactNumber|min:6|max:9|required'
+		   ]);
+		
 		$user = new User;
         $userrole = new UserRole;
+        $chainStores = new ChainStores;
+
+		$loggedInUserId = auth()->user()->id;
+		$loggedInUserRoleId = auth()->user()->roleId;
 
 		$this->validate($request, [
 		'password' => 'min:6|required_with:passwordConfirmation|same:passwordConfirmation',
@@ -315,15 +524,38 @@ class StoreController extends Controller
 		//$user->password = Hash::make('password');
 		$user->password = Hash::make($request->password);
 		$user->contactNumber = $request->contactNumber;
-		$user->roleId = '4';
+		
+		$storetype = DB::Table('mas_storetype') 
+		->select('type')->where('id', $request->storeType)->first();
+		
+		// This check is used when admin is creating chain store
+		if($storetype->type == 'chain') {
+			$user->roleId = '11';
+		}
+		else {
+			$user->roleId = '4';
+		}
+		
 		$user->save(); 
 		$userId = $user->id;
 		
 		$stores->userId = $userId;
 		
+		$stores->storeName = $request->storeName; 
+        $stores->printStoreNameAr = $request->printStoreNameAr;	
 		
-        $stores->storeName = $request->storeName; 
-        $stores->printStoreNameAr = $request->printStoreNameAr; 	
+		
+		// This check is used when Chain Admin is setting up new store
+		// We will import some of the values from parent store and use them while creating new store
+		// Like Store Type will come from parent
+		// We can use Grocery Chain store type for sub stores also.
+		if(Auth::user()->roleId != 11 ) {	
+			//$stores->storeType = $request->storeType;
+		}
+		else {
+			//$stores->storeType = $request->storeType;
+		}
+        
 		$stores->storeType = $request->storeType;
 		$stores->regNo = $request->regNo;
 		$stores->address = $request->address;
@@ -341,7 +573,10 @@ class StoreController extends Controller
 		$stores->tagLine =$request->tagLine;
 		$stores->manageInventory =$request->inventoryLink;
 		$stores->smsAlert =$request->smsAlert;
+		
+		
 		$stores->autoGlobalCat =$request->autoGlobalCat;
+		
 		$stores->onlineMarket =$request->onlineMarket;
 		$stores->loyaltyOptions =$request->loyaltyOptions;
 		$stores->autoGlobalItems =$request->autoGlobalItems;
@@ -364,6 +599,7 @@ class StoreController extends Controller
 		$storeId = $stores->id;
 		
 		//print_r($storeId);
+		
 		
 		
 		$userrole->userId = $userId;
@@ -447,36 +683,93 @@ class StoreController extends Controller
 		$userrole->save(); 
 
 		Helper::addToLog('storeAdd',$request->storeName);
-        return redirect('admin/store');
-      
+		
+		
+		if($loggedInUserRoleId == '11') {
+			$chainStores->storeId = $storeId;
+			$chainStores->parentUserId = $loggedInUserId;
+			$chainStores->save();
+			
+			return redirect('admin/chainstores');
+		}
+		else
+		{
+			return redirect('admin/store');
+		}
     }
 
     public function edit($id)	
     {
+		
 		$subscriptionPlans = DB::Table('subscriptionplan as SP') 
 		->leftJoin('mas_duration', 'mas_duration.id', '=', 'SP.duration_id')
 		->select('SP.id','SP.plan', 'mas_duration.duration')->get();
 		
-        //$stores = Store::find($id);s
-        $country = Country::orderBy('id', 'DESC')->get();
-        $storetype = StoreType::orderBy('id', 'DESC')->get();
+		
+		
+        //$stores = Store::find($id);
+        $country = Country::orderBy('name', 'ASC')->get();
+		
+		$subscriptionPlanId = 0;
+		$subscriptionExpiryDate = '';
+		
+        if(Auth::user()->roleId != 11 ) {	
+			$storetype = StoreType::orderBy('name', 'ASC')->get();
+		}
+		else{
+			// If user is Chain Admin
+			
+			// Don not show chain store types
+			$storetype = StoreType::orderBy('name', 'ASC')->where('type','!=','chain')->get();
+			
+			// Extract Subscription details from parent
+			$parentUserId = auth()->user()->id;
+			$parentStore = DB::Table('stores')->select('subscriptionPlanId', 'subscriptionExpiry')->where('userId',$parentUserId)->first();
+			
+			$subscriptionPlanId = $parentStore->subscriptionPlanId;
+			$subscriptionExpiryDate = $parentStore->subscriptionExpiry;
+		}
+		
+		
+		
 		//$storestype = StoreType::orderBy('id', 'DESC')->get();
 		$appupdate = DB::Table('app_update')->orderBy('id', 'DESC')->get();
 		$stores = DB::Table('stores as S')->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'contactName'"),'S.appVersionUpdate','users.email','S.storeName' ,'S.id','users.contactNumber','S.countryId','S.address','S.storeType','S.printFooterEn','S.printFooterAr','S.postalCode','S.city','S.latitude','S.longitude','S.regNo','S.state','S.appVersion','S.openclosetime','S.openintime','S.tagLine','S.deviceType','S.appType','S.shopSize','S.vatNumber','S.manageInventory','S.smsAlert','S.autoGlobalCat','S.onlineMarket','S.printStoreNameAr','S.printAddAr','S.loyaltyOptions','S.autoGlobalItems','S.chatbot','S.status','S.subscriptionPlanId','S.subscriptionExpiry')
 		->leftJoin('users', 'users.id', '=', 'S.userId')->leftJoin('mas_country','S.countryId', '=', 'mas_country.id')
 		->where('S.id', $id)->get();
 	
+		
+
+		
 		$stores = $stores[0];
 		
 		//$subscriptionData = DB::Table('subscriptionPlan as S')->where('S.id', $id)->get();
 		
 		
-		return view('admin.store.edit',compact('stores','country','storetype','appupdate','subscriptionPlans'));
+		return view('admin.store.edit',compact('stores','country','storetype','appupdate','subscriptionPlans','subscriptionPlanId','subscriptionExpiryDate'));
 		
     }
 	
     public function update(Request $request)
     {
+
+		$stores = new Store;
+
+		$this->validate($request, [
+			
+		   'storeName'=> 'required',
+		   'printStoreNameAr'=> 'required',
+		   'storeType'=> 'required',
+		   'regNo'=> 'required',
+		   'address'=> 'required',
+		   'printAddAr'=> 'required',
+		   'country'=> 'required',
+		   'subscriptionPlanId'=> 'required',
+		   'appVersionUpdate'=> 'required',
+		   'contactName'=> 'required',
+		   'email' => 'required',
+		   'contactNumber'=> 'min:6|max:9|required'
+		   ]);
 
 		//$subscriptiondata = SubscriptionPlan::find($request->input('id'));
 		//$durations = DB :: Table('mas_duration')->select('id','duration')->get(); 

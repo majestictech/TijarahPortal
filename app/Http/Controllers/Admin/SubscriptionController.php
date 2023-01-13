@@ -38,6 +38,10 @@ class SubscriptionController extends Controller
     {     
         $subscriptionData = new SubscriptionPlan;
 
+		$this->validate($request, [
+			'duration' => 'required'
+		]);
+
 		//$features = DB::Table('massfeature')->select('id', 'name', 'value')->get(); 
 		//$durations = DB :: Table('mas_duration')->select('id','duration')->get();
 
@@ -61,7 +65,7 @@ class SubscriptionController extends Controller
     {
 		
 
-		$subscriptionData = DB::Table('subscriptionPlan as S')->where('S.id', $id)->get();
+		$subscriptionData = DB::Table('subscriptionplan as S')->where('S.id', $id)->get();
 		//echo $subscriptiondata;
 		$durations = DB :: Table('mas_duration')->select('id','duration')->get();
 
@@ -87,7 +91,7 @@ class SubscriptionController extends Controller
 	
 		$subscriptiondata->plan = $request->plan;
 		$subscriptiondata->price = $request->price;
-		//$subscriptiondata->duration = $durations;
+		$subscriptiondata->duration_id = $request->duration;
         $subscriptiondata->save(); 
 
 		Helper::addToLog('subscriptionEdit',$request->plan);
@@ -110,6 +114,5 @@ class SubscriptionController extends Controller
 	public function view($id)
     {      
 	
-		
-    }
+	}
 }
