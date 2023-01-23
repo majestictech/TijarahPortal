@@ -508,7 +508,7 @@ $(document).ready(function(){
           </a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page">
-          <i class="fadeIn animated bx bx-list-plus"></i> {{ __('lang.addinvoices')}}</li>
+          <i class="fadeIn animated bx bx-list-plus"></i> {{ __('lang.addinvoice')}}</li>
 			</ol>
 		</nav>
 	</div>

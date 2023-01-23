@@ -228,10 +228,10 @@ use App\Helpers\AppHelper as Helper;
                             <input type="checkbox" name="catPermissions[]" value="store_cashiers" <?php if(in_array('store_add', $permissionArray)){ { echo "checked=''"; } } ?>>
                             <label for="store_cashiers" class="form-label">{{ __('lang.store_cashiers')}}</label><br>
     					</div>
-    					<div class="col-md-12">
+    					<!-- <div class="col-md-12">
                             <input type="checkbox" name="catPermissions[]" value="store_lowinventoryemail" <?php if(in_array('store_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
                             <label for="store_lowinventoryemail" class="form-label">{{ __('lang.store_lowinventoryemail')}}</label><br>
-    					</div>
+    					</div> -->
     					<div class="col-md-12">
                             <input type="checkbox" name="catPermissions[]" value="store_inventory" <?php if(in_array('store_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
                             <label for="store_inventory" class="form-label">{{ __('lang.store_inventory')}}</label><br>

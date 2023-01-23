@@ -71,7 +71,7 @@ helper::checkUserURLAccess('adminmanagement_manage','');
 					<tbody>
 					@foreach($usersmanagementdata as $key =>$usersManagementData)
 						<tr> 
-                            <td>{{$usersManagementData->firstName}} {{$usersManagementData->lastName}}</td>
+                            <td><!-- {{$usersManagementData->roleId}} -->{{$usersManagementData->firstName}} {{$usersManagementData->lastName}}</td>
                             <td>{{$usersManagementData->contactNumber}}</td>
 							<td>{{$usersManagementData->email}}</td>
 							<td><?php  echo ($usersManagementData->roleId == 1 ) ? "Admin" : "Sub-Admin" ?></td>

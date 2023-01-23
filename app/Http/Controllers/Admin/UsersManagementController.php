@@ -10,13 +10,17 @@ use DB;
 use App\UserRole;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Auth;
 
 class UsersManagementController extends Controller
 {
     public function index(Request $request)
     {		
+		$authUser= Auth::user()->roleId;
+		print_r($authUser);
+		//die;
 		//$Gender = config('app.Gender');
-		$masRoles = DB::Table('mas_role as m')->whereIN('m.id',[1, 2])->get();
+		$masRoles = DB::Table('mas_role as m')->whereIn('m.id',[1, 2])->get();
 
 		$search = $request->search;
 		$search = trim($search);
@@ -24,8 +28,19 @@ class UsersManagementController extends Controller
 		$roleFilter = $request->roleFilter;
 
 		$usersmanagementdata = DB::Table('users as U')
-		->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber', 'U.roleId')
-		->whereIn('U.roleId', [1, 2]);
+		->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber', 'U.roleId');
+		if($authUser == 1) {
+			 $usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [1, 2]);
+		}
+		else if($authUser == 2) {
+			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 2);
+		}
+		else if($authUser == 11) {
+			$usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [11, 12]);
+		}
+		else if($authUser == 12) {
+			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 12);
+		}
 
 
 		// Role Check Starts
@@ -108,7 +123,7 @@ class UsersManagementController extends Controller
 		//echo $usersmanagementdata;
 		//die;
 		
-		return view('admin.usersmanagement.index',compact('usersmanagementdata','usersmanagementcount', 'search', 'masRoles', 'roleFilter'));
+		return view('admin.usersmanagement.index',compact('usersmanagementdata','usersmanagementcount', 'search', 'masRoles', 'roleFilter', 'authUser'));
     }
 	
 	public function create()
