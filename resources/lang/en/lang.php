@@ -34,6 +34,8 @@
 'storemanager' => 'Store Manager',
 'storeadmin' => 'Store Admin',
 'addvendors'=>'Add Vendors',
+'store_manageusers'=>'Manage Users',
+
 
 /* Vendors Translation starts here */
 'vendorname' => 'Vendor Name',

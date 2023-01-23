@@ -244,6 +244,8 @@
             }
 
             .bg-purple-light {
+				width: 235px;
+				margin: 15px auto;
                 background-color: #a779e9;
             }
 
@@ -467,7 +469,7 @@
                         @yield('code', __('Oh no'))
                     </div>
 
-                    <div class="w-16 h-1 bg-purple-light my-3 md:my-6"></div>
+                    <div class="w-24 h-1 bg-purple-light my-3 md:my-6"></div>
 
                     <p class="text-grey-darker text-2xl md:text-3xl font-light mb-8 leading-normal">
                         <!--@yield('message')-->
