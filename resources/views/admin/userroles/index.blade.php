@@ -225,8 +225,12 @@ use App\Helpers\AppHelper as Helper;
                             <label for="store_disable" class="form-label">{{ __('lang.store_disable')}}</label><br>
     					</div>
     					<div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="store_cashiers" <?php if(in_array('store_add', $permissionArray)){ { echo "checked=''"; } } ?>>
-                            <label for="store_cashiers" class="form-label">{{ __('lang.store_cashiers')}}</label><br>
+                            <input type="checkbox" name="catPermissions[]" value="store_manageusers" <?php if(in_array('store_manageusers', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_manageusers" class="form-label">{{ __('lang.store_manageusers')}}</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_customers" <?php if(in_array('store_customers', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_customers" class="form-label">{{ __('lang.store_customers')}}</label><br>
     					</div>
     					<!-- <div class="col-md-12">
                             <input type="checkbox" name="catPermissions[]" value="store_lowinventoryemail" <?php if(in_array('store_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
@@ -235,6 +239,14 @@ use App\Helpers\AppHelper as Helper;
     					<div class="col-md-12">
                             <input type="checkbox" name="catPermissions[]" value="store_inventory" <?php if(in_array('store_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
                             <label for="store_inventory" class="form-label">{{ __('lang.store_inventory')}}</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_customerscreenslider" <?php if(in_array('store_customerscreenslider', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_customerscreenslider" class="form-label">{{ __('lang.store_customerscreenslider')}}</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_storereports" <?php if(in_array('store_storereports', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_storereports" class="form-label">{{ __('lang.store_storereports')}}</label><br>
     					</div>
     				</div>
     				
