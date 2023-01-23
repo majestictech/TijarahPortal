@@ -244,8 +244,8 @@
             }
 
             .bg-purple-light {
-				width: 235px;
-				margin: 15px auto;
+				width: 380px;
+				
                 background-color: #a779e9;
             }
 
@@ -320,7 +320,7 @@
             }
 
             .m-8 {
-                margin: 2rem;
+                margin: 8rem;
             }
 
             .my-3 {
@@ -333,6 +333,7 @@
             }
 
             .max-w-sm {
+				text-align: left;
                 max-width: 30rem;
             }
 
@@ -439,7 +440,7 @@
                 }
 
                 .md\:text-3xl {
-                    font-size: 1.3rem;
+                    font-size: 1.875rem;
                 }
 
                 .md\:text-15xl {
@@ -461,15 +462,15 @@
     <body class="antialiased font-sans">
         <div class="min-h-screen" style="text-align: center; margin-top: 50px;">
 			<div class="mb-4 text-center">
-				<img src="{{ URL::asset('public/assets/images/tijarah-logo.png') }}" width="180" alt="" />
+				<img src="{{ URL::asset('public/assets/images/tijarah-logo.png') }}" alt="" />
 			</div>
             <div class="w-full md:w-1/2 bg-white flex items-center justify-center">
                 <div class="max-w-sm m-8">
-                    <div class="text-black text-5xl md:text-13xl font-black">
+                    <div class="text-black text-5xl md:text-15xl font-black">
                         @yield('code', __('Oh no'))
                     </div>
 
-                    <div class="w-24 h-1 bg-purple-light my-3 md:my-6"></div>
+                    <div class="w-16 h-1 bg-purple-light my-3 md:my-6"></div>
 
                     <p class="text-grey-darker text-2xl md:text-3xl font-light mb-8 leading-normal">
                         <!--@yield('message')-->

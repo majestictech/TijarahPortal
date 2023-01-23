@@ -35,6 +35,9 @@
 'storeadmin' => 'Store Admin',
 'addvendors'=>'Add Vendors',
 'store_manageusers'=>'Manage Users',
+'store_customers'=>'Store Customers',
+'store_customerscreenslider'=>'Customer Screen Slider',
+'store_storereports'=>'Store Reports',
 
 
 /* Vendors Translation starts here */
