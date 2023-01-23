@@ -7,5 +7,6 @@ tests/
 vendor/
 vendor-45/
 .htaccess
+.env
 beep.mp3
 

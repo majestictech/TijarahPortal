@@ -235,7 +235,7 @@ die; */
 					}
 				}
 				$graphDayCount = count($graphdata['revenue']['labels']);
-				$i =0;
+				
 
 			//print_r($graphDayCount);
 
@@ -315,7 +315,7 @@ die; */
 			
 			//die;
     
-    		return view('admin.dashboard.index', compact('revenueData', 'topSellingData', 'allStores', 'storeFilter', 'allorderCount', 'allcustomer', 'activestores', 'revenues', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts','graphdata', 'starDate', 'endDate', 'graphDayCount', 'i'));
+    		return view('admin.dashboard.index', compact('revenueData', 'topSellingData', 'allStores', 'storeFilter', 'allorderCount', 'allcustomer', 'activestores', 'revenues', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts','graphdata', 'starDate', 'endDate', 'graphDayCount'));
     		
         }		
     	else if(Auth::user()->roleId == 4){	
