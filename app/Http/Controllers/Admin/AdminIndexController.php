@@ -419,8 +419,8 @@ die; */
 			$maxInventory = 0;
 			$allProducts = 1;
 			
-
-    		return view('admin.dashboard.index',compact('allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'starDate', 'endDate'));
+			return redirect('admin/store'); 
+    	/* 	return view('admin.dashboard.index',compact('allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'starDate', 'endDate')); */
     		
         }
 		else if(Auth::user()->roleId == 11){	
@@ -646,8 +646,8 @@ die; */
 
 			
 			
-
-    		return view('admin.dashboard.index',compact('orderplaced', 'allcustomer', 'allStores', 'activestores', 'storedata', 'allorderCount',  'revenues', 'storeDetails', 'topSellingData', 'lastdaysRevenue', 'maxInventory', 'outOfStock', 'instock', 'productNotAvailable','productAvailable', 'lowInventory', 'allProducts', 'storeFilter', 'starDate', 'endDate'));
+			return redirect('admin/store'); 
+    	/* 	return view('admin.dashboard.index',compact('orderplaced', 'allcustomer', 'allStores', 'activestores', 'storedata', 'allorderCount',  'revenues', 'storeDetails', 'topSellingData', 'lastdaysRevenue', 'maxInventory', 'outOfStock', 'instock', 'productNotAvailable','productAvailable', 'lowInventory', 'allProducts', 'storeFilter', 'starDate', 'endDate')); */
     		
         }
         
