@@ -103,7 +103,7 @@ use App\Helpers\AppHelper as Helper;
     					</div>
 						<div class="col-md-12">
                             <input type="checkbox" name="catPermissions[]" value="app_manage_vendors" <?php if(in_array('app_manage_vendors', $permissionArray)){ { echo "checked=''"; } } ?>>
-                            <label for="app_manage_vendors" class="form-label">{{ __('lang.app_manage_vendors')}}</label><br>
+                            <label for="app_manage_vendors" class="form-label">{{ __('lang.app_manage_vendors')}}123</label><br>
     					</div>
 						<div class="col-md-12">
                             <input type="checkbox" name="catPermissions[]" value="app_manage_vendorslist" <?php if(in_array('app_manage_vendorslist', $permissionArray)){ { echo "checked=''"; } } ?>>
@@ -452,25 +452,25 @@ use App\Helpers\AppHelper as Helper;
     					</div>
     				</div>
     				
-    				<div class="col-md-3">
+    				<!-- <div class="col-md-3">
     			        <p class="mt-2"><b>{{ __('lang.faq_management')}}</b></p>
     			        <div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="faq_manage" <?php if(in_array('faq_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <input type="checkbox" name="catPermissions[]" value="faq_manage">
                             <label for="faq_manage" class="form-label">{{ __('lang.faq_manage')}}</label><br>
     					</div>
     					<div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="faq_add" <?php if(in_array('faq_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <input type="checkbox" name="catPermissions[]" value="faq_add">
                             <label for="faq_add" class="form-label">{{ __('lang.faq_add')}}</label><br>
     					</div>
     					<div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="faq_edit" <?php if(in_array('faq_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <input type="checkbox" name="catPermissions[]" value="faq_edit">
                             <label for="faq_edit" class="form-label">{{ __('lang.faq_edit')}}</label><br>
     					</div>
     					<div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="faq_del" <?php if(in_array('faq_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <input type="checkbox" name="catPermissions[]" value="faq_del">
                             <label for="faq_del" class="form-label">{{ __('lang.faq_del')}}</label><br>
     					</div>
-    				</div>
+    				</div> -->
     				
     				
     				<div class="col-md-3">
@@ -547,18 +547,6 @@ use App\Helpers\AppHelper as Helper;
 						</div>
 					</div>
     				
-    			
-    				
-    				<div class="col-md-3">
-    			        <p class="mt-2"><b>{{ __('lang.vendor_management')}}</b></p>
-    			        <div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="vendor_manage" <?php if(in_array('Vendor_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
-                            <label for="Vendor_manage" class="form-label">{{ __('lang.vendor_manage')}}</label><br>
-    					</div>
-    				</div>
-    				
-    				
-    				
     				<div class="col-md-3">
     			        <p class="mt-2"><b>{{ __('lang.ordersbills_management')}}</b></p>
     			        <div class="col-md-12">
@@ -567,11 +555,18 @@ use App\Helpers\AppHelper as Helper;
     					</div>
     				</div>
     				
-    				<div class="col-md-3">
+    				<!-- <div class="col-md-3">
     			        <p class="mt-2"><b>{{ __('lang.loyaltypoints_history')}}</b></p>
     			        <div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="loyaltypoint_manage" <?php if(in_array('loyaltypoint_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <input type="checkbox" name="catPermissions[]" value="loyaltypoint_manage">
                             <label for="loyaltypoint_manage" class="form-label">{{ __('lang.loyaltypoint_manage')}}</label><br>
+    					</div>
+    				</div> -->
+    				<div class="col-md-3">
+    			        <p class="mt-2"><b>{{ __('lang.subscriptionplanmanagement')}}</b></p>
+    			        <div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="subscription_manage" <?php if(in_array('subscription_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="subscription_manage" class="form-label">{{ __('lang.subscriptionplanmanagement')}}</label><br>
     					</div>
     				</div>
     				@if($roleFilter != 4)
@@ -593,13 +588,13 @@ use App\Helpers\AppHelper as Helper;
     					</div>
     				</div>
     				
-    				<div class="col-md-3">
+    				<!-- <div class="col-md-3">
     			        <p class="mt-2"><b>{{ __('lang.notification_management')}}</b></p>
     			        <div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="notifications_manage" <?php if(in_array('notifications_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <input type="checkbox" name="catPermissions[]" value="notifications_manage">
                             <label for="notifications_manage" class="form-label">{{ __('lang.notifications_manage')}}</label><br>
     					</div>
-    				</div>
+    				</div> -->
 					
 					<!--<div class="col-md-3">
     			        <p class="mt-2"><b>App Features</b></p>

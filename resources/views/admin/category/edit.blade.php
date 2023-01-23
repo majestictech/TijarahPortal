@@ -68,7 +68,8 @@ helper::checkUserURLAccess('cat_manage','cat_edit');
                             
                             <div class="col-6">
 								<label for="category" class="form-label">{{ __('lang.category')}}</label>
-								<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-category'></i></span>
+								<div class="input-group"> <span class="input-group-text bg-transparent">
+									<i class='bx bx-category'></i></span>
 									<?php echo $categoryList; ?>
 								</div>
 							</div>

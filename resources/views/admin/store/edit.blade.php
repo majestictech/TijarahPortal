@@ -114,7 +114,7 @@ helper::checkUserURLAccess('store_manage','store_edit');
 					<div class="col-md-6">
 						<label for="contactnumber" class="form-label">{{ __('lang.mobilenumber')}} *</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent">+966</span>
-							<input type="text"  name="contactNumber" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="9" disabled class="form-control border-start-0" id="contactnumber" placeholder="{{ __('lang.mobilenumber')}}" value="{{$stores->contactNumber}}" required>
+							<input type="text"  name="contactNumber" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="9"  class="form-control border-start-0" id="contactnumber" placeholder="{{ __('lang.mobilenumber')}}" value="{{$stores->contactNumber}}" disabled required>
 						</div>
 					</div>
 					<div class="col-md-6">

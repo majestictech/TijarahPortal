@@ -389,6 +389,12 @@ class AppHelper
               case "storeEnable":
                 $message = "<b>{{user}}</b> ({{username}}) enable the STORE of <b>" . $value . "</b>";
                 break;
+              case "emptyInventory":
+                $message = "<b>{{user}}</b> ({{username}}) empty inventory the STORE of <b>" . $value . "</b>";
+                break;
+              case "zeroInventory":
+                $message = "<b>{{user}}</b> ({{username}}) zero inventory the STORE of <b>" . $value . "</b>";
+                break;
               case "invoiceAdd":
                 $message = "<b>{{user}}</b> ({{username}}) added the invoice of <b>" . $value . "</b>";
                 break;

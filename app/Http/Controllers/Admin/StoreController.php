@@ -51,16 +51,19 @@ class StoreController extends Controller
         $storeFilter = $request->storeFilter;
         $storeId = $request->storeId;
         $search = $request->search;
-        
+      /*   print_r($storeFilter);
+		die; */
 		if(Auth::user()->roleId != 11 ) {		
-			$stores=DB::Table('stores as S')->leftJoin('mas_country as C', 'C.id', '=', 'S.countryId')->leftJoin('mas_storetype as M', 'M.id', '=', 'S.storeType')->leftJoin('users', 'users.id', '=', 'S.userId')
-			   ->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'fullName'"),'S.id','M.name AS storeType','S.storeName','users.contactNumber','S.regNo','S.city','C.nicename','S.appVersion','S.deviceType','S.appType','S.shopSize','S.vatNumber','S.status','S.subscriptionExpiry');
+			$stores=DB::Table('stores as S')->leftJoin('mas_country as C', 'C.id', '=', 'S.countryId')
+			->leftJoin('mas_storetype as M', 'M.id', '=', 'S.storeType')->leftJoin('users', 'users.id', '=', 'S.userId')
+			->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'fullName'"), 'S.id', 'M.name AS storeType', 'S.storeName', 'users.contactNumber', 'S.regNo', 'S.city', 'C.nicename', 'S.appVersion', 'S.deviceType', 'S.appType', 'S.shopSize', 'S.vatNumber', 'S.status', 'S.subscriptionExpiry');
 		}
 		else {
 			$parentUserId = auth()->user()->id;
 			
-			$stores=DB::Table('chainstores as CS')->leftJoin('stores as S', 'S.id', '=', 'CS.storeId')->leftJoin('mas_country as C', 'C.id', '=', 'S.countryId')->leftJoin('mas_storetype as M', 'M.id', '=', 'S.storeType')->leftJoin('users', 'users.id', '=', 'S.userId')
-           ->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'fullName'"),'S.id','M.name AS storeType','S.storeName','users.contactNumber','S.regNo','S.city','C.nicename','S.appVersion','S.deviceType','S.appType','S.shopSize','S.vatNumber','S.status','S.subscriptionExpiry')->where('CS.parentUserId', $parentUserId);
+			$stores=DB::Table('chainstores as CS')->leftJoin('stores as S', 'S.id', '=', 'CS.storeId')
+			->leftJoin('mas_country as C', 'C.id', '=', 'S.countryId')->leftJoin('mas_storetype as M', 'M.id', '=', 'S.storeType')->leftJoin('users', 'users.id', '=', 'S.userId')
+           ->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'fullName'"),'S.id','M.name AS storeType', 'S.storeName', 'users.contactNumber', 'S.regNo', 'S.city', 'C.nicename', 'S.appVersion', 'S.deviceType', 'S.appType', 'S.shopSize', 'S.vatNumber', 'S.status', 'S.subscriptionExpiry')->where('CS.parentUserId', $parentUserId);
 		   //print_r($stores);
 		}
            
@@ -766,9 +769,9 @@ class StoreController extends Controller
 		   'country'=> 'required',
 		   'subscriptionPlanId'=> 'required',
 		   'appVersionUpdate'=> 'required',
-		   'contactName'=> 'required',
+		  // 'contactName'=> 'required',
 		   'email' => 'required',
-		   'contactNumber'=> 'min:6|max:9|required'
+		  // 'contactNumber'=> 'min:6|max:9|required'
 		   ]);
 
 		//$subscriptiondata = SubscriptionPlan::find($request->input('id'));
@@ -1069,21 +1072,26 @@ class StoreController extends Controller
     
     public function zeroInventory(Request $request,$id)
     {
-        
+        $storeenable = Store::find($id);
+
         $productUpdate = DB::table('products')
         ->where("products.storeId", '=',  $id)
         ->update(['products.inventory'=> '0']);
+
+		Helper::addToLog('zeroInventory',$storeenable->storeName);
 		 
         return redirect('admin/store');
         
     }
     public function emptyInventory(Request $request,$id)
     {
-        
+		$storeenable = Store::find($id);
+
         $productUpdate = DB::table('products')
         ->where("products.storeId", '=',  $id)
         ->delete();
 		 
+		Helper::addToLog('emptyInventory',$storeenable->storeName);
         return redirect('admin/store');
     }
     
