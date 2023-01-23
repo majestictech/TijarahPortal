@@ -72,13 +72,13 @@ class CategoryController extends Controller
 			'catImage'=> 'required',
 			'storeType'=> 'required'
 		   ]);
-		$category->name_ar = $request->arabicname;
+		//$category->name = $request->arabicname;
 
 		$catRelation = new CatRelation;
 		$category_ar = new Category_AR;
-		$category_ur = new Category_UR;
+		/* $category_ur = new Category_UR;
 		$category_ml = new Category_ML;
-		$category_bn = new Category_BN;
+		$category_bn = new Category_BN; */
         /*if ($files = $request->file('catImage')) 
 		{
 			$catImage = time().'.'.$files->getClientOriginalExtension(); 
@@ -145,21 +145,21 @@ class CategoryController extends Controller
 		$category_ar->description = $request->description_ar;
 		$category_ar->save();
 		
-		$category_ur->categoryId = $category->id;
+		/* $category_ur->categoryId = $category->id;
 		$category_ur->name = $request->name_ur;
 		$category_ur->description = $request->description_ur;
 		$category_ur->save();
-		
-		$category_ml->categoryId = $category->id;
+		 */
+		/* $category_ml->categoryId = $category->id;
 		$category_ml->name = $request->name_ml;
 		$category_ml->description = $request->description_ml;
-		$category_ml->save();
-		
+		$category_ml->save(); */
+		/* 
 		$category_bn->categoryId = $category->id;
 		$category_bn->name = $request->name_bn;
 		$category_bn->description = $request->description_bn;
 		$category_bn->save();
-		
+		 */
 		
 		//AppHelper::addToLog('categoryAdd');
 		
@@ -178,16 +178,16 @@ class CategoryController extends Controller
 		
 		$catRelation = CatRelation::select('id')->where('categoryId',$id);
 		$category_ar = Category_AR::select('id')->where('categoryId',$id);
-		$category_ur = Category_UR::select('id')->where('categoryId',$id);
+		/* $category_ur = Category_UR::select('id')->where('categoryId',$id);
 		$category_ml = Category_ML::select('id')->where('categoryId',$id);
-		$category_bn = Category_BN::select('id')->where('categoryId',$id);
+		$category_bn = Category_BN::select('id')->where('categoryId',$id); */
 		
 		$categoryData->delete();
 		$catRelation->delete();
 		$category_ar->delete();
-		$category_ur->delete();
+	/* 	$category_ur->delete();
 		$category_ml->delete();
-		$category_bn->delete();
+		$category_bn->delete(); */
 		
 		//AppHelper::addToLog('categoryDelete');
 		
@@ -216,7 +216,7 @@ class CategoryController extends Controller
 			//'arabicname'=> 'required',
 			'storeType'=> 'required'
 		   ]);
-		$category->name_ar = $request->arabicname;
+		//$category->name_ar = $request->arabicname;
 		$category = Category::find($request->input('id'));
 		$category->name = $request->name;
 		$category->description = $request->description;
@@ -256,10 +256,10 @@ class CategoryController extends Controller
 		
 		$catRelation = CatRelation::select('id')->where('categoryId', $request->input('id'))->first();
 		$category_ar = Category_AR::select('id')->where('categoryId', $request->input('id'))->first();
-		$category_ur = Category_UR::select('id')->where('categoryId', $request->input('id'))->first();
+		/* $category_ur = Category_UR::select('id')->where('categoryId', $request->input('id'))->first();
 		$category_ml = Category_ML::select('id')->where('categoryId', $request->input('id'))->first();
 		$category_bn = Category_BN::select('id')->where('categoryId', $request->input('id'))->first();
-		
+		 */
 		//print_r($request->category);
 		//die;
 				
@@ -283,20 +283,20 @@ class CategoryController extends Controller
 		$category_ar->description = $request->description_ar;
 		$category_ar->save();
 		
-		$category_ur->categoryId = $category->id;
+		/* $category_ur->categoryId = $category->id;
 		$category_ur->name = $request->name_ur;
 		$category_ur->description = $request->description_ur;
-		$category_ur->save();
+		$category_ur->save(); */
 		
-		$category_ml->categoryId = $category->id;
+		/* $category_ml->categoryId = $category->id;
 		$category_ml->name = $request->name_ml;
 		$category_ml->description = $request->description_ml;
-		$category_ml->save();
+		$category_ml->save(); */
 		
-		$category_bn->categoryId = $category->id;
+		/* $category_bn->categoryId = $category->id;
 		$category_bn->name = $request->name_bn;
 		$category_bn->description = $request->description_bn;
-		$category_bn->save();
+		$category_bn->save(); */
 		
 		//AppHelper::addToLog('categoryEdit');
 		

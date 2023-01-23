@@ -15,7 +15,7 @@
 	</div>
 	<div class="ms-auto">
 		<div class="btn-group">
-			<a href="{{url('admin/invoice/create/').'/'.$storeId}}" class="btn btn-primary"><i class="fadeIn animated bx bx-list-plus"></i> {{ __('lang.addinvoices')}}</a>
+			<a href="{{url('admin/invoice/create/').'/'.$storeId}}" class="btn btn-primary"><i class="fadeIn animated bx bx-list-plus"></i> {{ __('lang.addinvoice')}}</a>
 		</div>
 	</div>
 </div>

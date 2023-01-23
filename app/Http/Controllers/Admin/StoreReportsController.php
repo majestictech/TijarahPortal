@@ -806,4 +806,129 @@ class StoreReportsController extends Controller
 		
 		return view('admin.storereports.profitlossreports',compact('storeId','results','startDate','endDate','search'));
     }
+
+	public function shiftreports($storeId)
+    {
+		
+		if(isset($_GET['start']))
+			$startDate = $_GET['start'];
+		else
+			$startDate = '';
+		
+		if(isset($_GET['end']))
+			$endDate = $_GET['end'];
+		else
+			$endDate = '';
+		
+	    if(isset($_GET['search']))
+			$search = $_GET['search'];
+		else
+			$search = '';
+	    
+	    $customStartDate = $startDate . ' 00:00:00';
+		$customEndDate = $endDate . ' 23:59:59';
+		
+	    if(empty($startDate)) {
+	        $customStartDate = new Carbon('first day of January 2021');
+	    }
+	        
+	    if(empty($endDate))
+	        $customEndDate = Carbon::now()->toDateString() . ' 23:59:59';
+		
+	    $results = DB::table('cashier as C')->select(DB::raw('CONCAT(U.firstName, " ", U.lastName) AS Name'), 'U.id as userId', 'U.contactNumber', 'U.email', DB::raw('Count(O.id) as billCount'), DB::raw('SUM(O.totalAmount - O.refundTotalAmount) as totalSales'))
+	    ->leftJoin('users as U','U.id','=','C.userId')
+	    ->leftJoin('orders_pos as O','O.userId','=','C.userId')
+	    ->whereBetween(DB::raw('Date(O.created_at)'), [$customStartDate, $customEndDate])
+	    ->where('C.storeId','=',$storeId);
+	    
+	    if(!empty($search))
+		    $results = $results->where('U.firstName', 'LIKE', $search.'%');
+		    
+	    $results = $results->groupBy('Name', 'userId', 'U.contactNumber', 'U.email')->get();
+		
+		return view('admin.storereports.shiftreports',compact('storeId','results','startDate','endDate','search'));
+    }
+
+	public function shiftdayreport($storeId)
+    {
+		
+		if(isset($_GET['start']))
+			$startDate = $_GET['start'];
+		else
+			$startDate = '';
+		
+		if(isset($_GET['end']))
+			$endDate = $_GET['end'];
+		else
+			$endDate = '';
+		
+	    if(isset($_GET['search']))
+			$search = $_GET['search'];
+		else
+			$search = '';
+	    
+	    $customStartDate = $startDate . ' 00:00:00';
+		$customEndDate = $endDate . ' 23:59:59';
+		
+	    if(empty($startDate)) {
+	        $customStartDate = new Carbon('first day of January 2021');
+	    }
+	        
+	    if(empty($endDate))
+	        $customEndDate = Carbon::now()->toDateString() . ' 23:59:59';
+		
+	    $results = DB::table('cashier as C')->select(DB::raw('CONCAT(U.firstName, " ", U.lastName) AS Name'), 'U.id as userId', 'U.contactNumber', 'U.email', DB::raw('Count(O.id) as billCount'), DB::raw('SUM(O.totalAmount - O.refundTotalAmount) as totalSales'))
+	    ->leftJoin('users as U','U.id','=','C.userId')
+	    ->leftJoin('orders_pos as O','O.userId','=','C.userId')
+	    ->whereBetween(DB::raw('Date(O.created_at)'), [$customStartDate, $customEndDate])
+	    ->where('C.storeId','=',$storeId);
+	    
+	    if(!empty($search))
+		    $results = $results->where('U.firstName', 'LIKE', $search.'%');
+		    
+	    $results = $results->groupBy('Name', 'userId', 'U.contactNumber', 'U.email')->get();
+		
+		return view('admin.storereports.shiftdayreport',compact('storeId','results','startDate','endDate','search'));
+    }
+	public function shiftreport($storeId)
+    {
+		
+		if(isset($_GET['start']))
+			$startDate = $_GET['start'];
+		else
+			$startDate = '';
+		
+		if(isset($_GET['end']))
+			$endDate = $_GET['end'];
+		else
+			$endDate = '';
+		
+	    if(isset($_GET['search']))
+			$search = $_GET['search'];
+		else
+			$search = '';
+	    
+	    $customStartDate = $startDate . ' 00:00:00';
+		$customEndDate = $endDate . ' 23:59:59';
+		
+	    if(empty($startDate)) {
+	        $customStartDate = new Carbon('first day of January 2021');
+	    }
+	        
+	    if(empty($endDate))
+	        $customEndDate = Carbon::now()->toDateString() . ' 23:59:59';
+		
+	    $results = DB::table('cashier as C')->select(DB::raw('CONCAT(U.firstName, " ", U.lastName) AS Name'), 'U.id as userId', 'U.contactNumber', 'U.email', DB::raw('Count(O.id) as billCount'), DB::raw('SUM(O.totalAmount - O.refundTotalAmount) as totalSales'))
+	    ->leftJoin('users as U','U.id','=','C.userId')
+	    ->leftJoin('orders_pos as O','O.userId','=','C.userId')
+	    ->whereBetween(DB::raw('Date(O.created_at)'), [$customStartDate, $customEndDate])
+	    ->where('C.storeId','=',$storeId);
+	    
+	    if(!empty($search))
+		    $results = $results->where('U.firstName', 'LIKE', $search.'%');
+		    
+	    $results = $results->groupBy('Name', 'userId', 'U.contactNumber', 'U.email')->get();
+		
+		return view('admin.storereports.shiftreport',compact('storeId','results','startDate','endDate','search'));
+    }
 }

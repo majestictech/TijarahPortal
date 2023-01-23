@@ -19,16 +19,57 @@ $Roles = config('app.Roles');
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <script src="{{ URL::asset('public/assets/js/jquery.min.js') }}"></script>
 
+  
+    <form action="" method="GET" id ="filter_results">
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <label for="storeFilter" class="form-label">{{ __('lang.filterby')}}</label>
 
+          <div class="input-group">
+               <button class="btn btn-outline-secondary" type="button">
+                  <i class='bx bx-store'></i>
+               </button>
+                <select name="storeFilter" class="form-select single-select" id="storeFilter" onChange="this.form.submit();">
+                  <option value="" @if(empty($allStores)) selected="selected" @endif>{{ __('lang.store')}}</option>
+                  @foreach($allStores as $key=>$allStore)
+                    <option value="{{ $allStore->id }}" @if($allStore->id==$storeFilter) selected="selected" @endif >{{ $allStore->storeName }} </option>
+                  @endforeach
+                </select>
+          </div>
+         </div>
+        <div class="col-md-4">
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5">
-    	<div class="col">
+        </div>
+        <div class="col-md-2">
+            <div class="input-group mt-4">
+              <input type="date" class="form-control " name="starDate" id="starDate" value="{{$starDate}}">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group mt-4">
+              <input type="date" class="form-control " name="endDate" id="endDate" value="{{$endDate}}">
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="input-group mt-4">
+            <label for="" class="form-label"></label>
+							<button type="submit" class="btn btn-primary px-2">ok</button>
+            </div>
+        </div>
+         
+        </div>
+      </div>
+    </form>
+    
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+    	<!-- <div class="col">
     		<div class="card radius-10 overflow-hidden">
     			<div class="card-body">
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.todaysorders')}}</a></p>
-    						<h5 class="my-0">{{$todayorderCount ?? ''}}</h5>
+    						<h5 class="my-0"></h5>
     					</div>
     					<div class="text-primary ms-auto font-30"><i class='bx bx-cart-alt'></i>
     					</div>
@@ -36,7 +77,7 @@ $Roles = config('app.Roles');
     			 </div>
     			<div class="mt-1" id="chart1"></div>
     		</div>
-    	</div>
+    	</div> -->
     	<div class="col">
     		<div class="card radius-10 overflow-hidden">
     			<div class="card-body">
@@ -58,8 +99,8 @@ $Roles = config('app.Roles');
     			<div class="card-body">
     				<div class="d-flex align-items-center">
     					<div>
-    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.todaysrevenue')}}</a></p>
-    						<h5 class="my-0">SAR {{ $revenue->totalAmount}}</h5>
+    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.totalrevenue')}}</a></p>
+    						<h5 class="my-0">SAR {{ $revenues->totalAmount ?? ''}}</h5>
     					</div>
     					<div class="text-danger ms-auto font-30">ريال
     					</div>
@@ -73,7 +114,9 @@ $Roles = config('app.Roles');
     			<div class="card-body">
     				<div class="d-flex align-items-center">
     					<div>
-    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.customers')}}</a></p>
+    						<p class="mb-0 text-secondary font-14">
+                  <a href="#">{{ __('lang.customers')}}</a>
+                </p>
     						<h5 class="my-0">{{$allcustomer ?? ''}}</h5>
     					</div>
     					<div class="text-success ms-auto font-30"><i class='bx bx-group'></i>
@@ -139,7 +182,7 @@ $Roles = config('app.Roles');
               <div>
                 <h6 class="mb-0">{{ __('lang.revenue')}}</h6>
               </div>
-              <div class="dropdown ">
+              <!-- <div class="dropdown ms-auto">
     						<a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
     						</a>
     						<ul class="dropdown-menu">
@@ -150,10 +193,13 @@ $Roles = config('app.Roles');
     							<li>
     								<hr class="dropdown-divider">
     							</li>
-    							<li><a class="dropdown-item" href="javascript:;">{{ __('lang.somethingelsehere')}}</a>
+    							<li>
+                    <a class="dropdown-item" href="javascript:;">
+                      {{ __('lang.somethingelsehere')}}
+                    </a>
     							</li>
     						</ul>
-    					</div>
+    					</div> -->
     				</div>
           
             <div class="chart-container-0">
@@ -205,23 +251,28 @@ $Roles = config('app.Roles');
 		<div class="col-12 col-lg-6">
 			<div class="card radius-10" style="height: 300px;">
 				<div class="">
-					<div style="background-color: #fff; align-items: center;"><h4 class="p-2" style="text-align:left; color: #272727; margin-bottom: 0; font-size: 1rem; margin-top: 13px;">{{ __('lang.top_selling_items')}}</h4></div>
-					<table class="table " style="border: 1px solid #e9ecef; border-left: 0; border-right: 0px;" >
+					<div style="background-color: #fff; align-items: center;">
+            <h4 class="p-2" style="text-align:left; color: #272727; margin-bottom: 0; font-size: 1rem; margin-top: 13px;">
+            {{ __('lang.top_selling_items')}}
+            </h4>
+          </div>
+					<table class="table" style="border: 1px solid #e9ecef; border-left: 0; border-right: 0px;" >
 						<thead style="background-color: #157d4c; color: #fff;">
 							<tr style="border-bottom: 1px solid #ccc;">
 								<th style="font-weight: 100;">{{ __('lang.name')}}</th>
 								<!-- <th style="font-weight: 100;">{{ __('lang.brand')}}</th> -->
 								<th style="font-weight: 100;">{{ __('lang.sellingprice')}}</th>
-                <th style="font-weight: 100;">{{ __('lang.total_sales')}}</th>
+                <th style="font-weight: 100;">{{ __('lang.quantity')}}</th>
 							</tr>
 						</thead>
 						<tbody style="">
-							<tr>
-								<td>Milk 500ml</td>
-								<td>{{ __('lang.sar')}} 13.5</td>
-                <td>6962</td>
-							</tr>
-							
+              @foreach($topSellingData as $key =>$topSellingDatas)
+                  <tr> 
+                    <td>{{$topSellingDatas->productName}}</td>
+                    <td>{{$topSellingDatas->price}}</td>
+                    <td>{{$topSellingDatas->totalQty}}</td>
+                 </tr>
+              @endforeach
 						</tbody>
 					</table>
 				</div>
@@ -281,14 +332,17 @@ $Roles = config('app.Roles');
                         @else
                             <h4 class="mb-3">{{$storedata->storeName}} &nbsp;</h4>
                         @endif
-                        <h5 style="margin-top: 2px;">(Store ID-{{$storedata->id}}) &nbsp; (User ID-{{$storedata->userId}})</h5>
+                        <h5 style="margin-top: 2px;">
+                          (Store ID-{{$storedata->id}}) &nbsp; (User ID-{{$storedata->userId}})
+                        </h5>
                     </div>
                 </div>
             </div>
             
             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
-            	<div class="col-3">
-            		<div class="card radius-10 overflow-hidden">
+            		<!--
+                <div class="col-3">
+                 <div class="card radius-10 overflow-hidden">
             			<div class="card-body">
             				<div class="d-flex align-items-center">
             					<div>
@@ -300,7 +354,8 @@ $Roles = config('app.Roles');
             				</div>
             			 </div>
             			<div class="mt-1" id="chart1"></div>
-            		</div>
+            		</div> 
+                -->
             	</div>
             	<div class="col-3">
             		<div class="card radius-10 overflow-hidden">
@@ -324,7 +379,7 @@ $Roles = config('app.Roles');
             				<div class="d-flex align-items-center">
             					<div>
             						<p class="mb-0 text-secondary font-14"><a href="{{url('/admin/report/revenue')}}">{{ __('lang.todaysrevenue')}}</a></p>
-            						<h5 class="my-0">SAR {{$revenue ?? ''}}</h5>
+            						<h5 class="my-0">SAR {{$revenues->totalAmount ?? ''}}</h5>
             					</div>
             					<div class="text-danger ms-auto font-30">ريال
             					</div>
@@ -1154,32 +1209,48 @@ $("#chart22").sparkline([3,5,3,7,5,10,3,6,5,0], {
 });
 	
 /* Number of Bills Chart End */
+</script>
+<script>
 
-Highcharts.chart('chart-h1', {
-    chart: {
-        type: 'area'
-    },
-    xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    },
+/* Revenue Chart Start */
+console.log(132);
+let graphDayCount = 10; //call graphDayCount variale 
+console.log(graphDayCount);
+for (let i=0; i<graphDayCount; i++){
+  $i =i;
+  let revenueLabel = 0;
+  let revenueData = 0;
+  console.log(revenueLabel);
+  console.log(revenueData);
 
-    plotOptions: {
-        series: {
-            fillColor: {
-                linearGradient: [0, 0, 0, 200],
-                stops: [
-                    [0, Highcharts.getOptions().colors[7]],
-                    [1, Highcharts.color(Highcharts.getOptions().colors[7]).setOpacity(0).get('0, 195, 1')]
-                ]
-            }
+  Highcharts.chart('chart-h1', {
+      chart: {
+          type: 'area'
+      },
+      xAxis: {
+          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'] 
+          
+      },
+
+      plotOptions: {
+        line: {
+          dataLabels: {
+            enabled: true
+          },
+          enableMouseTracking: false,
+
         }
-    },
-
-    series: [{
-        data: [40, 90, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 170]
-    }]
-});
-
+      },
+      
+      series: [{
+          type: undefined,
+          data: [40, 30, 20 , 10, 50, 100],
+          colors: ['#000000', '#006C35'],
+            colorByPoint: true
+      }]
+  });
+}
+/* Revenue Chart End */
 
 
 </script>
@@ -1189,6 +1260,9 @@ Highcharts.chart('chart-h1', {
 }
 .highcharts-root {
   height: 335px;
+}
+rect.highcharts-point {
+  fill: #157d4c;
 }
 </style>
 

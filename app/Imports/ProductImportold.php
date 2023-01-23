@@ -124,15 +124,10 @@ class ProductImport implements ToCollection, WithHeadingRow
             $productName = $row['product_name_english'] ?? $row['product_name'] ?? $row['name'] ?? null;
 			$productName = trim($productName);
 			
-			//$productName = substr($productName, 0, 100);
+			$productName = substr($productName, 0, 100);
            
-			//$productName = utf8_encode($productName);
-			//$productName = addslashes($productName); // Error:- Undefined offset: 0
-			//$productName = stripslashes($productName);
-			//$productName = utf8_decode($productName);
 			
             $barCode = str_replace("#","",$row['barcode']);
-			$barCode = str_replace("'","", $barCode);
 
 			
             
@@ -234,11 +229,10 @@ class ProductImport implements ToCollection, WithHeadingRow
 
           	$product->save();
                 
-			if(!empty($row['product_name_arabic']) || !empty($row['name_arabic'])) {
-				$product_ar->productId = $product->id;
-				$product_ar->name = $row['product_name_arabic'] ?? $row['name_arabic'] ?? $row['product_arabic'] ?? null;
-				$product_ar->save();
-			}
+            
+            $product_ar->productId = $product->id;
+        	$product_ar->name = $row['product_name_arabic'] ?? $row['name_arabic'] ?? $row['product_arabic'] ?? null;
+        	$product_ar->save();
         }
         
        

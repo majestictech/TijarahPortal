@@ -29,6 +29,20 @@ function page_url(){
     $_SERVER['REQUEST_URI']
   );
 }
+
+function page_url_check($page){
+  $checkURL = str_replace('/posadmin','',$_SERVER['REQUEST_URI']);
+  $checkURL = str_replace('/admin/','',$checkURL);
+  
+  $checkURL = explode('/',$checkURL);
+
+  if($checkURL[0] == $page) {
+	  return true;
+  }
+  else { 
+	  return false;
+  }
+}
 ?>
 <!doctype html>
 <html lang="en" class="color-sidebar sidebarcolor3 color-header headercolor4">
@@ -94,7 +108,7 @@ function page_url(){
 			</li>
 			
 		    <?php if(Auth::user()->roleId == 1 ){?>
-		    	<li>
+		    	<li <?php if(page_url() == url('/admin/userroles')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/userroles')}}">
 						<div class="parent-icon"><i class="bx bx-user-circle"></i>
 						</div>
@@ -104,7 +118,7 @@ function page_url(){
 			<?php } ?>
 			
 			@if(helper::checkUserRights('log_manage'))
-		    	<li>
+		    	<li <?php if(page_url() == url('/admin/logActivity')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/logActivity')}}">
 						<div class="parent-icon"><i class="bx bx-book-content"></i>
 						</div>
@@ -115,7 +129,7 @@ function page_url(){
 			
 			<?php if(Auth::user()->roleId != 11 ){?>
 			@if(helper::checkUserRights('store_manage'))
-			   	<li>
+			   	<li <?php if(page_url_check('store')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/store')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-store-alt"></i>
 						</div>
@@ -127,7 +141,7 @@ function page_url(){
 			<?php } ?>
 
 			<?php if(Auth::user()->roleId == 11 ){?>
-			   	<li>
+			   	<li <?php if(page_url() == url('/admin/chainstores')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/chainstores')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-store-alt"></i>
 						</div>
@@ -139,7 +153,7 @@ function page_url(){
 
 			
 			@if(helper::checkUserRights('cat_manage'))
-			    <li>
+			    <li <?php if(page_url_check('category')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/category')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-category"></i>
 						</div>
@@ -148,7 +162,7 @@ function page_url(){
 				</li>
 			@endif
 			@if(helper::checkUserRights('globalproducts_manage'))
-		    	<li>
+		    	<li <?php if(page_url_check('globalproducts')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/globalproducts')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-globe"></i>
 						</div>
@@ -157,7 +171,7 @@ function page_url(){
 				</li>
 			@endif
 			@if(helper::checkUserRights('brands_manage'))
-			    <li>
+			    <li <?php if(page_url() == url('/admin/brand')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/brand')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bxl-bootstrap"></i>
 						</div>
@@ -167,7 +181,7 @@ function page_url(){
 			@endif
 			
 			@if(helper::checkUserRights('storetype_manage'))
-			    <li>
+			    <li <?php if(page_url_check('storetype')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/storetype/')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-store-alt"></i>
 						</div>
@@ -177,7 +191,7 @@ function page_url(){
 			@endif
 			
 			@if(helper::checkUserRights('vendor_manage'))
-			 	<li>
+			 	<li <?php if(page_url() == url('/admin/vendor')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/vendor')}}">
 						<div class="parent-icon"><i class='bx bx-home-circle'></i>
 						</div>
@@ -187,7 +201,7 @@ function page_url(){
 			@endif
 			<?php if(Auth::user()->roleId == 4 ){?>
 			@if(helper::checkUserRights('inventory_manage'))
-    			<li>
+    			<li <?php if(page_url() == url('/admin/product/'.$storeId)) { ?> class="mm-active" <?php } ?>>
     				<a href="{{url('/admin/product/'.$storeId)}}">
     					<div class="parent-icon"><i class="bx bx-package"></i>
     					</div>
@@ -197,7 +211,7 @@ function page_url(){
 			@endif
 			<?php } ?>
 			@if(helper::checkUserRights('vat_manage'))
-			    <li>
+			    <li <?php if(page_url_check('vat')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/vat/')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-box"></i>
 						</div>
@@ -206,7 +220,7 @@ function page_url(){
 				</li>
 			@endif
 			@if(helper::checkUserRights('orders_manage'))
-    		    <li>
+    		    <li <?php if(page_url_check('order')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/order')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-receipt"></i>
 						</div>
@@ -228,7 +242,7 @@ function page_url(){
 			@endif
 			-->
 			@if(helper::checkUserRights('consumers_manage'))
-    		    <li>
+    		    <li <?php if(page_url() == url('/admin/customer/'.$storeId)) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/customer/'.$storeId)}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-group"></i>
 						</div>
@@ -238,7 +252,7 @@ function page_url(){
 			@endif
 			
 			@if(helper::checkUserRights('cashier_manage'))
-    		    <li>
+    		    <li <?php if(page_url() == url('/admin/cashier/'.$storeId)) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/cashier/'.$storeId)}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-user-pin"></i>
 						</div>
@@ -248,7 +262,7 @@ function page_url(){
 			@endif
 			
 			@if(helper::checkUserRights('cashier_manage'))
-    		    <li>
+    		    <li <?php if(page_url() == url('/admin/customerscreen/'.$storeId)) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/customerscreen/'.$storeId)}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-slideshow"></i>
 						</div>
@@ -258,7 +272,7 @@ function page_url(){
 			@endif
 			
 			@if(helper::checkUserRights('device_manage'))
-    		    <li>
+    		    <li <?php if(page_url() == url('/admin/device/'.$storeId)) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/device/'.$storeId)}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bxs-devices"></i>
 						</div>
@@ -267,7 +281,7 @@ function page_url(){
 				</li>
 			@endif
 			<?php } ?>
-			@if(helper::checkUserRights('loyaltypoint_manage'))
+			<!-- @if(helper::checkUserRights('loyaltypoint_manage'))
     		    <li>
 					<a href="{{url('/admin/loyaltyhistory')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-layer"></i>
@@ -275,9 +289,9 @@ function page_url(){
 						<div class="menu-title">{{ __('lang.loyaltypointshistory')}}</div>
 					</a>
 				</li>
-			@endif
-			@if(helper::checkUserRights('loyaltypoint_manage'))
-    		    <li>
+			@endif -->
+			@if(helper::checkUserRights('subscription_manage'))
+    		    <li <?php if(page_url_check('subscription')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/subscription')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-hive"></i>
 						</div>
@@ -289,7 +303,7 @@ function page_url(){
 			@if(helper::checkUserRights('report_manage'))
 			    <li class="menu-label">{{ __('lang.reports')}}</li>
 			    @if(helper::checkUserRights('salesreport_manage'))
-				<li>
+				<li <?php if(page_url() == url('/admin/storereports/salesreports/' . $storeId)) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/storereports/salesreports/' . $storeId)}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-bar-chart"></i>
 						</div>
@@ -298,7 +312,7 @@ function page_url(){
 				</li>
 				@endif
 				@if(helper::checkUserRights('vatreport_manage'))
-				<li>
+				<li <?php if(page_url() == url('/admin/storereports/vatreports/' . $storeId)) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/storereports/vatreports/' . $storeId)}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-bar-chart-square"></i>
 						</div>	
@@ -307,7 +321,7 @@ function page_url(){
 				</li>
 				@endif
 				@if(helper::checkUserRights('refundreport_manage'))
-				<li>
+				<li <?php if(page_url() == url('/admin/storereports/refundreports/' . $storeId)) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/storereports/refundreports/' . $storeId)}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-chart"></i>
 						</div>	
@@ -316,7 +330,7 @@ function page_url(){
 				</li>
 				@endif
 				@if(helper::checkUserRights('inventoryreport_manage'))
-				<li>
+				<li <?php if(page_url() == url('/admin/storereports/inventoryreports/' . $storeId)) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/storereports/inventoryreports/' . $storeId)}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-pie-chart"></i>
 						</div>	
@@ -325,7 +339,7 @@ function page_url(){
 				</li>
 				@endif
 				@if(helper::checkUserRights('purchasereport_manage'))
-				<li>
+				<li <?php if(page_url() == url('/admin/storereports/purchasereports/' . $storeId)) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/storereports/purchasereports/' . $storeId)}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-pie-chart-alt"></i>
 						</div>	
@@ -334,7 +348,7 @@ function page_url(){
 				</li>
 				@endif
 				@if(helper::checkUserRights('mediareport_manage'))
-				<li>
+				<li <?php if(page_url() == url('/admin/storereports/mediareports/' . $storeId)) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/storereports/mediareports/' . $storeId)}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-line-chart-down"></i>
 						</div>	
@@ -343,7 +357,7 @@ function page_url(){
 				</li>
 				@endif
 				@if(helper::checkUserRights('cashierreport_manage'))
-				<li>
+				<li <?php if(page_url() == url('/admin/storereports/cashierreports/' . $storeId)) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/storereports/cashierreports/' . $storeId)}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-network-chart"></i>
 						</div>	
@@ -355,7 +369,7 @@ function page_url(){
 			<?php } ?>
 			@if(helper::checkUserRights('app_manage'))
 			    <li class="menu-label">{{ __('lang.appupdate')}}</li>
-				<li>
+				<li <?php if(page_url_check('appupdate/create')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/appupdate/create')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-devices"></i>
 						</div>
@@ -369,7 +383,7 @@ function page_url(){
 			<?php } ?>
 			<!-- AdminManagement Starts -->
 			<?php if(Auth::user()->roleId == 1 || Auth::user()->roleId == 2 ){?>
-				<li>
+				<li <?php if(page_url() == url('/admin/subscription')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('admin/usersmanagement')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bxs-user-detail"></i>
 						</div>
@@ -398,7 +412,7 @@ function page_url(){
 				</li>
 			@endif
 			 Subadmin End -->
-			@if(helper::checkUserRights('notifications_manage'))	
+			<!-- @if(helper::checkUserRights('notifications_manage'))	
 				<li>
 					<a href="{{url('/admin/pushnotification/create')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-notification"></i>
@@ -416,7 +430,7 @@ function page_url(){
 						<div class="menu-title">{{ __('lang.faqs')}}</div>
 					</a>
 				</li>
-			@endif
+			@endif -->
 			
 			<!-- FAQ's Ends -->
 			</ul>

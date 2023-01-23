@@ -48,7 +48,7 @@ use App\Helpers\AppHelper as Helper;
 <!--end breadcrumb-->
 <div class="row">
 	<div class="col-xl-12 mx-auto">
-		<h6 class="mb-0 text-uppercase">{{ __('lang.productlist')}} {{$productcount}}</h6>
+		<h6 class="mb-0 text-uppercase">{{ __('lang.productlist')}}</h6>
 		<hr/>
 		
 
@@ -59,9 +59,14 @@ use App\Helpers\AppHelper as Helper;
 						<form method="post" class="" enctype="multipart/form-data" action="{{route('product.import')}}">
 							<div class="row">
 								<div class="col-12 mt-4">
+									
 									{{ csrf_field() }}
 									<div class="form-group d-flex">
-									
+										@if ($errors->has('file'))
+											<span class="help-block">
+											<strong>{{ $errors->first('file') }}</strong>
+										</span>
+										@endif
 										<input type="file" name="file" accept=".xlsx, .xls, .csv"/>
 										
 										<input type="hidden" name="storeId" value="{{$storeId}}" />

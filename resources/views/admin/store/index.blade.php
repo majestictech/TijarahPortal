@@ -122,9 +122,9 @@ use App\Helpers\AppHelper as Helper;
 										
 										<a class="dropdown-item" href="{{url('/admin/customer/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-group"></i> {{ __('lang.storecustomers')}}</a>
 										
-										<a class="dropdown-item" href="{{url('/admin/store/lowinventoryemail?storeId='.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.lowinventory')}}</a>
+										<!-- <a class="dropdown-item" href="{{url('/admin/store/lowinventoryemail?storeId='.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.lowinventory')}}</a>
 										
-										<a class="dropdown-item" href="{{url('/admin/configemail/'.$StoreData->id.'/edit')}}"><i class="fadeIn animated bx bx-mail-send"></i> {{ __('lang.configemail')}}</a>
+										<a class="dropdown-item" href="{{url('/admin/configemail/'.$StoreData->id.'/edit')}}"><i class="fadeIn animated bx bx-mail-send"></i> {{ __('lang.configemail')}}</a> -->
 										<a class="dropdown-item" href="{{url('/admin/product/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.inventory')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/view')}}"><i class="bx bx-show"></i> {{ __('lang.view')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/customerscreen/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.customerscreenslider')}}</a>
@@ -132,13 +132,13 @@ use App\Helpers\AppHelper as Helper;
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/zeroinventory')}}" onclick="return confirm('Are you sure you want to zero the inventory?');"><i class="fadeIn animated bx bx-trash"></i> {{ __('lang.zeroinventory')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/emptyinventory')}}"  onclick="return confirm('Are you sure you want to empty the inventory?');"><i class="fadeIn animated bx bx-trash-alt"></i> {{ __('lang.emptyinventory')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/order/?storeId='.$StoreData->id)}}"><i class="fadeIn animated bx bx-receipt"></i> {{ __('lang.bills')}}</a>
-										<a class="dropdown-item" href="{{url('/admin/report/sales/'.$StoreData->id)}}"><i class="fadeIn animated bx bxs-offer"></i> {{ __('lang.sales')}}</a>
-										<a class="dropdown-item" href="{{url('/admin/shift/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-time"></i> {{ __('lang.shifts')}}</a>
+										<!-- <a class="dropdown-item" href="{{url('/admin/report/sales/'.$StoreData->id)}}"><i class="fadeIn animated bx bxs-offer"></i> {{ __('lang.sales')}}</a>
+										<a class="dropdown-item" href="{{url('/admin/shift/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-time"></i> {{ __('lang.shifts')}}</a> -->
 										<a class="dropdown-item" href="{{url('/admin/vendor/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-purchase-tag"></i> {{ __('lang.vendors')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/invoice/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-detail"></i> {{ __('lang.invoices')}}</a>
-										<a class="dropdown-item" href="{{url('/admin/purchaseorder/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-basket"></i> {{ __('lang.purchaseorderpo')}}</a>
+										<!-- <a class="dropdown-item" href="{{url('/admin/purchaseorder/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-basket"></i> {{ __('lang.purchaseorderpo')}}</a> -->
 										<?php if(Auth::user()->roleId == 1){?>
-										    <a class="dropdown-item" href="#">
+										    <a class="dropdown-item disabled" href="#" >
 												<i class="fadeIn animated bx bx-trash-alt"></i> {{ __('lang.delete')}} 
 											</a>
 								    	   <!-- <a class="dropdown-item" href="{{route('store.destroy',['id'=>$StoreData->id])}}"  onclick="return confirm('Are you sure you want to delete the Store?\nNote: This will also delete all the data associated with the Store!');"><i class="fadeIn animated bx bx-trash-alt"></i> {{ __('lang.delete')}}</a>-->
@@ -233,9 +233,9 @@ use App\Helpers\AppHelper as Helper;
 										<a class="dropdown-item" href="{{url('/admin/shift/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-time"></i> {{ __('lang.shifts')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/vendor/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-purchase-tag"></i> {{ __('lang.vendors')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/invoice/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-detail"></i> {{ __('lang.invoices')}}</a>
-										<a class="dropdown-item" href="{{url('/admin/purchaseorder/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-basket"></i> {{ __('lang.purchaseorderpo')}}</a>
+										<!-- <a class="dropdown-item" href="{{url('/admin/purchaseorder/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-basket"></i> {{ __('lang.purchaseorderpo')}}</a> -->
 										<?php if(Auth::user()->roleId == 1){?>
-										    <a class="dropdown-item" href="{{route('store.destroy',['id'=>$StoreData->id])}}"  onclick="return confirm('Are you sure you want to delete the Store?');"><i class="fadeIn animated bx bx-trash-alt"></i> {{ __('lang.delete')}}</a>
+										    <a class="dropdown-item disable" href="{{route('store.destroy',['id'=>$StoreData->id])}}"  onclick="return confirm('Are you sure you want to delete the Store?');"><i class="fadeIn animated bx bx-trash-alt"></i> {{ __('lang.delete')}}</a>
 										<?php } ?>
 										<!--
 										<div class="dropdown-divider"></div>

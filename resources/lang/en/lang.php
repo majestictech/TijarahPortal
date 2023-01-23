@@ -4,9 +4,11 @@
 /*  Dashboard translation start here */
  'dashboarddesc' => 'Your dashboard gives you views of key performance or business process.',
  'dashboard'=>'Dashboard',
+ 'dashboards'=>'Dashboard',
  'todaysorders'=>'Today\'s Orders', 
  'totalorders'=>'Total Orders',
  'todaysrevenue'=>'Today\'s Revenue',
+ 'totalrevenue' => 'Total Revenue',
  'customers' => 'Customers',
  'activestores'=>'Active Stores',
  'revenue' => 'Revenue',
@@ -39,7 +41,7 @@
 
 /* Invoice Translation starts here */
 'invoices'=>'Invoices',
-'addinvoices'=>'Add Invoices',
+'addinvoice'=>'Add Invoice',
 'fromdate'=>'From Date',
 'todate'=>'To Date',
 'invoicenumber'=>'Invoice Number',
@@ -296,6 +298,7 @@
  'mediareports'=>'Media Reports',
  'cashierreports'=>'Cashier Reports',
  'profit&lossreports' => 'Profit & Loss Reports',
+ 'shiftreports' => 'Shift Reports',
 
 /* Shifts  Translation starts here */
 'shift'=>'Shift',
@@ -1268,8 +1271,38 @@
     'totalmargin(sar)' => 'TOTAL MARGIN (SAR)',
     'profit&lossprojection' => 'Profit & loss Projection',
     'profitmargin' => 'Profit margin ',
-    'profit&loss' => 'Profit & loss'
+    'profit&loss' => 'Profit & loss',
+
+    'shiftreports' => 'Shift Reports',
+    'no.ofdevices/terminals' => 'No. Of Devices/Terminals',
+    'totalshifts' => 'Total Shifts',
+    'systemamount' => 'System Amount',
+    'adjustedamount' => 'Adjusted Amount',
+    'finalbalance' => 'Final Balance',
+
+    'shiftdayreport' => 'Shift Day Report',
+    'shiftno.' => 'Shift No.',
+    'openingbalance' => 'Opening Balance',
+    'closingbalance' => 'Closing Balance',
 
 
+    'shiftreport' => 'Shift Report',
+    'reprintshift/dayendreport' => 'Re-Print Shift / Day End Report',
+    'terminaldevice' => 'Terminal Device',
+    'shiftnumber' => 'Shift Number',
+    'cashier' => 'Cashier',
+    'shiftin' => 'Shift In',
+    'shiftend' => 'Shift End',
+    'openingbalance' => 'Opening Balance',
+    'closingbalance' => 'Closing Balance',
+    'cashsales' => 'Cash Sales',
+    'cardsales' => 'Card Sales',
+    'creditdeposites' => 'Credit Deposites',
+    'numberofbills' => 'Number Of Bills',
+    'cashrefunds' => 'Cash Refunds',
+    'purchaseexpenses' => 'Purchase Expenses',
+    'cashadjustments' => 'Cash Adjustments',
+    'adjustmentreason' => 'Adjustment Reason',
+    'cashintray' => 'Cash in Tray',
  ]
 ?>

@@ -349,6 +349,17 @@
  "signout"	=>"خروج",
 
 
+  "shiftreports" => "Shift Reports",
+  "no.ofdevices/terminals" => "No. Of Devices/Terminals",
+  "totalshifts" => "Total Shifts",
+  "systemamount" => "System Amount",
+  "adjustedamount" => "Adjusted Amount",
+  "finalbalance" => "Final Balance",
+
+  "shiftdayreport" => "Shift Day Report",
+  "shiftno." => "Shift No.",
+  "openingbalance" => "Opening Balance",
+  "closingbalance" => "Closing Balance",
 
 ]
 ?>
