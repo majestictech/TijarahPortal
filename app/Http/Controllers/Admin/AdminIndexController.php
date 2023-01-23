@@ -63,7 +63,7 @@ class AdminIndexController extends Controller
 	
     public function index(Request $request)
     {
-       
+		return redirect('admin/store'); 
     	$storeFilter = $request->storeFilter;
 		$storeId = $request->storeId;
         $starDate = $request->starDate;
@@ -315,7 +315,7 @@ die; */
 			
 			//die;
     
-			return redirect('admin/store'); 
+			
     		/* return view('admin.dashboard.index', compact('revenueData', 'topSellingData', 'allStores', 'storeFilter', 'allorderCount', 'allcustomer', 'activestores', 'revenues', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts','graphdata', 'starDate', 'endDate', 'graphDayCount')); */
     		
         }		
