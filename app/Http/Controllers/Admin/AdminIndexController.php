@@ -63,7 +63,7 @@ class AdminIndexController extends Controller
 	
     public function index(Request $request)
     {
-		//return redirect('admin/store'); 
+		return redirect('admin/store'); 
     	$storeFilter = $request->storeFilter;
 		$storeId = $request->storeId;
         $starDate = $request->starDate;
