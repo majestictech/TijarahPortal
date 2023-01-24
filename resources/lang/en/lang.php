@@ -35,6 +35,9 @@
 'storeadmin' => 'Store Admin',
 'addvendors'=>'Add Vendors',
 'store_manageusers'=>'Manage Users',
+'store_addstoreusers'=>'Add Users',
+'store_editstoreusers'=>'Edit Users',
+'store_deletestoreusers'=>'Delete Users',
 'store_customers'=>'Store Customers',
 'store_customerscreenslider'=>'Customer Screen Slider',
 'store_storereports'=>'Store Reports',
@@ -117,6 +120,9 @@
     'store_cashiers' => 'Store Cashiers',
     'store_lowinventoryemail' => 'Store Configure Email',
     'store_inventory' => ' Store Inventory',
+    'store_exportproducts' => 'Export Products',
+    'store_importproducts' => 'Import Products',
+    'store_downloadproducts' => 'Download Products',
     
     
   'store_zeroinventory' => 'Store Zero Inventory ',
