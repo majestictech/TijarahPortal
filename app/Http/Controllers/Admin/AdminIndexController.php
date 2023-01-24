@@ -63,7 +63,7 @@ class AdminIndexController extends Controller
 	
     public function index(Request $request)
     {
-		return redirect('admin/store'); 
+		//return redirect('admin/store'); 
     	$storeFilter = $request->storeFilter;
 		$storeId = $request->storeId;
         $starDate = $request->starDate;
@@ -316,7 +316,7 @@ die; */
 			//die;
     
 			
-    		/* return view('admin.dashboard.index', compact('revenueData', 'topSellingData', 'allStores', 'storeFilter', 'allorderCount', 'allcustomer', 'activestores', 'revenues', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts','graphdata', 'starDate', 'endDate', 'graphDayCount')); */
+    		 return view('admin.dashboard.index', compact('revenueData', 'topSellingData', 'allStores', 'storeFilter', 'allorderCount', 'allcustomer', 'activestores', 'revenues', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts','graphdata', 'starDate', 'endDate', 'graphDayCount'));
     		
         }		
     	else if(Auth::user()->roleId == 4){	
@@ -419,8 +419,8 @@ die; */
 			$maxInventory = 0;
 			$allProducts = 1;
 			
-			return redirect('admin/store'); 
-    	/* 	return view('admin.dashboard.index',compact('allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'starDate', 'endDate')); */
+			
+    	 	return view('admin.dashboard.index',compact('allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'starDate', 'endDate'));
     		
         }
 		else if(Auth::user()->roleId == 11){	
@@ -644,10 +644,7 @@ die; */
 			$maxInventory = 0;
 			$allProducts = 1;
 
-			
-			
-			return redirect('admin/store'); 
-    	/* 	return view('admin.dashboard.index',compact('orderplaced', 'allcustomer', 'allStores', 'activestores', 'storedata', 'allorderCount',  'revenues', 'storeDetails', 'topSellingData', 'lastdaysRevenue', 'maxInventory', 'outOfStock', 'instock', 'productNotAvailable','productAvailable', 'lowInventory', 'allProducts', 'storeFilter', 'starDate', 'endDate')); */
+    	 	return view('admin.dashboard.index',compact('orderplaced', 'allcustomer', 'allStores', 'activestores', 'storedata', 'allorderCount',  'revenues', 'storeDetails', 'topSellingData', 'lastdaysRevenue', 'maxInventory', 'outOfStock', 'instock', 'productNotAvailable','productAvailable', 'lowInventory', 'allProducts', 'storeFilter', 'starDate', 'endDate')); 
     		
         }
         

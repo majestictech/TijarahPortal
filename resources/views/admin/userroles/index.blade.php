@@ -244,13 +244,14 @@ use App\Helpers\AppHelper as Helper;
                             <input type="checkbox" name="catPermissions[]" value="store_customerscreenslider" <?php if(in_array('store_customerscreenslider', $permissionArray)){ { echo "checked=''"; } } ?>>
                             <label for="store_customerscreenslider" class="form-label">{{ __('lang.store_customerscreenslider')}}</label><br>
     					</div>
-    					<div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="store_storereports" <?php if(in_array('store_storereports', $permissionArray)){ { echo "checked=''"; } } ?>>
-                            <label for="store_storereports" class="form-label">{{ __('lang.store_storereports')}}</label><br>
-    					</div>
+    					
     				</div>
     				
     				<div class="col-md-3 pt-5 border-right-0 border-left-0">
+					<div class="col-md-12">
+                            <input type="checkbox" name="catPermissions[]" value="store_storereports" <?php if(in_array('store_storereports', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="store_storereports" class="form-label">{{ __('lang.store_storereports')}}</label><br>
+    					</div>
     					<div class="col-md-12">
                             <input type="checkbox" name="catPermissions[]" value="store_zeroinventory" <?php if(in_array('store_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
                             <label for="store_zeroinventory" class="form-label">{{ __('lang.store_zeroinventory')}}</label><br>
