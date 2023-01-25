@@ -1,8 +1,17 @@
 Admin POS Screens/
 bootstrap/
 database/
-public/
-!public/assets/css/
+public/apk/
+public/brand/
+public/brandfeatured/
+public/category/
+public/customerscreen/
+public/images/
+public/products/
+public/returns/
+public/storelogos/
+public/thumbnail/
+public/uploads/
 storage/
 tests/
 vendor/
