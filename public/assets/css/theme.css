@@ -1,0 +1,413 @@
+
+/*
+Template Name: Tijarah Admin
+Author: Majestic Technosoft Pvt. Ltd.
+Email: info@majestictech.co.in
+Website: https://www.majestictech.co.in
+*/
+
+
+/*------------------------------------
+- COLOR primary
+------------------------------------*/
+.alert-primary {
+    color: #000000;
+    background-color: #07ff0f;
+    border-color: #00f108;
+}
+
+.alert-primary hr {
+    border-top-color: #00d807;
+}
+
+.alert-primary .alert-link {
+    color: #000000;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #003a02;
+}
+
+.badge-primary[href]:hover, .badge-primary[href]:focus {
+    color: #fff;
+    background-color: #ffffffffffffffff0700;
+}
+
+.bg-primary {
+    background-color: #003a02 !important;
+}
+
+a.bg-primary:hover, a.bg-primary:focus,
+button.bg-primary:hover,
+button.bg-primary:focus {
+    background-color: #ffffffffffffffff0700 !important;
+}
+
+.border-primary {
+    border-color: #003a02 !important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #003a02;
+    border-color: #003a02;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #001600;
+    border-color: #ffffffffffffffff0700;
+}
+
+.btn-primary:focus, .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 58, 2, 0.5);
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #fff;
+    background-color: #003a02;
+    border-color: #003a02;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #ffffffffffffffff0700;
+    border-color: #000000;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 58, 2, 0.5);
+}
+
+.btn-outline-primary {
+    color: #003a02;
+    background-color: transparent;
+    border-color: #003a02;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #003a02;
+    border-color: #003a02;
+}
+
+.btn-outline-primary:focus, .btn-outline-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 58, 2, 0.5);
+}
+
+.btn-outline-primary.disabled, .btn-outline-primary:disabled {
+    color: #003a02;
+    background-color: transparent;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active, .show > .btn-outline-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #003a02;
+    border-color: #003a02;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 58, 2, 0.5);
+}
+
+.list-group-item-primary {
+    color: #000000;
+    background-color: #00f108;
+}
+
+.list-group-item-primary.list-group-item-action:hover, .list-group-item-primary.list-group-item-action:focus {
+    color: #000000;
+    background-color: #00d807;
+}
+
+.list-group-item-primary.list-group-item-action.active {
+    color: #fff;
+    background-color: #000000;
+    border-color: #000000;
+}
+
+.table-primary,
+.table-primary > th,
+.table-primary > td {
+    background-color: #00f108;
+}
+
+.table-hover .table-primary:hover {
+    background-color: #00d807;
+}
+
+.table-hover .table-primary:hover > td,
+.table-hover .table-primary:hover > th {
+    background-color: #00d807;
+}
+
+.text-primary {
+    color: #003a02 !important;
+}
+
+a.text-primary:hover, a.text-primary:focus {
+    color: #ffffffffffffffff0700 !important;
+}
+
+
+/*------------------------------------
+- COLOR secondary
+------------------------------------*/
+.alert-secondary {
+    color: #53794e;
+    background-color: #108105108;
+    border-color: #fcfdfc;
+}
+
+.alert-secondary hr {
+    border-top-color: #edf3ec;
+}
+
+.alert-secondary .alert-link {
+    color: #3e5a3a;
+}
+
+.badge-secondary {
+    color: #212529;
+    background-color: #92b58d;
+}
+
+.badge-secondary[href]:hover, .badge-secondary[href]:focus {
+    color: #212529;
+    background-color: #74a06e;
+}
+
+.bg-secondary {
+    background-color: #92b58d !important;
+}
+
+a.bg-secondary:hover, a.bg-secondary:focus,
+button.bg-secondary:hover,
+button.bg-secondary:focus {
+    background-color: #74a06e !important;
+}
+
+.border-secondary {
+    border-color: #92b58d !important;
+}
+
+.btn-secondary {
+    color: #212529;
+    background-color: #92b58d;
+    border-color: #92b58d;
+}
+
+.btn-secondary:hover {
+    color: #212529;
+    background-color: #7da677;
+    border-color: #74a06e;
+}
+
+.btn-secondary:focus, .btn-secondary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(146, 181, 141, 0.5);
+}
+
+.btn-secondary.disabled, .btn-secondary:disabled {
+    color: #212529;
+    background-color: #92b58d;
+    border-color: #92b58d;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle {
+    color: #212529;
+    background-color: #74a06e;
+    border-color: #6b9a64;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus, .show > .btn-secondary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(146, 181, 141, 0.5);
+}
+
+.btn-outline-secondary {
+    color: #92b58d;
+    background-color: transparent;
+    border-color: #92b58d;
+}
+
+.btn-outline-secondary:hover {
+    color: #212529;
+    background-color: #92b58d;
+    border-color: #92b58d;
+}
+
+.btn-outline-secondary:focus, .btn-outline-secondary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(146, 181, 141, 0.5);
+}
+
+.btn-outline-secondary.disabled, .btn-outline-secondary:disabled {
+    color: #92b58d;
+    background-color: transparent;
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled):active, .btn-outline-secondary:not(:disabled):not(.disabled).active, .show > .btn-outline-secondary.dropdown-toggle {
+    color: #212529;
+    background-color: #92b58d;
+    border-color: #92b58d;
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled):active:focus, .btn-outline-secondary:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-secondary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(146, 181, 141, 0.5);
+}
+
+.list-group-item-secondary {
+    color: #53794e;
+    background-color: #fcfdfc;
+}
+
+.list-group-item-secondary.list-group-item-action:hover, .list-group-item-secondary.list-group-item-action:focus {
+    color: #53794e;
+    background-color: #edf3ec;
+}
+
+.list-group-item-secondary.list-group-item-action.active {
+    color: #212529;
+    background-color: #53794e;
+    border-color: #53794e;
+}
+
+.table-secondary,
+.table-secondary > th,
+.table-secondary > td {
+    background-color: #fcfdfc;
+}
+
+.table-hover .table-secondary:hover {
+    background-color: #edf3ec;
+}
+
+.table-hover .table-secondary:hover > td,
+.table-hover .table-secondary:hover > th {
+    background-color: #edf3ec;
+}
+
+.text-secondary {
+    color: #92b58d !important;
+}
+
+a.text-secondary:hover, a.text-secondary:focus {
+    color: #74a06e !important;
+}
+
+.table.table-bordered {
+    border-top-style: hidden;
+    border-left-style: hidden;
+    border-right-style: hidden;
+    border-bottom-color: #fff !important;
+}
+
+
+
+/* Bar charts */
+#container {
+    height: 300px;
+}
+
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 290px;
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+#sliders td input[type="range"] {
+    display: inline;
+}
+
+#sliders td {
+    padding-right: 1em;
+    white-space: nowrap;
+}
+
+
+/* Pie Highcharts */
+#donut-chart #chart-1 {
+    height: 400px;
+}
+
+#donut-chart #chart-2 {
+    height: 400px;
+}
+#donut-chart #chart-3 {
+    height: 400px;
+}
+
+#donut-chart #chart-4 {
+    height: 400px;
+}
+
+path.highcharts-point.highcharts-color-0 {
+    fill:#157d4c !important;
+}
+
+.highcharts-figure,
+.highcharts-data-table table {
+min-width: 310px;
+max-width: 1000px;
+margin: 1em auto;
+}
+
+.highcharts-data-table table {
+font-family: Verdana, sans-serif;
+border-collapse: collapse;
+border: 1px solid #ebebeb;
+margin: 5px auto;
+text-align: center;
+width: 100%;
+max-width: 500px;
+}
+
+.highcharts-data-table caption {
+padding: 1em 0;
+font-size: 1.2em;
+color: #555;
+display: none !important;
+}
+
+.highcharts-data-table th {
+font-weight: 400;
+padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+background: #f1f7ff;
+}
+
+.highcharts-credits {
+    display: none;
+}
+
+.highcharts-button-box , .highcharts-button-symbol {
+    display: none;
+}
+
+path.highcharts-point.highcharts-color-1 {
+    fill: #000000 !important;
+}
+
+#chart-A svg.highcharts-root {
+    height: 223px;
+}
+/* Hide Arrow when Name is Contact Number Start*/
+input[name=contactNumber]::-webkit-inner-spin-button,
+input[name=contactNumber]::-webkit-outer-spin-button { 
+	-webkit-appearance: none;
+}
+/* Hide Arrow when Name is Contact Number End*/
+
