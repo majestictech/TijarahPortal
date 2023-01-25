@@ -2,6 +2,7 @@ Admin POS Screens/
 bootstrap/
 database/
 public/
+!public/assets/css/
 storage/
 tests/
 vendor/
