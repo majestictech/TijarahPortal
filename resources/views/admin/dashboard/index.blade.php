@@ -42,7 +42,7 @@ $Roles = config('app.Roles');
         </div>
         <div class="col-md-2">
             <div class="input-group mt-4">
-              <input type="date" class="form-control " name="starDate" id="starDate" value="{{$starDate}}">
+              <input type="date" class="form-control " name="startDate" id="startDate" value="{{$startDate}}">
             </div>
         </div>
         <div class="col-md-2">

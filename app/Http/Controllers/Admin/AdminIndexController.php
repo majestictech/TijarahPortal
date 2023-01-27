@@ -63,19 +63,13 @@ class AdminIndexController extends Controller
 	
     public function index(Request $request)
     {
-		
-		if(!isset($_REQUEST['test']))
-			return redirect('admin/order'); 
+		//if(!isset($_REQUEST['test']))
+		//	return redirect('admin/order'); 
 
     	$storeFilter = $request->storeFilter;
 		$storeId = $request->storeId;
-        $starDate = $request->starDate;
+        $startDate = $request->startDate;
         $endDate = $request->endDate;
-		/* print_r($storeFilter);
-		print_r($starDate);
-		print_r($endDate); */
-		/* if(!empty($starDate))
-			//die; */
 
         if (Auth::user()->roleId != 4 && Auth::user()->roleId != 11){
 			//All Except of Store Owner(4) and Chain Admin(11)
@@ -97,14 +91,14 @@ class AdminIndexController extends Controller
 			->Join('stores', 'stores.userId','=','O.userId')
     		->select('O.id','O.created_at');
 
-			if(!empty($storeFilter) && (!empty($starDate) && !empty($endDate))) {
-				$orderplaced = $orderplaced->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$starDate, $endDate]);
+			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
+				$orderplaced = $orderplaced->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			} 
 			else if(!empty($storeFilter)) {
 				$orderplaced = $orderplaced->where('stores.id', $storeFilter);
 			}
-			 else if(!empty($starDate) && !empty($endDate)) {
-				$orderplaced = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$starDate, $endDate]);
+			 else if(!empty($startDate) && !empty($endDate)) {
+				$orderplaced = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
  
 			//$orderplaced = $orderplaced->get();
@@ -148,14 +142,14 @@ class AdminIndexController extends Controller
 			->leftJoin('stores', 'stores.userId','=','O.userId')
 			->select(DB::raw('SUM(totalAmount) as totalAmount'));
 
-			if(!empty($storeFilter) && (!empty($starDate) && !empty($endDate))) {
-				$revenues = $revenues->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$starDate, $endDate]);
+			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
+				$revenues = $revenues->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 			else if(!empty($storeFilter)) {
 				$revenues = $revenues->where('stores.id', $storeFilter);
 			}
-			else if(!empty($starDate) && !empty($endDate)) {
-				$revenues = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$starDate, $endDate]);
+			else if(!empty($startDate) && !empty($endDate)) {
+				$revenues = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 
 			$revenues = $revenues->first();
@@ -296,30 +290,12 @@ die; */
 			$instock = $products->where('inventory','>', 0)->count();
 			$outOfStock = $products->where('inventory','<=', 0)->count();
 			
-			$maxInventory = $instock - $lowInventory;
+			$maxInventory = $instock - $lowInventory;   
 			
-			
-			/* print_r($allProducts);
-			print_r("productAvailable");
-			print_r($productAvailable);
-			print_r("productNotAvailable");
-			print_r($productNotAvailable);
-			die; */
-			// Product Available and Not Available End
-			/* $allProducts = 0;
-			/* $lowInventory = 0;
-			$productAvailable = 0;
-			$productNotAvailable = 0;
-			$instock = 0;
-			$outOfStock = 0;
-			$maxInventory = 0; */
 
-			//print_r($graphdata['revenue']['data']);
-			
-			//die;
-    
-			
-    		 return view('admin.dashboard.index', compact('revenueData', 'topSellingData', 'allStores', 'storeFilter', 'allorderCount', 'allcustomer', 'activestores', 'revenues', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts','graphdata', 'starDate', 'endDate', 'graphDayCount'));
+			$graphdata = [];
+
+    		return view('admin.dashboard.index', compact('revenueData', 'topSellingData', 'allStores', 'storeFilter', 'allorderCount', 'allcustomer', 'activestores', 'revenues', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts','graphdata', 'startDate', 'endDate', 'graphDayCount'));
     		
         }		
     	else if(Auth::user()->roleId == 4){	
@@ -344,14 +320,14 @@ die; */
     		->select('O.id','O.created_at','S.id')
     		->where('S.id', $storeDetails);
     		
-			if(!empty($storeFilter) && (!empty($starDate) && !empty($endDate))) {
-				$orderplaced = $orderplaced->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$starDate, $endDate]);
+			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
+				$orderplaced = $orderplaced->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 			else if(!empty($storeFilter)) {
 				$orderplaced = $orderplaced->where('stores.id', $storeFilter);
 			}
-			else if(!empty($starDate) && !empty($endDate)) {
-				$orderplaced = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$starDate, $endDate]);
+			else if(!empty($startDate) && !empty($endDate)) {
+				$orderplaced = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 			
 			$orderplaced = $orderplaced->get();
@@ -423,7 +399,7 @@ die; */
 			$allProducts = 1;
 			
 			
-    	 	return view('admin.dashboard.index',compact('allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'starDate', 'endDate'));
+    	 	return view('admin.dashboard.index',compact('allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate'));
     		
         }
 		else if(Auth::user()->roleId == 11){	
@@ -469,14 +445,14 @@ die; */
 			die;
  			 */
 			 
-			 if(!empty($storeFilter) && (!empty($starDate) && !empty($endDate))) {
-				 $orderplaced = $orderplaced->where('S.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$starDate, $endDate]);
+			 if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
+				 $orderplaced = $orderplaced->where('S.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			 } 
 			 else if(!empty($storeFilter)) {
 				 $orderplaced = $orderplaced->where('S.id', $storeFilter);
 			 }
-			 else if(!empty($starDate) && !empty($endDate)) {
-				 $orderplaced = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$starDate, $endDate]);
+			 else if(!empty($startDate) && !empty($endDate)) {
+				 $orderplaced = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			 } 
  
 			// $orderplaced = $orderplaced->get();
@@ -534,14 +510,14 @@ die; */
                     ->whereIn('S.id', $storeDetails);
                    
 
-			if(!empty($storeFilter) && (!empty($starDate) && !empty($endDate))) {
-				$revenue = $revenue->where('S.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$starDate, $endDate]);
+			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
+				$revenue = $revenue->where('S.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 			else if(!empty($storeFilter)) {
 				$revenue = $revenue->where('S.id', $storeFilter);
 			}
-			else if(!empty($starDate) && !empty($endDate)) {
-				$revenue = $revenue->whereBetween(DB::raw('Date(O.created_at)'), [$starDate, $endDate]);
+			else if(!empty($startDate) && !empty($endDate)) {
+				$revenue = $revenue->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 
 			$revenues = $revenue->first();
@@ -647,7 +623,7 @@ die; */
 			$maxInventory = 0;
 			$allProducts = 1;
 
-    	 	return view('admin.dashboard.index',compact('orderplaced', 'allcustomer', 'allStores', 'activestores', 'storedata', 'allorderCount',  'revenues', 'storeDetails', 'topSellingData', 'lastdaysRevenue', 'maxInventory', 'outOfStock', 'instock', 'productNotAvailable','productAvailable', 'lowInventory', 'allProducts', 'storeFilter', 'starDate', 'endDate')); 
+    	 	return view('admin.dashboard.index',compact('orderplaced', 'allcustomer', 'allStores', 'activestores', 'storedata', 'allorderCount',  'revenues', 'storeDetails', 'topSellingData', 'lastdaysRevenue', 'maxInventory', 'outOfStock', 'instock', 'productNotAvailable','productAvailable', 'lowInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate')); 
     		
         }
         
