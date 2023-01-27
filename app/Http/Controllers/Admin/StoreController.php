@@ -42,8 +42,6 @@ use Hash;
 class StoreController extends Controller
 {   
     public function index(Request $request)
-
-
     {           
         
         $storetype = StoreType::orderBy('id', 'DESC')->get();
