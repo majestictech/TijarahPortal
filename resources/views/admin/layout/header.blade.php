@@ -380,7 +380,7 @@ function page_url_check($page){
 				
 			 <?php  if(Auth::user()->roleId != 11 ){  ?>
 				<li class="menu-label">{{ __('lang.settings')}}</li>
-			<?php } ?> -->
+			<?php } ?>
 			<!-- AdminManagement Starts -->
 			<?php if(Auth::user()->roleId == 1 || Auth::user()->roleId == 2){?>
 				<li <?php if(page_url() == url('/admin/subscription')) { ?> class="mm-active" <?php } ?>>
