@@ -177,8 +177,8 @@ print_r($revenueData);
 print_r(456);
 die; */
 
-
-
+			/*
+				
 				$count = 0;
 				$graphRevenue = [];
 				$graphRevenueSearch = [];
@@ -232,7 +232,7 @@ die; */
 					}
 				}
 				$graphDayCount = count($graphdata['revenue']['labels']);
-				
+			*/
 
 			//print_r($graphDayCount);
 
