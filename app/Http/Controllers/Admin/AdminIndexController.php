@@ -154,8 +154,8 @@ class AdminIndexController extends Controller
 
 			$revenues = $revenues->first();
 			/*  Total Revenue End*/
-die;
-			//$date = Carbon::now()->subDays(7);
+
+			$date = Carbon::now()->subDays(7);
   
 			/* $lastSevendaysRevenue = DB::Table('stores as S')->leftJoin('orders_pos as O','O.userId','=','S.userId')
                     ->select(DB::raw('DATE(O.created_at) as date'),DB::raw('SUM(totalAmount) as totalAmount'))
@@ -164,7 +164,7 @@ die;
                     ->get();
 			 */
 			/*Bill Count Start  */
-			/*
+			
 			 $revenueData = DB::table('orders_pos')
                 ->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'),DB::raw('SUM(totalAmount - refundTotalAmount)/COUNT(totalAmount) as averageAmount'),DB::raw('COUNT(totalAmount) as billCount'),DB::raw('Date(created_at) as date'))
                // ->where('storeId',$storeId)
@@ -227,8 +227,8 @@ die;
 					}
 				}
 				$graphDayCount = count($graphdata['revenue']['labels']);
-			*/
-
+			
+			die;
 			//print_r($graphDayCount);
 
 			//print_r($revenueData[0]->date);

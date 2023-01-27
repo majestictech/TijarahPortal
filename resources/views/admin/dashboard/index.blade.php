@@ -1,5 +1,3 @@
-
-
 <?php
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Helpers\AppHelper as Helper;
