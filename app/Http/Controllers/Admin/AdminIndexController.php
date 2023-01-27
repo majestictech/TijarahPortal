@@ -64,7 +64,7 @@ class AdminIndexController extends Controller
     public function index(Request $request)
     {
 		if(!isset($_REQUEST['test']) || empty($_REQUEST['test']))
-			return redirect('admin/inventory'); 
+			return redirect('admin/order'); 
 
     	$storeFilter = $request->storeFilter;
 		$storeId = $request->storeId;
