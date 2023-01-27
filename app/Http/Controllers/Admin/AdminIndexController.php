@@ -63,8 +63,7 @@ class AdminIndexController extends Controller
 	
     public function index(Request $request)
     {
-		print_r($_REQUEST['test']);
-		die;
+		
 		if(!isset($_REQUEST['test']))
 			return redirect('admin/order'); 
 
