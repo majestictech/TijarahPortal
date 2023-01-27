@@ -164,6 +164,7 @@ class AdminIndexController extends Controller
                     ->get();
 			 */
 			/*Bill Count Start  */
+			/*
 			 $revenueData = DB::table('orders_pos')
                 ->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'),DB::raw('SUM(totalAmount - refundTotalAmount)/COUNT(totalAmount) as averageAmount'),DB::raw('COUNT(totalAmount) as billCount'),DB::raw('Date(created_at) as date'))
                // ->where('storeId',$storeId)
@@ -172,12 +173,6 @@ class AdminIndexController extends Controller
                 ->orderBy(DB::raw('Date(created_at)'),'DESC')
                 ->get();
 
-/* print_r(123);
-print_r($revenueData);
-print_r(456);
-die; */
-
-			/*
 				
 				$count = 0;
 				$graphRevenue = [];
