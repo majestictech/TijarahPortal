@@ -228,7 +228,6 @@ class AdminIndexController extends Controller
 				}
 				$graphDayCount = count($graphdata['revenue']['labels']);
 			
-			die;
 			//print_r($graphDayCount);
 
 			//print_r($revenueData[0]->date);
@@ -277,13 +276,13 @@ class AdminIndexController extends Controller
 			
 			
 			
-			$products = Product::all();
-			$allProducts = $products->count();
-			$productAvailable = $products->where('status', 'Available')->count();
+			$allProducts = Product::count();
+			//$allProducts = $products->count();
+			$productAvailable = Product::where('status', 'Available')->count();
 			
-			$productNotAvailable = $products->where('status', 'Not Available')->count();
-			$instock = $products->where('inventory','>', 0)->count();
-			$outOfStock = $products->where('inventory','<=', 0)->count();
+			$productNotAvailable = Product::where('status', 'Not Available')->count();
+			$instock = Product::where('inventory','>', 0)->count();
+			$outOfStock = Product::where('inventory','<=', 0)->count();
 			
 			$maxInventory = $instock - $lowInventory;   
 			
