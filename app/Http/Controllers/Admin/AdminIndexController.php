@@ -154,8 +154,8 @@ class AdminIndexController extends Controller
 
 			$revenues = $revenues->first();
 			/*  Total Revenue End*/
-
-			$date = Carbon::now()->subDays(7);
+die;
+			//$date = Carbon::now()->subDays(7);
   
 			/* $lastSevendaysRevenue = DB::Table('stores as S')->leftJoin('orders_pos as O','O.userId','=','S.userId')
                     ->select(DB::raw('DATE(O.created_at) as date'),DB::raw('SUM(totalAmount) as totalAmount'))
