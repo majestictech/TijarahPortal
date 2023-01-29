@@ -239,6 +239,11 @@ class ProductImport implements ToCollection, WithHeadingRow
 				$product_ar->name = $row['product_name_arabic'] ?? $row['name_arabic'] ?? $row['product_arabic'] ?? null;
 				$product_ar->save();
 			}
+
+			// Insert Inventory Batches Starts
+			//$productExpiryDate = $row['product_name_arabic'] ?? $row['name_arabic'] ?? $row['product_arabic'] ?? '';
+
+			// Insert Inventory Batches Starts
         }
         
        
