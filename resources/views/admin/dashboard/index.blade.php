@@ -18,6 +18,77 @@ $Roles = config('app.Roles');
 <script src="{{ URL::asset('public/assets/js/jquery.min.js') }}"></script>
 
   
+    <!-- Today's Blocks Starts -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+    	<div class="col">
+    		<div class="card radius-10 overflow-hidden">
+    			<div class="card-body">
+    				<div class="d-flex align-items-center">
+    					<div>
+    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.todaysorders')}}</a></p>
+    						<h5 class="my-0">{{$allorderCount ?? '0'}}</h5>
+    					</div>
+    					<div class="text-primary ms-auto font-30"><i class='bx bx-cart-alt'></i>
+    					</div>
+    				</div>
+    			 </div>
+    			<div class="mt-1" id="chart1"></div>
+    		</div>
+    	</div>
+      
+    	<div class="col">
+    		<div class="card radius-10 overflow-hidden">
+    			<div class="card-body">
+    				<div class="d-flex align-items-center">
+    					<div>
+    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.totalrevenue')}}</a></p>
+    						<h5 class="my-0">SAR {{ $revenues->totalAmount ?? '0'}}</h5>
+    					</div>
+    					<div class="text-danger ms-auto font-30">ريال
+    					</div>
+    				</div>
+    			</div>
+    			<div class="mt-1" id="chart2"></div>
+    		</div>
+    	</div>
+
+    	<div class="col">
+    		<div class="card radius-10 overflow-hidden">
+    			<div class="card-body">
+    				<div class="d-flex align-items-center">
+    					<div>
+    						<p class="mb-0 text-secondary font-14">
+                  <a href="#">{{ __('lang.customers')}}</a>
+                </p>
+    						<h5 class="my-0">{{$allcustomer ?? ''}}</h5>
+    					</div>
+    					<div class="text-success ms-auto font-30"><i class='bx bx-group'></i>
+    					</div>
+    				</div>
+    			</div>
+    			<div class="mt-1" id="chart3"></div>
+    		</div>
+    	</div>
+
+    	<div class="col">
+    		<div class="card radius-10 overflow-hidden">
+    			<div class="card-body">
+    				<div class="d-flex align-items-center">
+    					<div>
+    						<p class="mb-0 text-secondary font-14"><a href="{{url('/admin/store')}}">{{ __('lang.activestores')}}</a></p>
+    						<h5 class="my-0">{{$activestores ?? ''}}</h5>
+    					</div>
+    					<div class="text-warning ms-auto font-30"><i class='bx bx-store-alt'></i>
+    					</div>
+    				</div>
+    			</div>
+    			<div class="mt-1" id="chart4"></div>
+    		</div>
+    	</div>
+    	
+    </div>
+    <!-- Today's Blocks End -->
+
     <form action="" method="GET" id ="filter_results">
       <div class="row">
         <div class="col-md-3 mb-3">
@@ -28,7 +99,7 @@ $Roles = config('app.Roles');
                   <i class='bx bx-store'></i>
                </button>
                 <select name="storeFilter" class="form-select single-select" id="storeFilter" onChange="this.form.submit();">
-                  <option value="" @if(empty($allStores)) selected="selected" @endif>{{ __('lang.store')}}</option>
+                  <option value="" @if(empty($allStores)) selected="selected" @endif>{{ __('lang.selectstore')}}</option>
                   @foreach($allStores as $key=>$allStore)
                     <option value="{{ $allStore->id }}" @if($allStore->id==$storeFilter) selected="selected" @endif >{{ $allStore->storeName }} </option>
                   @endforeach
@@ -54,35 +125,18 @@ $Roles = config('app.Roles');
 							<button type="submit" class="btn btn-primary px-2">ok</button>
             </div>
         </div>
-         
-        </div>
       </div>
     </form>
     
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
-    	<!-- <div class="col">
-    		<div class="card radius-10 overflow-hidden">
-    			<div class="card-body">
-    				<div class="d-flex align-items-center">
-    					<div>
-    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.todaysorders')}}</a></p>
-    						<h5 class="my-0"></h5>
-    					</div>
-    					<div class="text-primary ms-auto font-30"><i class='bx bx-cart-alt'></i>
-    					</div>
-    				</div>
-    			 </div>
-    			<div class="mt-1" id="chart1"></div>
-    		</div>
-    	</div> -->
     	<div class="col">
     		<div class="card radius-10 overflow-hidden">
     			<div class="card-body">
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="{{url('/admin/order')}}"> {{__('lang.totalorders')}} </a></p>
-    						<h5 class="my-0">{{$allorderCount ?? ''}}</h5>
+    						<h5 class="my-0">{{$allorderCount ?? '0'}}</h5>
     					</div>
     					<div class="text-info ms-auto font-30"><i class='bx bx-cart'></i>
     					</div>
@@ -98,48 +152,15 @@ $Roles = config('app.Roles');
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.totalrevenue')}}</a></p>
-    						<h5 class="my-0">SAR {{ $revenues->totalAmount ?? ''}}</h5>
+    						<h5 class="my-0">SAR {{ $revenues->totalAmount ?? '0'}}</h5>
     					</div>
     					<div class="text-danger ms-auto font-30">ريال
     					</div>
     				</div>
     			</div>
-    			<div class="mt-1" id="chart2"></div>
+    			<div class="mt-1" id="chart6"></div>
     		</div>
     	</div>
-    	<div class="col">
-    		<div class="card radius-10 overflow-hidden">
-    			<div class="card-body">
-    				<div class="d-flex align-items-center">
-    					<div>
-    						<p class="mb-0 text-secondary font-14">
-                  <a href="#">{{ __('lang.customers')}}</a>
-                </p>
-    						<h5 class="my-0">{{$allcustomer ?? ''}}</h5>
-    					</div>
-    					<div class="text-success ms-auto font-30"><i class='bx bx-group'></i>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="mt-1" id="chart3"></div>
-    		</div>
-    	</div>
-    	<div class="col">
-    		<div class="card radius-10 overflow-hidden">
-    			<div class="card-body">
-    				<div class="d-flex align-items-center">
-    					<div>
-    						<p class="mb-0 text-secondary font-14"><a href="{{url('/admin/store')}}">{{ __('lang.activestores')}}</a></p>
-    						<h5 class="my-0">{{$activestores ?? ''}}</h5>
-    					</div>
-    					<div class="text-warning ms-auto font-30"><i class='bx bx-store-alt'></i>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="mt-1" id="chart4"></div>
-    		</div>
-    	</div>
-    	
     </div><!--end row-->
     
     

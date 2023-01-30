@@ -12,7 +12,7 @@
  'customers' => 'Customers',
  'activestores'=>'Active Stores',
  'revenue' => 'Revenue',
- 'number_of_bills' => 'Number of bills',
+ 'number_of_bills' => 'Number of Bills',
  'top_selling_items' => 'Top Selling Items',
  'name' => 'Name',
  'sellingprice'=>'Selling Price',

@@ -71,6 +71,11 @@ class AdminIndexController extends Controller
         $startDate = $request->startDate;
         $endDate = $request->endDate;
 
+		if(empty($startDate) && empty($endDate)) {
+			$startDate = Carbon::now()->toDateString();
+			$endDate = Carbon::now()->toDateString();
+		}
+
         if (Auth::user()->roleId != 4 && Auth::user()->roleId != 11){
 			//All Except of Store Owner(4) and Chain Admin(11)
 
@@ -398,21 +403,17 @@ class AdminIndexController extends Controller
         }
 		else if(Auth::user()->roleId == 11){	
     	    //Chain Admin = 11
+
 			/* Parent and Child Store Id Start */
 			$parentUserId = auth()->user()->id;
+			
 			$storeDetails = DB::Table('chainstores as CS')->Join('stores as S','S.id','=','CS.storeId')
 			->where('CS.parentUserId', $parentUserId)->select('S.id')->get();
 
-			$storeDetails = $storeDetails->implode('id', ',');
-			
+			$storeDetails = $storeDetails->implode('id', ',');		
 			$storeDetails = explode(',',$storeDetails);
-			
 			/* Parent and Child Store Id End */
 
-    	     //$storeDetails = DB::table('stores')->where('userId', Auth::id())->select('id','storeName')->get();
-    	     //print_r($storeDetails[0]->storeName);
-    	     
-    	     //$storeDetails=$storeDetails[0]->id;
 
 			 /* Today  Order Count Start*/
 			 /* $orderplaced=DB::Table('orders_pos as O')->leftJoin('stores as S','S.userId','=','O.userId')
