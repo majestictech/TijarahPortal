@@ -574,7 +574,7 @@ class AdminIndexController extends Controller
 			$storeDetails = $storeDetails->implode('id', ',');		
 			$storeDetails = explode(',',$storeDetails);
 			
-			print_r($storeDetails);
+			//print_r($storeDetails);
 			//die;
 			/* Parent and Child Store Id End */
 
