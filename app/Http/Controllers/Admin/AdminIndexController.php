@@ -71,9 +71,12 @@ class AdminIndexController extends Controller
         $startDate = $request->startDate;
         $endDate = $request->endDate;
 
+		$todayStartDate = Carbon::now()->toDateString();
+		$todayEndDate = Carbon::now()->toDateString();
+
 		if(empty($startDate) && empty($endDate)) {
-			$startDate = Carbon::now()->toDateString();
-			$endDate = Carbon::now()->toDateString();
+			$startDate = $todayStartDate;
+			$endDate = $todayEndDate;
 		}
 
         if (Auth::user()->roleId != 4 && Auth::user()->roleId != 11){
@@ -88,13 +91,15 @@ class AdminIndexController extends Controller
 			}
 
 			$todayOrderplaced = $todayOrderplaced->get();
-    		$todayorderCount = $todayOrderplaced->count(); */
+    		$todayOrderCount = $todayOrderplaced->count(); */
 			/* Today Orderplaced Count End */
     
 			/* Orderplaced Count Start */
-    		$orderplaced=DB::Table('orders_pos as O')
+    		$orderplaced = DB::Table('orders_pos as O')
 			->Join('stores', 'stores.userId','=','O.userId')
     		->select('O.id','O.created_at');
+
+			$todayOrderCount = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$todayStartDate, $todayEndDate])->count();
 
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
 				$orderplaced = $orderplaced->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
@@ -147,6 +152,8 @@ class AdminIndexController extends Controller
 			->leftJoin('stores', 'stores.userId','=','O.userId')
 			->select(DB::raw('SUM(totalAmount) as totalAmount'));
 
+			$todayRevenueCount = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$todayStartDate, $todayEndDate])->first();
+
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
 				$revenues = $revenues->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
@@ -173,6 +180,7 @@ class AdminIndexController extends Controller
 			 $revenueData = DB::table('orders_pos')
                 ->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'),DB::raw('SUM(totalAmount - refundTotalAmount)/COUNT(totalAmount) as averageAmount'),DB::raw('COUNT(totalAmount) as billCount'),DB::raw('Date(created_at) as date'))
                // ->where('storeId',$storeId)
+				//->where('storeId',$storeDetails)
                 ->where(DB::raw('Date(created_at)'),'>=',$date)
                 ->groupBy(DB::raw('Date(created_at)'))
                 ->orderBy(DB::raw('Date(created_at)'),'DESC')
@@ -233,10 +241,22 @@ class AdminIndexController extends Controller
 				}
 				$graphDayCount = count($graphdata['revenue']['labels']);
 			
-			//print_r($graphDayCount);
+			//print_r($graphdata['revenue']['labels']);
+			
+			$revenueLabels = implode(',',$graphdata['revenue']['labels']);
+			$revenueData = implode(',',$graphdata['revenue']['data']);
+			
+			$billLabels = implode(',',$graphdata['bills']['labels']);
+			$billData = implode(',',$graphdata['bills']['data']);
+			
+			$basketLabels = implode(',',$graphdata['avgBasket']['labels']);
+			$basketData = implode(',',$graphdata['avgBasket']['data']);
 
-			//print_r($revenueData[0]->date);
-			//print_r($graphdata[0]->date);
+			//print_r($billLabels);
+			//print_r($billData);
+			//print_r($basketLabels);
+			//print_r($basketData);
+			
 			
 			//print_r($revenueData);
 			//$revenueData = json_encode($revenueData);	
@@ -292,9 +312,9 @@ class AdminIndexController extends Controller
 			$maxInventory = $instock - $lowInventory;   
 			
 
-			$graphdata = [];
+			//$graphdata = [];
 
-    		return view('admin.dashboard.index', compact('revenueData', 'topSellingData', 'allStores', 'storeFilter', 'allorderCount', 'allcustomer', 'activestores', 'revenues', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts','graphdata', 'startDate', 'endDate', 'graphDayCount'));
+    		return view('admin.dashboard.index', compact('revenueData', 'topSellingData', 'allStores', 'storeFilter', 'todayOrderCount', 'allorderCount', 'allcustomer', 'activestores', 'todayRevenueCount', 'revenues', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts','graphdata', 'startDate', 'endDate', 'graphDayCount','revenueLabels','revenueData','billLabels','billData','basketLabels','basketData'));
     		
         }		
     	else if(Auth::user()->roleId == 4){	
@@ -311,14 +331,17 @@ class AdminIndexController extends Controller
     		->whereDate('O.created_at', Carbon::today())
     		->where('S.id', $storeDetails)
     		->get();
-    		$todayorderCount = $orderplaced->count(); */
+    		$todayOrderCount = $orderplaced->count(); */
 			/* Today order Count End */
 
 			/* Orderplaced Count Start */
+			
 			$orderplaced=DB::Table('orders_pos as O')->leftJoin('stores as S','S.userId','=','O.userId')
     		->select('O.id','O.created_at','S.id')
     		->where('S.id', $storeDetails);
     		
+			$todayOrderCount = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$todayStartDate, $todayEndDate])->count();
+
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
 				$orderplaced = $orderplaced->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
@@ -378,13 +401,151 @@ class AdminIndexController extends Controller
     		->select('S.id', 'S.storeName', 'S.printStoreNameAr', 'users.contactNumber', 'users.email', 'S.regNo', 'S.state', 'S.city', 'S.appVersion', 'mas_country.nicename', 'users.firstName', 'mas_storetype.name', 'users.lastName', 'S.address', 'S.latitude', 'S.longitude', 'S.deviceType', 'S.appType', 'S.shopSize', 'S.vatNumber', 'S.printStoreNameAr', 'S.printAddAr', 'S.manageInventory', 'S.smsAlert', 'S.printFooterEn', 'S.printFooterAr', 'S.autoGlobalCat', 'S.onlineMarket', 'S.loyaltyOptions', 'S.autoGlobalItems', 'S.chatbot', 'users.id as userId')
     		->where('S.id', $storeDetails)->first();
     		
-    		
+    		//print_r($storeDetails);
+			//die;
     		
     
         	$revenue = DB::Table('stores as S')->leftJoin('orders_pos as O','O.userId','=','S.userId')
                     ->select(DB::raw('SUM(O.totalAmount) as totalAmount'))->whereDate('O.created_at', Carbon::today())
                     ->where('S.id', $storeDetails)
                     ->first();
+					
+					
+					
+			$date = Carbon::now()->subDays(7);
+			$revenueData = DB::table('orders_pos')
+                ->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'),DB::raw('SUM(totalAmount - refundTotalAmount)/COUNT(totalAmount) as averageAmount'),DB::raw('COUNT(totalAmount) as billCount'),DB::raw('Date(created_at) as date'))
+               // ->where('storeId',$storeId)
+                ->where(DB::raw('Date(created_at)'),'>=',$date)
+                ->groupBy(DB::raw('Date(created_at)'))
+                ->orderBy(DB::raw('Date(created_at)'),'DESC')
+				->where('storeId',$storeDetails)
+                ->get();
+
+				
+				$count = 0;
+				$graphRevenue = [];
+				$graphRevenueSearch = [];
+				foreach($revenueData as $revenue) {
+					$graphRevenueSearch[$count] = $revenue->date;
+					$graphRevenue[$count]['date'] = $revenue->date;
+					$graphRevenue[$count]['totalAmount'] = $revenue->totalAmount;
+					$graphRevenue[$count]['averageAmount'] = $revenue->averageAmount;
+					$graphRevenue[$count]['billCount'] = $revenue->billCount;
+
+
+					// echo $graphRevenue[$count]['billCount'];	
+					// echo '<br/>';
+					// echo $graphRevenue[$count]['date'];	
+					// echo '<br/>';
+					// echo $graphRevenue[$count]['averageAmount'];	
+					// echo '<br/>';
+					// echo $graphRevenue[$count]['totalAmount'];	
+					// echo '<br/>';
+					$count++;
+				}
+				
+				for($i=0; $i<7; $i++) {
+					$day = Carbon::now()->subDays($i);
+					$checkDate = $day->toDateString();
+					//$dateDay = $day->format('D');
+					$dateDay = $day->format('d/m');
+					
+					// Search For Revenue, Average Basket and Bills used common as in both totalAmount is used
+					$position = array_search($checkDate, $graphRevenueSearch);
+					
+					if($position !== false) {
+						$graphdata['revenue']['labels'][] = $dateDay;
+						$graphdata['revenue']['data'][] = round($graphRevenue[$position]['totalAmount'],0);
+						
+						$graphdata['avgBasket']['labels'][] = $dateDay;
+						$graphdata['avgBasket']['data'][] = round($graphRevenue[$position]['averageAmount'],0);
+						
+						$graphdata['bills']['labels'][] = $dateDay;
+						$graphdata['bills']['data'][] = round($graphRevenue[$position]['billCount'],0);
+					}
+					else {
+						$graphdata['revenue']['labels'][] = $dateDay;
+						$graphdata['revenue']['data'][] = 0;
+						
+						$graphdata['avgBasket']['labels'][] = $dateDay;
+						$graphdata['avgBasket']['data'][] = 0;
+						
+						$graphdata['bills']['labels'][] = $dateDay;
+						$graphdata['bills']['data'][] = 0;
+					}
+				}
+				$graphDayCount = count($graphdata['revenue']['labels']);
+			
+			//print_r($graphdata['revenue']['labels']);
+			
+			$revenueLabels = implode(',',$graphdata['revenue']['labels']);
+			$revenueData = implode(',',$graphdata['revenue']['data']);
+			
+			$billLabels = implode(',',$graphdata['bills']['labels']);
+			$billData = implode(',',$graphdata['bills']['data']);
+			
+			$basketLabels = implode(',',$graphdata['avgBasket']['labels']);
+			$basketData = implode(',',$graphdata['avgBasket']['data']);
+
+			//print_r($billLabels);
+			//print_r($billData);
+			//print_r($basketLabels);
+			//print_r($basketData);
+			
+			
+			//print_r($revenueData);
+			//$revenueData = json_encode($revenueData);	
+			//print_r($revenueData);
+			//die;
+		
+			//print_r($graphRevenue[$count]['billCount']);	
+			//print_r($graphRevenue[$count]['averageAmount']);	
+			//die;
+			/*Bill Count End */
+
+		/* 	print_r($lastSevendaysRevenue);	
+			print_r('<br>');	
+			print_r($lastSevendaysRevenue[0]->totalAmount);	 */
+			/* Find Day Name Using Date*/
+			/* $newDate = date('l', strtotime($lastSevendaysRevenue[0]->date));	
+			print_r($newDate); */
+			//die;
+			
+			/* Top Selling Data Start*/
+			$topSellingData = DB::table('reports')
+                ->select('productName', 'productNameAr','price', DB::raw('SUM(quantity) as totalQty'))
+            	->where(DB::raw('Date(created_at)'),'>=',$date)
+                ->groupBy('productName')
+                ->orderBy('totalQty','DESC')
+				->limit(5)
+                ->get(); 
+			
+			/* Top Selling Data End*/
+			
+			$lastSevendaysBills = DB::Table('orders_pos as O')->leftJoin('stores as S','S.userId','=','O.userId')
+    		->select(DB::raw('DATE(O.created_at) as date'))
+    		->where('O.created_at', '>=', $date)
+			->groupBy('date')
+    		->get();
+			$sevenDaysOrderCount = $lastSevendaysBills->count();
+			
+			// Product Available and Not Available Start
+			$lowInventory = DB::Table('products as P')->leftJoin('categories', 'categories.id', '=', 'P.categoryId')
+			->select('P.id','P.name','P.code','P.price','P.productImage','P.minOrderQty','categories.name AS catName', 'P.productImgBase64', 'P.sellingPrice', 'P.status', 'P.inventory', 'P.minInventory', 'P.updated_at')->whereRaw('P.inventory < P.minInventory')->where('P.inventory','>', 0)
+			->count();
+			
+			
+			
+			$allProducts = Product::count();
+			//$allProducts = $products->count();
+			$productAvailable = Product::where('status', 'Available')->count();
+			
+			$productNotAvailable = Product::where('status', 'Not Available')->count();
+			$instock = Product::where('inventory','>', 0)->count();
+			$outOfStock = Product::where('inventory','<=', 0)->count();
+			
+			$maxInventory = $instock - $lowInventory;  
     		
     		//$revenue = $revenue[0]->totalAmount;
 			
@@ -398,7 +559,7 @@ class AdminIndexController extends Controller
 			$allProducts = 1;
 			
 			
-    	 	return view('admin.dashboard.index',compact('allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate'));
+    	 	return view('admin.dashboard.index',compact('todayOrderCount', 'allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate','revenueLabels','revenueData','billLabels','billData','basketLabels','basketData','date'));
     		
         }
 		else if(Auth::user()->roleId == 11){	
@@ -412,6 +573,9 @@ class AdminIndexController extends Controller
 
 			$storeDetails = $storeDetails->implode('id', ',');		
 			$storeDetails = explode(',',$storeDetails);
+			
+			print_r($storeDetails);
+			//die;
 			/* Parent and Child Store Id End */
 
 
@@ -421,7 +585,7 @@ class AdminIndexController extends Controller
     		->whereDate('O.created_at', Carbon::today())
     		->whereIn('S.id', $storeDetails)
     		->get();
-    		$todayorderCount = $orderplaced->count();
+    		$todayOrderCount = $orderplaced->count();
 			*/
 			 /* Today  Order Count End*/
 			 
@@ -439,7 +603,8 @@ class AdminIndexController extends Controller
 			print_r($allorderCount);
 			die;
  			 */
-			 
+
+			 $todayOrderCount = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$todayStartDate, $todayEndDate])->count();
 			 if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
 				 $orderplaced = $orderplaced->where('S.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			 } 
@@ -463,7 +628,7 @@ class AdminIndexController extends Controller
 			/* Customers Count Start */
 			$customer = DB::Table('customers as C')->leftJoin('stores as S','S.id' ,'=','C.storeName')
             ->select('C.id', 'C.storeName')
-             ->whereIn('S.id',$storeDetails);
+            ->whereIn('S.id',$storeDetails);
 			
     
 			if(!empty($storeFilter)) {
@@ -503,7 +668,8 @@ class AdminIndexController extends Controller
 			$revenue = DB::Table('stores as S')->leftJoin('orders_pos as O','O.userId','=','S.userId')
                     ->select(DB::raw('SUM(O.totalAmount) as totalAmount'))
                     ->whereIn('S.id', $storeDetails);
-                   
+            
+			$todayRevenueCount = $revenue->whereBetween(DB::raw('Date(O.created_at)'), [$todayStartDate, $todayEndDate])->first();
 
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
 				$revenue = $revenue->where('S.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
@@ -523,16 +689,24 @@ class AdminIndexController extends Controller
 				//Write Bill Count Code Here
 			/*Bill Count End */
 
+			//dd($revenues);
+
 			/* Top Selling Data Start*/
 			$topSellingData = DB::table('reports')
                 ->select('productName', 'productNameAr','price', DB::raw('SUM(quantity) as totalQty'))
 				->whereIn('storeId', $storeDetails)
-            	->where(DB::raw('Date(created_at)'),'>=',$date)
+            	//->where(DB::raw('Date(created_at)'),'>=',$date)
                 ->groupBy('productName')
                 ->orderBy('totalQty','DESC')
 				->limit(5)
                 ->get(); 
 			/* Top Selling Data End*/
+			
+			
+			
+			
+			
+			
 
     		$storedata = DB::Table('stores as S')->leftJoin('mas_country', 'mas_country.id', '=', 'S.countryId')->leftJoin('users', 'users.id', '=', 'S.userId')->leftJoin('mas_storetype','mas_storetype.id','=','S.storeType')
     		->select('S.id', 'S.storeName', 'S.printStoreNameAr', 'users.contactNumber', 'users.email', 'S.regNo', 'S.state','S.city', 'S.appVersion', 'mas_country.nicename', 'users.firstName', 'mas_storetype.name', 'users.lastName', 'S.address', 'S.latitude', 'S.longitude', 'S.deviceType', 'S.appType', 'S.shopSize', 'S.vatNumber', 'S.printStoreNameAr', 'S.printAddAr', 'S.manageInventory', 'S.smsAlert', 'S.printFooterEn', 'S.printFooterAr', 'S.autoGlobalCat', 'S.onlineMarket', 'S.loyaltyOptions', 'S.autoGlobalItems', 'S.chatbot', 'users.id as userId')
@@ -542,7 +716,7 @@ class AdminIndexController extends Controller
     		
     		
 			//print_r($orderplaced);
-			//print_r($todayorderCount);
+			//print_r($todayOrderCount);
 			//die;
     	    
     		
@@ -617,8 +791,137 @@ class AdminIndexController extends Controller
 			$outOfStock = 0;
 			$maxInventory = 0;
 			$allProducts = 1;
+			
+			
+			
+			
+			$revenueData = DB::table('orders_pos')
+                ->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'),DB::raw('SUM(totalAmount - refundTotalAmount)/COUNT(totalAmount) as averageAmount'),DB::raw('COUNT(totalAmount) as billCount'),DB::raw('Date(created_at) as date'))
+               // ->where('storeId',$storeId)
+                //->where(DB::raw('Date(created_at)'),'>=',$date)
+                ->groupBy(DB::raw('Date(created_at)'))
+                ->orderBy(DB::raw('Date(created_at)'),'DESC')
+				->whereIn('storeId', $storeDetails)
+				
+                ->get();
 
-    	 	return view('admin.dashboard.index',compact('orderplaced', 'allcustomer', 'allStores', 'activestores', 'storedata', 'allorderCount',  'revenues', 'storeDetails', 'topSellingData', 'lastdaysRevenue', 'maxInventory', 'outOfStock', 'instock', 'productNotAvailable','productAvailable', 'lowInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate')); 
+				
+				$count = 0;
+				$graphRevenue = [];
+				$graphRevenueSearch = [];
+				foreach($revenueData as $revenue) {
+					$graphRevenueSearch[$count] = $revenue->date;
+					$graphRevenue[$count]['date'] = $revenue->date;
+					$graphRevenue[$count]['totalAmount'] = $revenue->totalAmount;
+					$graphRevenue[$count]['averageAmount'] = $revenue->averageAmount;
+					$graphRevenue[$count]['billCount'] = $revenue->billCount;
+
+
+					// echo $graphRevenue[$count]['billCount'];	
+					// echo '<br/>';
+					// echo $graphRevenue[$count]['date'];	
+					// echo '<br/>';
+					// echo $graphRevenue[$count]['averageAmount'];	
+					// echo '<br/>';
+					// echo $graphRevenue[$count]['totalAmount'];	
+					// echo '<br/>';
+					$count++;
+				}
+				
+				for($i=0; $i<7; $i++) {
+					$day = Carbon::now()->subDays($i);
+					$checkDate = $day->toDateString();
+					//$dateDay = $day->format('D');
+					$dateDay = $day->format('d/m');
+					
+					// Search For Revenue, Average Basket and Bills used common as in both totalAmount is used
+					$position = array_search($checkDate, $graphRevenueSearch);
+					
+					if($position !== false) {
+						$graphdata['revenue']['labels'][] = $dateDay;
+						$graphdata['revenue']['data'][] = round($graphRevenue[$position]['totalAmount'],0);
+						
+						$graphdata['avgBasket']['labels'][] = $dateDay;
+						$graphdata['avgBasket']['data'][] = round($graphRevenue[$position]['averageAmount'],0);
+						
+						$graphdata['bills']['labels'][] = $dateDay;
+						$graphdata['bills']['data'][] = round($graphRevenue[$position]['billCount'],0);
+					}
+					else {
+						$graphdata['revenue']['labels'][] = $dateDay;
+						$graphdata['revenue']['data'][] = 0;
+						
+						$graphdata['avgBasket']['labels'][] = $dateDay;
+						$graphdata['avgBasket']['data'][] = 0;
+						
+						$graphdata['bills']['labels'][] = $dateDay;
+						$graphdata['bills']['data'][] = 0;
+					}
+				}
+				$graphDayCount = count($graphdata['revenue']['labels']);
+			
+			//print_r($graphdata['revenue']['labels']);
+			
+			$revenueLabels = implode(',',$graphdata['revenue']['labels']);
+			$revenueData = implode(',',$graphdata['revenue']['data']);
+			
+			$billLabels = implode(',',$graphdata['bills']['labels']);
+			$billData = implode(',',$graphdata['bills']['data']);
+			
+			$basketLabels = implode(',',$graphdata['avgBasket']['labels']);
+			$basketData = implode(',',$graphdata['avgBasket']['data']);
+
+			//print_r($billLabels);
+			//print_r($billData);
+			//print_r($basketLabels);
+			//print_r($basketData);
+			
+			
+			//print_r($revenueData);
+			//$revenueData = json_encode($revenueData);	
+			//print_r($revenueData);
+			//die;
+		
+			//print_r($graphRevenue[$count]['billCount']);	
+			//print_r($graphRevenue[$count]['averageAmount']);	
+			//die;
+			/*Bill Count End */
+
+		/* 	print_r($lastSevendaysRevenue);	
+			print_r('<br>');	
+			print_r($lastSevendaysRevenue[0]->totalAmount);	 */
+			/* Find Day Name Using Date*/
+			/* $newDate = date('l', strtotime($lastSevendaysRevenue[0]->date));	
+			print_r($newDate); */
+			//die;
+			
+			
+			
+			$lastSevendaysBills = DB::Table('orders_pos as O')->leftJoin('stores as S','S.userId','=','O.userId')
+    		->select(DB::raw('DATE(O.created_at) as date'))
+    		->where('O.created_at', '>=', $date)
+			->groupBy('date')
+    		->get();
+			$sevenDaysOrderCount = $lastSevendaysBills->count();
+			
+			// Product Available and Not Available Start
+			$lowInventory = DB::Table('products as P')->leftJoin('categories', 'categories.id', '=', 'P.categoryId')
+			->select('P.id','P.name','P.code','P.price','P.productImage','P.minOrderQty','categories.name AS catName', 'P.productImgBase64', 'P.sellingPrice', 'P.status', 'P.inventory', 'P.minInventory', 'P.updated_at')->whereRaw('P.inventory < P.minInventory')->where('P.inventory','>', 0)
+			->count();
+			
+			
+			
+			$allProducts = Product::count();
+			//$allProducts = $products->count();
+			$productAvailable = Product::where('status', 'Available')->count();
+			
+			$productNotAvailable = Product::where('status', 'Not Available')->count();
+			$instock = Product::where('inventory','>', 0)->count();
+			$outOfStock = Product::where('inventory','<=', 0)->count();
+			
+			$maxInventory = $instock - $lowInventory;  
+
+    	 	return view('admin.dashboard.index',compact('orderplaced', 'allcustomer', 'allStores', 'activestores', 'storedata', 'todayOrderCount', 'allorderCount', 'todayRevenueCount', 'revenues', 'storeDetails', 'topSellingData', 'lastdaysRevenue', 'maxInventory', 'outOfStock', 'instock', 'productNotAvailable','productAvailable', 'lowInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate','revenueLabels','revenueData','billLabels','billData','basketLabels','basketData')); 
     		
         }
         

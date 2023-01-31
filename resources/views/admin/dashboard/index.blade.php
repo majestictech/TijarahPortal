@@ -26,7 +26,7 @@ $Roles = config('app.Roles');
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.todaysorders')}}</a></p>
-    						<h5 class="my-0">{{$allorderCount ?? '0'}}</h5>
+    						<h5 class="my-0">{{$todayorderCount ?? '0'}}</h5>
     					</div>
     					<div class="text-primary ms-auto font-30"><i class='bx bx-cart-alt'></i>
     					</div>
@@ -41,8 +41,8 @@ $Roles = config('app.Roles');
     			<div class="card-body">
     				<div class="d-flex align-items-center">
     					<div>
-    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.totalrevenue')}}</a></p>
-    						<h5 class="my-0">SAR {{ $revenues->totalAmount ?? '0'}}</h5>
+    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.todaysrevenue')}}</a></p>
+    						<h5 class="my-0">SAR {{ $todayRevenueCount->totalAmount ?? '0'}}</h5>
     					</div>
     					<div class="text-danger ms-auto font-30">ريال
     					</div>
@@ -58,7 +58,7 @@ $Roles = config('app.Roles');
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14">
-                  <a href="#">{{ __('lang.customers')}}</a>
+                  <a href="#">{{ __('lang.totalcustomers')}}</a>
                 </p>
     						<h5 class="my-0">{{$allcustomer ?? ''}}</h5>
     					</div>
@@ -75,7 +75,7 @@ $Roles = config('app.Roles');
     			<div class="card-body">
     				<div class="d-flex align-items-center">
     					<div>
-    						<p class="mb-0 text-secondary font-14"><a href="{{url('/admin/store')}}">{{ __('lang.activestores')}}</a></p>
+    						<p class="mb-0 text-secondary font-14"><a href="{{url('/admin/store')}}">{{ __('lang.totalactivestores')}}</a></p>
     						<h5 class="my-0">{{$activestores ?? ''}}</h5>
     					</div>
     					<div class="text-warning ms-auto font-30"><i class='bx bx-store-alt'></i>
@@ -317,7 +317,7 @@ $Roles = config('app.Roles');
             <div class="col-4" style="margin-top: 38px;">
               <div class="card-body" style="padding: 0;">
                 <!--<canvas id="myChart1" class="card" width="150" height="150"></canvas>-->
-                <div class="card" id="chart-1" ></div>
+                <div class="card" id="chart-1"></div>
                 <div class="card" style="padding: 5px; color: #ff616d;; font-weight: 600; margin-top: -22px; text-align: center; background: #eff3f6;">{{ __('lang.out_of_stock')}}</div>
               </div>
             </div>
@@ -590,125 +590,23 @@ $Roles = config('app.Roles');
 
 
 
-
-
-/*
-// Activate the sliders
-document.querySelectorAll('#sliders input').forEach(input => input.addEventListener('input', e => {
-  chart.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
-  showValues();
-  chart.redraw(false);
-}));
-
-showValues();
-*/
-// Set up the chart for container 1
-const container1 = new Highcharts.Chart({
-  chart: {
-
-    renderTo: 'container1',
-    type: 'column',
-	margin: [0, 0, 0, 0],
-        spacingTop: 0,
-        spacingBottom: 0,
-        spacingLeft: 0,
-        spacingRight: 0
-    options3d: {
-      enabled: true,
-      alpha: 5,
-      beta: 15,
-      depth: 100,
-      viewDistance: 5
-    }
-  },
-  xAxis: {
-    categories: [23, 22, 20, 18, 17, 15]
-  },
-  yAxis: {
-    title: {
-      enabled: false
-    }
-  },
-  tooltip: {
-    headerFormat: '<b>{point.key}</b><br>',
-    pointFormat: 'Cars sold: {point.y}'
-  },
-  title: {
-    text: '{{ __('lang.total_bills')}}'
-  },
-  subtitle: {
-    text: 'Source: '
-  },
-  legend: {
-    enabled: true
-  },
-  plotOptions: {
-    column: {
-      depth: 13
-    }
-  },
-  series: [{
-	name: 'Total Bills',
-    data: [6, 5, 3, 4, 2, 1, 0],
-    colorByPoint: true
-
-  }]
-});
-
 // Set up the chart for container 2
-const container2 = new Highcharts.Chart({
-  chart: {
-    renderTo: 'container2',
-    type: 'column',
-    options3d: {
-      enabled: true,
-      alpha: 5,
-      beta: 15,
-      depth: 100,
-      viewDistance: 5
-    }
-  },
-  xAxis: {
-    categories: [23, 22, 20, 18, 17, 15]
-  },
-  yAxis: {
-    title: {
-      enabled: false
-    }
-  },
-  tooltip: {
-    headerFormat: '<b>{point.key}</b><br>',
-    pointFormat: 'Cars sold: {point.y}'
-  },
-  title: {
-    text: '{{ __('lang.average_basket')}}'
-  },
-  subtitle: {
-    text: 'Source: '
-  },
-  legend: {
-    enabled: true
-  },
-  plotOptions: {
-    column: {
-      depth: 13
-    }
-  },
-  series: [{
-	name: 'Average Basket',
-    data: [6, 5, 3, 4, 2, 1, 0],
-    colorByPoint: true
-
-  }]
-});
-
-
+var allProducts = {{$allProducts}};
+var outOfStock = {{$outOfStock}};
+var outOfStockPercentage = (outOfStock/allProducts)*100;
+outOfStockPercentage = outOfStockPercentage.toFixed(2);
+let remainingData = allProducts - outOfStock;
+outOfStock.toString();
+remainingData.toString();
 Highcharts.chart('chart-1', {
     chart: {
+        //height: 160,
         type: 'pie',
+        margin: [0, 0, 0, 0],
+        marginTop: 0,
         options3d: {
             enabled: true,
-            alpha: 45
+            alpha: 30
         }
     },
     title: {
@@ -724,256 +622,17 @@ Highcharts.chart('chart-1', {
         }
     },
     series: [{
-        name: 'Medals',
-        data: [
-            ['Norway', 16],
-            ['Japan', 3]
-
-        ]
+        name: '',
+        data: [{name:'Out of Stock',y: outOfStock,color:'#157d4c'},{name:'Remaining Items',y: remainingData,color:'#157d4c'}],
     }]
 });
 
 
-/*// chart 2
-$(function() {
-    var chart = new Highcharts.Chart({
-        chart: {
-            renderTo: 'chart-2',
-            type: 'pie'
-        },
-        plotOptions: {
-            pie: {
-                innerSize: '85%'
-            }
-        },
-        title: {
-            text: ''
-        },
-        series: [{
-            data: [
-                ['Firefox', 2262],
-                ['IE7', 3800],
-                ['IE6', 1000],
-                ['Chrome', 1986]
-                ]}]
-    },
-                                     
-    function(chart) { // on complete
-        var textX = chart.plotLeft + (chart.series[0].center[0]);
-        var textY = chart.plotTop  + (chart.series[0].center[1]);
 
-        var span = '<span id="pieChartInfoText" style="position:absolute; text-align:center;">';
-        span += '<span style="font-size: 32px">Upper</span><br>';
-        span += '<span style="font-size: 16px">Lower</span>';
-        span += '</span>';
-
-        $("#addText").append(span);
-        span = $('#pieChartInfoText');
-        span.css('left', textX + (span.width() * -0.5));
-        span.css('top', textY + (span.height() * -0.5));
-    });
-});
-*/
 </script>
 <script>
 
-/*	var options = {
-          series: [70],
-          chart: {
-          height: 350,
-          type: 'radialBar',
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '50%',
-            }
-          },
-        },
-        labels: ['Cricket'],
-        };
 
-        var chart = new ApexCharts(document.querySelector("#myChart"), options);
-        chart.render();
-*/
- 
-/* var options = {
-          series: [75],
-          chart: {
-          height: 350,
-          type: 'radialBar',
-          toolbar: {
-            show: true
-          }
-        },
-        plotOptions: {
-          radialBar: {
-            startAngle: -135,
-            endAngle: 225,
-             hollow: {
-              margin: 0,
-              size: '70%',
-              background: '#fff',
-              image: undefined,
-              imageOffsetX: 0,
-              imageOffsetY: 0,
-              position: 'front',
-              dropShadow: {
-                enabled: true,
-                top: 3,
-                left: 0,
-                blur: 4,
-                opacity: 0.24
-              }
-            },
-            track: {
-              background: '#fff',
-              strokeWidth: '67%',
-              margin: 0, // margin is in pixels
-              dropShadow: {
-                enabled: true,
-                top: -3,
-                left: 0,
-                blur: 4,
-                opacity: 0.35
-              }
-            },
-        
-            dataLabels: {
-              show: true,
-              name: {
-                offsetY: -10,
-                show: true,
-                color: '#888',
-                fontSize: '17px'
-              },
-              value: {
-                formatter: function(val) {
-                  return parseInt(val);
-                },
-                color: '#111',
-                fontSize: '36px',
-                show: true,
-              }
-            }
-          }
-        },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shade: 'dark',
-            type: 'horizontal',
-            shadeIntensity: 0.5,
-            gradientToColors: ['#ABE5A1'],
-            inverseColors: true,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 100]
-          }
-        },
-        stroke: {
-          lineCap: 'round'
-        },
-        labels: ['Percent'],
-        };
-
-        var chart = new ApexCharts(document.querySelector("#myChart"), options);
-        chart.render();*/
-
-
-
-/*var xValues = [];
-var yValues = [70, 30];
-var barColors = [
-  "#157d4c",
-  "#e5e9ec"
-]; 
-
-/*new Chart("myChart", {
-  type: "doughnut",
-  width: "10%", 
-  data: {
-    labels: xValues,
-    datasets: [{
-      backgroundColor: barColors,
-      data: yValues
-    }]
-  },
- 
-options: {
-	series: [70],
-	cutout: '10%',
-    title: {
-      display: true,
-      text: "16,317",
-	  alpha: "40"
-    }
-  }
-  
-  
-});*/
-
-/*var xValues = ["Low Inventory","Out of Stock"];*/
-/*var yValues = [40, 60];
-var barColors = [
-  "#ff616d",
-  "#e5e9ec"
-];
-
-new Chart("myChart1", {
-  type: "doughnut",
-  width: "10%", 
-  data: {
-    labels: xValues,
-    datasets: [{
-      backgroundColor: barColors,
-      data: yValues
-    }]
-  },
- 
-options: {
-	series: [40],
-	cutout: '10%',
-    title: {
-      display: true,
-      text: "2,089",
-	  alpha: "40"
-    }
-  }
-  
-  
-});
-
-/*var xValues = ["Low Inventory","Out of Stock"];*/
-/*var yValues = [25, 75];
-var barColors = [
-  "#f58634",
-  "#e5e9ec"
-];
-
-new Chart("myChart2", {
-  type: "doughnut",
-  width: "10%", 
-  data: {
-    labels: xValues,
-    datasets: [{
-      backgroundColor: barColors,
-      data: yValues
-    }]
-  },
- 
-options: {
-	series: [70],
-	cutout: '10%',
-    title: {
-      display: true,
-      text: "978",
-	  alpha: "40"
-    }
-  }
-  
-  
-});*/
 /*  -------Available Chart Strat------*/
 
 var allProducts = {{$allProducts}};
@@ -1046,6 +705,7 @@ chart.render();
 
 
 /*  -------Out Of Stock Chart Start------*/
+/*
 var outOfStock = {{$outOfStock}};
 var outOfStockPercentage = (outOfStock/allProducts)*100;
 outOfStockPercentage = outOfStockPercentage.toFixed(2);
@@ -1104,6 +764,7 @@ var options = {
 var chart = new ApexCharts(document.querySelector("#chart-1"), options);
 
 chart.render();
+*/
 /*  -------Out Of Stock Chart End------*/
 
 
@@ -1168,22 +829,10 @@ var chart = new ApexCharts(document.querySelector("#chart-2"), options);
 chart.render();
 /*  -------Low inventory Chart End------*/
 
+/* Number of Bills Chart Starts */
 
 
-/*
-$("#chart22").sparkline([3,5,3,7,5,10,3,6,5,0], {
-            type: 'line',
-            width: '150',
-            height: '45',
-            lineWidth: '2',
-            lineColor: '#1769ff',
-            fillColor: 'rgba(23, 105, 255, 0.5)',
-            spotColor: '#1769ff',
-    });
-	*/
 
- /* Number of Bills Chart Start */
- // Set up the chart
  Highcharts.chart('chart-10', {
   chart: {
     type: 'column',
@@ -1209,7 +858,7 @@ $("#chart22").sparkline([3,5,3,7,5,10,3,6,5,0], {
     }
   },
   xAxis: {
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+    categories: [{{$billLabels}}]
   },
   yAxis: {
     title: {
@@ -1222,8 +871,7 @@ $("#chart22").sparkline([3,5,3,7,5,10,3,6,5,0], {
   },
   series: [{
     name: 'Sales',
-    data: [16076, 112688, 39452, 58545, 94352,
-      30495]
+    data: [{{$billData}}]
   }]
 });
 	
@@ -1231,23 +879,26 @@ $("#chart22").sparkline([3,5,3,7,5,10,3,6,5,0], {
 </script>
 <script>
 
+
+
+
+
+
+
+//alert({{$revenueData}});
+//alert($revenueLabels);
+
+
 /* Revenue Chart Start */
-console.log(132);
-let graphDayCount = 10; //call graphDayCount variale 
-console.log(graphDayCount);
-for (let i=0; i<graphDayCount; i++){
-  $i =i;
-  let revenueLabel = 0;
-  let revenueData = 0;
-  console.log(revenueLabel);
-  console.log(revenueData);
+
+
 
   Highcharts.chart('chart-h1', {
       chart: {
           type: 'area'
       },
       xAxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'] 
+          categories: [{{$revenueLabels}}],
           
       },
 
@@ -1263,12 +914,11 @@ for (let i=0; i<graphDayCount; i++){
       
       series: [{
           type: undefined,
-          data: [40, 30, 20 , 10, 50, 100],
+          data: [{{$revenueData}}],
           colors: ['#000000', '#006C35'],
             colorByPoint: true
       }]
   });
-}
 /* Revenue Chart End */
 
 
