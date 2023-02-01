@@ -282,7 +282,7 @@ class AdminIndexController extends Controller
             	->where(DB::raw('Date(created_at)'),'>=',$date)
                 ->groupBy('productName')
                 ->orderBy('totalQty','DESC')
-				->limit(5)
+				//->limit(8)
                 ->get(); 
 			
 			/* Top Selling Data End*/
@@ -518,7 +518,7 @@ class AdminIndexController extends Controller
             	->where(DB::raw('Date(created_at)'),'>=',$date)
                 ->groupBy('productName')
                 ->orderBy('totalQty','DESC')
-				->limit(5)
+				//->limit(8)
                 ->get(); 
 			
 			/* Top Selling Data End*/
@@ -698,7 +698,7 @@ class AdminIndexController extends Controller
             	//->where(DB::raw('Date(created_at)'),'>=',$date)
                 ->groupBy('productName')
                 ->orderBy('totalQty','DESC')
-				->limit(5)
+				//->limit(8)
                 ->get(); 
 			/* Top Selling Data End*/
 			
