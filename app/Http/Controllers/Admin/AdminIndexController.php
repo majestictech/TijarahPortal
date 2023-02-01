@@ -120,10 +120,10 @@ class AdminIndexController extends Controller
 			//$todayOrderCount = $orderplaced->whereDate('O.created_at', Carbon::today())->count();
 
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
-				$orderplaced = $orderplaced->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+				$orderplaced = $orderplaced->where('O.storeId', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			} 
 			else if(!empty($storeFilter)) {
-				$orderplaced = $orderplaced->where('stores.id', $storeFilter);
+				$orderplaced = $orderplaced->where('O.storeId', $storeFilter);
 			}
 			 else if(!empty($startDate) && !empty($endDate)) {
 				$orderplaced = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
@@ -194,10 +194,10 @@ class AdminIndexController extends Controller
 			->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'));
 
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
-				$revenues = $revenues->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+				$revenues = $revenues->where('O.storeId', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 			else if(!empty($storeFilter)) {
-				$revenues = $revenues->where('stores.id', $storeFilter);
+				$revenues = $revenues->where('O.storeId', $storeFilter);
 			}
 			else if(!empty($startDate) && !empty($endDate)) {
 				$revenues = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
@@ -383,10 +383,10 @@ class AdminIndexController extends Controller
 			$todayOrderCount = $orderplaced->whereDate('O.created_at', Carbon::today())->count();
 
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
-				$orderplaced = $orderplaced->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+				$orderplaced = $orderplaced->where('O.storeId', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 			else if(!empty($storeFilter)) {
-				$orderplaced = $orderplaced->where('stores.id', $storeFilter);
+				$orderplaced = $orderplaced->where('O.storeId', $storeFilter);
 			}
 			else if(!empty($startDate) && !empty($endDate)) {
 				$orderplaced = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
@@ -749,10 +749,10 @@ class AdminIndexController extends Controller
 			->whereIn('O.storeId', $storeDetails);
 
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
-				$revenues = $revenues->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+				$revenues = $revenues->where('O.storeId', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 			else if(!empty($storeFilter)) {
-				$revenues = $revenues->where('stores.id', $storeFilter);
+				$revenues = $revenues->where('O.storeId', $storeFilter);
 			}
 			else if(!empty($startDate) && !empty($endDate)) {
 				$revenues = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
