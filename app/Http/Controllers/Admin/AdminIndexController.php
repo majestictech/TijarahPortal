@@ -602,7 +602,7 @@ class AdminIndexController extends Controller
     	 	return view('admin.dashboard.index',compact('todayOrderCount', 'allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate','revenueLabels','revenueData','billLabels','billData','basketLabels','basketData','date'));
     		
         }
-		else if(Auth::user()->roleId == 11){	
+		else if(Auth::user()->roleId == 11 || Auth::user()->roleId == 12 ){	
     	    //Chain Admin = 11
 
 			/* Parent and Child Store Id Start */
