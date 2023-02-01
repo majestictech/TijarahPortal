@@ -13,6 +13,9 @@ use Carbon\Carbon;
 use App\Orders_pos;
 use App\Customer;
 use App\Product;
+use Illuminate\Support\Str;
+
+
 class AdminIndexController extends Controller
 {
     /**
@@ -93,13 +96,28 @@ class AdminIndexController extends Controller
 			$todayOrderplaced = $todayOrderplaced->get();
     		$todayOrderCount = $todayOrderplaced->count(); */
 			/* Today Orderplaced Count End */
+
+			 /* Today  Order Count Start*/
+				$orderplaced1=DB::Table('orders_pos as O')->leftJoin('stores as S','S.userId','=','O.userId')
+				->select('O.id','O.created_at','S.id')
+				->whereDate('O.created_at', Carbon::today())
+				// ->whereIn('S.id', $storeDetails)
+				->get();
+				$todayOrderCount = $orderplaced1->count();
+			//print_r($todayOrderCount);
+			// die;
+			/* Today  Order Count End*/
     
 			/* Orderplaced Count Start */
-    		$orderplaced = DB::Table('orders_pos as O')
-			->Join('stores', 'stores.userId','=','O.userId')
-    		->select('O.id','O.created_at');
 
-			$todayOrderCount = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$todayStartDate, $todayEndDate])->count();
+    		$orderplaced = DB::Table('orders_pos as O')
+			->leftJoin('stores', 'stores.userId','=','O.userId')
+    		->select('O.id','O.created_at');
+			
+			//print_r($orderplaced);
+			//die;
+
+			//$todayOrderCount = $orderplaced->whereDate('O.created_at', Carbon::today())->count();
 
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
 				$orderplaced = $orderplaced->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
@@ -148,7 +166,7 @@ class AdminIndexController extends Controller
 
     		
 			/*  Total Revenues Start*/
-        	$revenues = DB::table('orders_pos as O')
+        	/* $revenues = DB::table('orders_pos as O')
 			->leftJoin('stores', 'stores.userId','=','O.userId')
 			->select(DB::raw('SUM(totalAmount) as totalAmount'));
 
@@ -164,7 +182,29 @@ class AdminIndexController extends Controller
 				$revenues = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 
-			$revenues = $revenues->first();
+			$revenues = $revenues->first(); */
+			$todayRevenueCount = DB::table('orders_pos as O')
+                    ->select(DB::raw('SUM(totalAmount) as totalAmount'))->whereDate('created_at', Carbon::today())
+                    ->get();
+    		
+    		$todayRevenueCount = $todayRevenueCount[0]->totalAmount;
+			/* print_r($todayRevenueCount);
+			die; */
+			$revenues = DB::table('orders_pos as O')
+			->select(DB::raw('SUM(totalAmount) as totalAmount'));
+
+			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
+				$revenues = $revenues->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+			}
+			else if(!empty($storeFilter)) {
+				$revenues = $revenues->where('stores.id', $storeFilter);
+			}
+			else if(!empty($startDate) && !empty($endDate)) {
+				$revenues = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+			}
+
+			$revenues= $revenues->get();
+			$revenues = $revenues[0]->totalAmount;
 			/*  Total Revenue End*/
 
 			$date = Carbon::now()->subDays(7);
@@ -340,7 +380,7 @@ class AdminIndexController extends Controller
     		->select('O.id','O.created_at','S.id')
     		->where('S.id', $storeDetails);
     		
-			$todayOrderCount = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$todayStartDate, $todayEndDate])->count();
+			$todayOrderCount = $orderplaced->whereDate('O.created_at', Carbon::today())->count();
 
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
 				$orderplaced = $orderplaced->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
@@ -588,13 +628,26 @@ class AdminIndexController extends Controller
     		$todayOrderCount = $orderplaced->count();
 			*/
 			 /* Today  Order Count End*/
+			 /* Today Orderplaced Count End */
+			 /* Today  Order Count Start*/
+			 $orderplaced1=DB::Table('orders_pos as O')->leftJoin('stores as S','S.userId','=','O.userId')
+			 ->select('O.id','O.created_at','S.id')
+			 ->whereDate('O.created_at', Carbon::today())
+			 ->whereIn('S.id', $storeDetails)
+			 ->get();
+			 $todayOrderCount = $orderplaced1->count();
+		 //print_r($todayOrderCount);
+		 // die;
+		 /* Today  Order Count End*/
 			 
 			 /* Orderplaced Count Start */
 			 $orderplaced=  DB::Table('chainstores as CS')
 			 ->Join('orders_pos as O','CS.storeId','=','O.storeId')
 			->Join('stores as S','S.id','=','O.storeId')
+			//->select('O.id','O.orderId','O.created_at','O.totalAmount')
 			->select('O.id','O.orderId','O.created_at','O.totalAmount','S.storeName as storeName')
 			->where('CS.parentUserId',  $parentUserId);
+			//->get();
 			//New Code End
 			//print_r($orderplaced);
 
@@ -603,8 +656,9 @@ class AdminIndexController extends Controller
 			print_r($allorderCount);
 			die;
  			 */
+			 //die;
 
-			 $todayOrderCount = $orderplaced->whereBetween(DB::raw('Date(O.created_at)'), [$todayStartDate, $todayEndDate])->count();
+			 //$todayOrderCount = $orderplaced->whereDate('O.created_at', Carbon::today())->count();
 			 if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
 				 $orderplaced = $orderplaced->where('S.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			 } 
@@ -664,30 +718,44 @@ class AdminIndexController extends Controller
 			/*  Total Revenues Start*/
 			
 			/*  Total Revenues Start*/
-        	$revenues = DB::table('orders_pos as O')
-			->leftJoin('stores', 'stores.userId','=','O.userId')
-			->select(DB::raw('SUM(totalAmount) as totalAmount'));
+        	/* $revenues = DB::table('orders_pos as O')
+			//->leftJoin('stores', 'stores.userId','=','O.userId')
+			->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'))
+			->whereIn('O.storeId', $storeDetails);
+			//->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+			//$todayRevenueCount = 100;
+			//$todayRevenueCount = $revenues->whereBetween(DB::raw('Date(O.created_at)'),[$todayStartDate,$todayEndDate]);
+			//$todayRevenueCount = $revenues->whereDate('O.created_at', Carbon::today());
 
-			$todayRevenueCount = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$todayStartDate, $todayEndDate])->first();
+			//$todayRevenueCount = $revenues->whereBetween(DB::raw('O.created_at'), [$todayStartDate, $todayEndDate])->first();
 
-			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
-				$revenues = $revenues->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
-			}
-			else if(!empty($storeFilter)) {
-				$revenues = $revenues->where('stores.id', $storeFilter);
-			}
-			else if(!empty($startDate) && !empty($endDate)) {
+			if(!empty($startDate) && !empty($endDate)) {
 				$revenues = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
+			if(!empty($storeFilter)) {
+				$revenues = $revenues->where('O.storeId', $storeFilter);
+			}
 
-			$revenues = $revenues->first();
+			$revenues = $revenues->first(); */
+			$todayRevenueCount = DB::table('orders_pos as O')
+                    ->select(DB::raw('SUM(totalAmount) as totalAmount'))->whereDate('created_at', Carbon::today())
+					->whereIn('O.storeId', $storeDetails)
+                    ->get();
+    		
+    		$todayRevenueCount = $todayRevenueCount[0]->totalAmount;
+
+			$revenues=0;
 			/*  Total Revenue End*/
 			
-			print_r($revenues);
-			print_r($startDate);
-			print_r($endDate);
-			//die;
+			//dd(\DB::getQueryLog());
+			//$bindings = $revenues->getBindings();
 			
+			//$sql = Str::replaceArray('?', $revenues->getBindings(), $revenues->toSql());
+
+			// print
+			//dd($sql);
+			//print_r($revenues);
+			//die;
         	  
 			
 			/*  Total Revenue End*/
