@@ -123,6 +123,7 @@ class ProductImport implements ToCollection, WithHeadingRow
             
             $productName = $row['product_name_english'] ?? $row['product_name'] ?? $row['name'] ?? null;
 			$productName = trim($productName);
+			$productName = str_replace("`","", $productName);
 			
 			//$productName = substr($productName, 0, 100);
            
@@ -233,12 +234,20 @@ class ProductImport implements ToCollection, WithHeadingRow
     		$product->metaKeyword = $row['metakeyword'];
 
           	$product->save();
-                
-			if(!empty($row['product_name_arabic']) || !empty($row['name_arabic'])) {
-				$product_ar->productId = $product->id;
-				$product_ar->name = $row['product_name_arabic'] ?? $row['name_arabic'] ?? $row['product_arabic'] ?? null;
-				$product_ar->save();
+            
+			try {
+
+				if(!empty($row['product_name_arabic']) || !empty($row['name_arabic'])) {
+					$product_ar->productId = $product->id;
+					$product_ar->name = $row['product_name_arabic'] ?? $row['name_arabic'] ?? $row['product_arabic'] ?? null;
+					$product_ar->save();
+				}
+			
+			} catch (\Exception $e) {
+			
+				continue;
 			}
+			
 
 			// Insert Inventory Batches Starts
 			//$productExpiryDate = $row['product_name_arabic'] ?? $row['name_arabic'] ?? $row['product_arabic'] ?? '';
