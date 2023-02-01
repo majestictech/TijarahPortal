@@ -662,26 +662,34 @@ class AdminIndexController extends Controller
 			/*  All Stores and Store Count End*/
 
 			/*  Total Revenues Start*/
-        	/* $revenues = DB::table('orders_pos as O')
+			
+			/*  Total Revenues Start*/
+        	$revenues = DB::table('orders_pos as O')
 			->leftJoin('stores', 'stores.userId','=','O.userId')
-			->select(DB::raw('SUM(totalAmount) as totalAmount')); */
-			$revenue = DB::Table('stores as S')->leftJoin('orders_pos as O','O.userId','=','S.userId')
-                    ->select(DB::raw('SUM(O.totalAmount) as totalAmount'))
-                    ->whereIn('S.id', $storeDetails);
-            
-			$todayRevenueCount = $revenue->whereBetween(DB::raw('Date(O.created_at)'), [$todayStartDate, $todayEndDate])->first();
+			->select(DB::raw('SUM(totalAmount) as totalAmount'));
+
+			$todayRevenueCount = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$todayStartDate, $todayEndDate])->first();
 
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
-				$revenue = $revenue->where('S.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+				$revenues = $revenues->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 			else if(!empty($storeFilter)) {
-				$revenue = $revenue->where('S.id', $storeFilter);
+				$revenues = $revenues->where('stores.id', $storeFilter);
 			}
 			else if(!empty($startDate) && !empty($endDate)) {
-				$revenue = $revenue->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+				$revenues = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 
-			$revenues = $revenue->first();
+			$revenues = $revenues->first();
+			/*  Total Revenue End*/
+			
+			print_r($revenues);
+			print_r($startDate);
+			print_r($endDate);
+			//die;
+			
+        	  
+			
 			/*  Total Revenue End*/
 
 			$date = Carbon::now()->subDays(7);
@@ -794,11 +802,12 @@ class AdminIndexController extends Controller
 			
 			
 			
-			
+			//print_r($storeDetails);
+			//die;
 			$revenueData = DB::table('orders_pos')
                 ->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'),DB::raw('SUM(totalAmount - refundTotalAmount)/COUNT(totalAmount) as averageAmount'),DB::raw('COUNT(totalAmount) as billCount'),DB::raw('Date(created_at) as date'))
                // ->where('storeId',$storeId)
-                //->where(DB::raw('Date(created_at)'),'>=',$date)
+                ->where(DB::raw('Date(created_at)'),'>=',$date)
                 ->groupBy(DB::raw('Date(created_at)'))
                 ->orderBy(DB::raw('Date(created_at)'),'DESC')
 				->whereIn('storeId', $storeDetails)
