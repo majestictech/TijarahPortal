@@ -128,9 +128,20 @@ class UsersManagementController extends Controller
 	
 	public function create()
     {    
+		$authUser= Auth::user()->roleId;
+		/* if($authUser == 11) {
+			$usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [11, 12]);
+	   } */
 		  
 		//$Gender = config('app.Gender');
-		$masRoles = DB::Table('mas_role as m')->whereIN('m.id',[1, 2])->get();
+		$masRoles = DB::Table('mas_role as m');
+		
+		if($authUser == 1 && $authUser == 2) {
+			$masRoles = $masRoles->whereIN('m.id',[1, 2])->get();
+		}
+		else if($authUser == 11) {
+			$masRoles = $masRoles->where('m.id', 12)->get();
+		}
 
 		
 		return view('admin.usersmanagement.create', compact('masRoles'));

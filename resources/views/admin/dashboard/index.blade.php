@@ -589,7 +589,7 @@ $Roles = config('app.Roles');
 // Set up the chart container
 
 
-
+/* Out of Stock Chart Start*/
 // Set up the chart for container 2
 var allProducts = {{$allProducts}};
 var outOfStock = {{$outOfStock}};
@@ -600,7 +600,7 @@ outOfStock.toString();
 remainingData.toString();
 Highcharts.chart('chart-1', {
     chart: {
-        //height: 160,
+        height: 300,
         type: 'pie',
         margin: [0, 0, 0, 0],
         marginTop: 0,
@@ -627,14 +627,56 @@ Highcharts.chart('chart-1', {
     }]
 });
 
+/* Out of Stock Chart End*/
 
 
 </script>
 <script>
 
 
-/*  -------Available Chart Strat------*/
+/*  -------Available Chart Start------*/
 
+
+var allProducts = {{$allProducts}};
+var productAvailable = {{$productAvailable}};
+productAvailablePercentage = (productAvailable/allProducts)*100;
+productAvailablePercentage =productAvailablePercentage.toFixed(2);
+let remainingDataAvail = allProducts - productAvailable;
+productAvailable.toString();
+remainingDataAvail.toString();
+Highcharts.chart('chart', {
+    chart: {
+        height: 300,
+        type: 'pie',
+        margin: [0, 0, 0, 0],
+        marginTop: 0,
+        options3d: {
+            enabled: true,
+            alpha: 30
+        }
+    },
+    title: {
+        text: ''
+    },
+    plotOptions: {
+        pie: {
+			dataLabels: {
+				enabled: false
+			},
+            innerSize: 80,
+            depth: 50
+        }
+    },
+    series: [{
+        name: '',
+        data: [{name:'Products Available',y: productAvailable,color:'#157d4c'},{name:'Remaining Items',y: remainingDataAvail,color:'#157d4c'}],
+    }]
+});
+
+
+
+
+/*
 var allProducts = {{$allProducts}};
 if(allProducts <= 0)
    allProducts = 1;
@@ -700,6 +742,7 @@ var options = {
 var chart = new ApexCharts(document.querySelector("#chart"), options);
 
 chart.render();
+*/
 /*  -------Available Chart End------*/
 
 
@@ -772,6 +815,46 @@ chart.render();
 var lowInventory = {{$lowInventory}};
 var lowInventoryPercentage = (lowInventory/allProducts)*100;
 lowInventoryPercentage = lowInventoryPercentage.toFixed(2);
+let remainingLowInvntory = allProducts - lowInventory;
+lowInventory.toString();
+remainingLowInvntory.toString();
+Highcharts.chart('chart-2', {
+    chart: {
+        height: 300,
+        type: 'pie',
+        margin: [0, 0, 0, 0],
+        marginTop: 0,
+        options3d: {
+            enabled: true,
+            alpha: 30
+        }
+    },
+    title: {
+        text: ''
+    },
+    plotOptions: {
+        pie: {
+			dataLabels: {
+				enabled: false
+			},
+            innerSize: 80,
+            depth: 50
+        }
+    },
+    series: [{
+        name: '',
+        data: [{name:'Low Inventory',y: lowInventory,color:'#157d4c'},{name:'Remaining Items',y: remainingLowInvntory
+,color:'#157d4c'}],
+    }]
+});
+
+
+
+/* 
+
+var lowInventory = {{$lowInventory}};
+var lowInventoryPercentage = (lowInventory/allProducts)*100;
+lowInventoryPercentage = lowInventoryPercentage.toFixed(2);
 var options = {
   chart: {
     height: 160,
@@ -826,7 +909,7 @@ var options = {
 
 var chart = new ApexCharts(document.querySelector("#chart-2"), options);
 
-chart.render();
+chart.render(); */
 /*  -------Low inventory Chart End------*/
 
 /* Number of Bills Chart Starts */
