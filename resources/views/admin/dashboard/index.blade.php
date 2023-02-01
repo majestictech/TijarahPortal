@@ -26,7 +26,7 @@ $Roles = config('app.Roles');
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.todaysorders')}}</a></p>
-    						<h5 class="my-0">{{$todayorderCount ?? '0'}}</h5>
+    						<h5 class="my-0">{{$todayOrderCount ?? '0'}}</h5>
     					</div>
     					<div class="text-primary ms-auto font-30"><i class='bx bx-cart-alt'></i>
     					</div>
@@ -42,7 +42,7 @@ $Roles = config('app.Roles');
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.todaysrevenue')}}</a></p>
-    						<h5 class="my-0">SAR {{ $todayRevenueCount->totalAmount ?? '0'}}</h5>
+    						<h5 class="my-0">SAR {{ $todayRevenueCount ?? '0'}}</h5>
     					</div>
     					<div class="text-danger ms-auto font-30">ريال
     					</div>
@@ -135,7 +135,11 @@ $Roles = config('app.Roles');
     			<div class="card-body">
     				<div class="d-flex align-items-center">
     					<div>
-    						<p class="mb-0 text-secondary font-14"><a href="{{url('/admin/order')}}"> {{__('lang.totalorders')}} </a></p>
+    						<p class="mb-0 text-secondary font-14">
+                  <a href="{{url('/admin/order')}}"> 
+                    {{__('lang.totalorders')}}
+                   </a>
+                </p>
     						<h5 class="my-0">{{$allorderCount ?? '0'}}</h5>
     					</div>
     					<div class="text-info ms-auto font-30"><i class='bx bx-cart'></i>
@@ -152,7 +156,7 @@ $Roles = config('app.Roles');
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.totalrevenue')}}</a></p>
-    						<h5 class="my-0">SAR {{ $revenues->totalAmount ?? '0'}}</h5>
+    						<h5 class="my-0">SAR {{ $revenues ?? '0'}}</h5>
     					</div>
     					<div class="text-danger ms-auto font-30">ريال
     					</div>
