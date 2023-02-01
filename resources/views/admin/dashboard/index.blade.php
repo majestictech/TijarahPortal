@@ -268,7 +268,7 @@ $Roles = config('app.Roles');
 		
 		
 		<div class="col-12 col-lg-6">
-			<div class="card radius-10" style="height: 300px;">
+			<div class="card radius-10" style="height: 462px;">
 				<div class="">
 					<div style="background-color: #fff; align-items: center;">
             <h4 class="p-2" style="text-align:left; color: #272727; margin-bottom: 0; font-size: 1rem; margin-top: 13px;">
