@@ -140,10 +140,10 @@ class AdminIndexController extends Controller
     		/* Customers Count Start */
 			$customer=DB::Table('customers')->leftJoin('stores', 'stores.id', '=', 'customers.storeName')->select('customers.id');
 
-			if(!empty($storeFilter)) {
+			/* if(!empty($storeFilter)) {
 				$customer= $customer->where('customers.storeName', $storeFilter);
 			}
-
+ */
 			$customer = $customer->get();
     		$allcustomer = $customer->count();
 			/* Customers Count End */
@@ -156,9 +156,9 @@ class AdminIndexController extends Controller
     		$stores=DB::Table('stores as S')
     		->select('S.id', 'S.status')->where('S.status','=','Active');
 
-			if(!empty($storeFilter)) {
+			/* if(!empty($storeFilter)) {
 				$stores= $stores->where('S.id', $storeFilter);
-			}
+			} */
 
 			$stores = $stores->get();
     		$activestores = $stores->count();	
@@ -408,9 +408,9 @@ class AdminIndexController extends Controller
 			 ->select('C.id')
 			  ->where('S.id', $storeDetails);
 			  
-			if(!empty($storeFilter)) {
+			/* if(!empty($storeFilter)) {
 				$customer= $customer->where('customers.storeName', $storeFilter);
-			}
+			} */
 
 			$customer = $customer->get();
     		$allcustomer = $customer->count();
@@ -428,9 +428,9 @@ class AdminIndexController extends Controller
 			->where('S.id', $storeDetails);
 			
 
-			if(!empty($storeFilter)) {
+			/* if(!empty($storeFilter)) {
 				$stores= $stores->where('S.id', $storeFilter);
-			}
+			} */
 
 			$stores = $stores->get();
     		$activestores = $stores->count();	
@@ -685,9 +685,9 @@ class AdminIndexController extends Controller
             ->whereIn('S.id',$storeDetails);
 			
     
-			if(!empty($storeFilter)) {
+			/* if(!empty($storeFilter)) {
 				$customer= $customer->where('C.storeName', $storeFilter);
-			}
+			} */
 
 			$customer = $customer->get();
     		$allcustomer = $customer->count();
@@ -707,10 +707,10 @@ class AdminIndexController extends Controller
 			
 
     		
-			if(!empty($storeFilter)) {
+			/* if(!empty($storeFilter)) {
 				$stores= $stores->where('S.id', $storeFilter);
 			}
-
+ */
 			$stores = $stores->get();
     		$activestores = $stores->count();	
 			/*  All Stores and Store Count End*/
