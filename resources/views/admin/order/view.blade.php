@@ -77,7 +77,7 @@
 									<div class="row">
 										<label class="col-sm-2">Order Date: </label>
 										<div class="col-sm-8">
-											{{\Carbon\Carbon::parse($orderdata->created_at)->format('d M Y')}}
+											{{\Carbon\Carbon::parse($orderdata->created_at)}}
 										</div>
 									</div>
 									</div>
