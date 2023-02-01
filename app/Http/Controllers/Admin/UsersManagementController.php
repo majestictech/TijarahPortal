@@ -30,10 +30,10 @@ class UsersManagementController extends Controller
 		$usersmanagementdata = DB::Table('users as U')
 		->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber', 'U.roleId');
 		if($authUser == 1) {
-			 $usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [1, 2]);
+			 $usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [1, 2, 11, 12]);
 		}
 		else if($authUser == 2) {
-			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 2);
+			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 2, 11, 12);
 		}
 		else if($authUser == 11) {
 			$usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [11, 12]);
@@ -136,8 +136,11 @@ class UsersManagementController extends Controller
 		//$Gender = config('app.Gender');
 		$masRoles = DB::Table('mas_role as m');
 		
-		if($authUser == 1 && $authUser == 2) {
+		if($authUser == 1) {
 			$masRoles = $masRoles->whereIN('m.id',[1, 2])->get();
+		}
+		else if($authUser == 2) {
+			$masRoles = $masRoles->where('m.id',2)->get();
 		}
 		else if($authUser == 11) {
 			$masRoles = $masRoles->where('m.id', 12)->get();

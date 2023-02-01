@@ -74,7 +74,22 @@ helper::checkUserURLAccess('adminmanagement_manage','');
                             <td><!-- {{$usersManagementData->roleId}} -->{{$usersManagementData->firstName}} {{$usersManagementData->lastName}}</td>
                             <td>{{$usersManagementData->contactNumber}}</td>
 							<td>{{$usersManagementData->email}}</td>
-							<td><?php  echo ($usersManagementData->roleId == 1 ) ? "Admin" : "Sub-Admin" ?></td>
+							<td>
+								<?php
+									if($usersManagementData->roleId == 1){
+										echo "Admin";
+									}
+									else if($usersManagementData->roleId == 2){
+										echo "Sub-Admin";
+									}
+									else if($usersManagementData->roleId == 11){
+										echo "Chain Admin";
+									}
+									else if($usersManagementData->roleId == 12){
+										echo "Chain Sub-Admin";
+									}
+								?>
+							</td>
 							<td>
 								<div class="btn-group">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
