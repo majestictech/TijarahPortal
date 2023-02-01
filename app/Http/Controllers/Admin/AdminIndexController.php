@@ -744,7 +744,23 @@ class AdminIndexController extends Controller
     		
     		$todayRevenueCount = $todayRevenueCount[0]->totalAmount;
 
-			$revenues=0;
+			$revenues = DB::table('orders_pos as O')
+			->select(DB::raw('SUM(totalAmount) as totalAmount'))
+			->whereIn('O.storeId', $storeDetails);
+
+			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
+				$revenues = $revenues->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+			}
+			else if(!empty($storeFilter)) {
+				$revenues = $revenues->where('stores.id', $storeFilter);
+			}
+			else if(!empty($startDate) && !empty($endDate)) {
+				$revenues = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+			}
+
+			$revenues= $revenues->get();
+			$revenues = $revenues[0]->totalAmount;
+
 			/*  Total Revenue End*/
 			
 			//dd(\DB::getQueryLog());
