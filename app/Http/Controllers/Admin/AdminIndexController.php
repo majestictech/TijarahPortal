@@ -184,14 +184,14 @@ class AdminIndexController extends Controller
 
 			$revenues = $revenues->first(); */
 			$todayRevenueCount = DB::table('orders_pos as O')
-                    ->select(DB::raw('SUM(totalAmount) as totalAmount'))->whereDate('created_at', Carbon::today())
+                    ->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'))->whereDate('created_at', Carbon::today())
                     ->get();
     		
     		$todayRevenueCount = $todayRevenueCount[0]->totalAmount;
 			/* print_r($todayRevenueCount);
 			die; */
 			$revenues = DB::table('orders_pos as O')
-			->select(DB::raw('SUM(totalAmount) as totalAmount'));
+			->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'));
 
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
 				$revenues = $revenues->where('stores.id', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
@@ -738,14 +738,14 @@ class AdminIndexController extends Controller
 
 			$revenues = $revenues->first(); */
 			$todayRevenueCount = DB::table('orders_pos as O')
-                    ->select(DB::raw('SUM(totalAmount) as totalAmount'))->whereDate('created_at', Carbon::today())
+                    ->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'))->whereDate('created_at', Carbon::today())
 					->whereIn('O.storeId', $storeDetails)
                     ->get();
     		
     		$todayRevenueCount = $todayRevenueCount[0]->totalAmount;
 
 			$revenues = DB::table('orders_pos as O')
-			->select(DB::raw('SUM(totalAmount) as totalAmount'))
+			->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'))
 			->whereIn('O.storeId', $storeDetails);
 
 			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
