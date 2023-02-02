@@ -312,6 +312,7 @@
  'cashierreports'=>'Cashier Reports',
  'profit&lossreports' => 'Profit & Loss Reports',
  'shiftreports' => 'Shift Reports',
+ 'shiftdayreports' => 'Shift Day Reports',
 
 /* Shifts  Translation starts here */
 'shift'=>'Shift',
@@ -1099,6 +1100,7 @@
  'card'=>'Card',
  'credit'=>'Credit',
  'cash'=>'Cash',
+ 'refund'=>'Refund',
  
  'name'=>'Name',
  'id'=>'ID',

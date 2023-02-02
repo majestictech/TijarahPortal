@@ -15,11 +15,32 @@ $Roles = config('app.Roles');
 
 
 <!--breadcrumb-->
-
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+	<div class="ps-1">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb mb-0 p-0">
+				<li class="breadcrumb-item">
+					<a class="text-primary" href="{{url('/admin/storereports/' . $storeId)}}">
+						<i class="bx bx-home-alt"></i> {{ __('lang.storereports')}}</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">
+					<a class="text-primary" href="{{url('/admin/storereports/shiftreports/'.$storeId)}}">
+						<i class="bx bx-store-alt"></i>{{ __('lang.shiftreports')}}</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">
+					<i class="bx bx-store-alt"></i>{{ __('lang.shiftdayreports')}}</li>
+			</ol>
+			
+		</nav>
+	</div>
+	<div class="ms-auto">
+		
+	</div>
+</div>
 <!--end breadcrumb-->
 <div class="row">
 	<div class="col-xl-12 mx-auto">
-		<h6 class="mb-0 text-uppercase">{{ __('lang.shiftreports')}}</h6>
+		<h6 class="mb-0 text-uppercase">{{ __('lang.shiftdayreports')}}</h6>
 		<hr/>
 		<div class="card">
 			<div class="card-body">
@@ -37,40 +58,25 @@ $Roles = config('app.Roles');
 						</tr>
 					</thead>
 					<tbody>
+						@foreach($results as $key=>$shiftDayReport)
 						<tr>
-							<td>1</td>
-							<td>Scavenger</td>
-							<td>SAR 01</td>
-							<td>SAR 4,444</td>
-							<td>0 SAR</td>
-							<td>SAR 4,444</td>
+							<td>{{ $shiftDayReport->shiftId }}</td>
+							<td>{{ $shiftDayReport->firstName }} {{ $shiftDayReport->lastName }}</td>
+							<td>{{$shiftDayReport->shiftInBalance}}</td>
+							<td>{{$shiftDayReport->shiftEndBalance}}</td>
+							<td>--<!-- 0 SAR --></td>
+							<td>--<!-- SAR 4,444 --></td>
 							<td>
 								<div class="btn-group">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
 									</button>
 									<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-										<a class="dropdown-item" href="{{url('/admin/storereports/shiftreport/505')}}"><i class="fadeIn animated bx bx-show"></i> {{ __('lang.view')}}</a>
+										<a class="dropdown-item" href="{{url('/admin/storereports/shiftreport/'.$shiftDayReport->userId)}}"><i class="fadeIn animated bx bx-show"></i> {{ __('lang.view')}}</a>
 									</div>
 								</div>
 							</td>
 						</tr>
-                        <tr>
-							<td>2</td>
-							<td>Soul Reaper</td>
-							<td>SAR 4,444</td>
-							<td>SAR 8,889</td>
-							<td>1 SAR</td>
-							<td>SAR 8,8888</td>
-							<td>
-								<div class="btn-group">
-									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
-									</button>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-										<a class="dropdown-item" href="{{url('/admin/storereports/shiftreport/505')}}"><i class="fadeIn animated bx bx-show"></i> {{ __('lang.view')}}</a>
-									</div>
-								</div>
-							</td>
-						</tr>
+                        @endforeach
 						
 					</tbody>
 				</table>
