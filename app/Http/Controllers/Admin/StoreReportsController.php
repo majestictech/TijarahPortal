@@ -1056,7 +1056,7 @@ class StoreReportsController extends Controller
 		
 	    $results = DB::table('usersshift as US')
 		->leftJoin('stores as S','S.id','=','US.storeId')
-		->select ('US.shiftId',DB::raw('Date(US.created_at) as dateCreated'),DB::raw('SUM(S.cashDrawerBalance) as totalAmount'),'US.storeId')
+		->select (DB::raw('COUNT(US.id) as totalShifts'),DB::raw('Date(US.created_at) as dateCreated'),DB::raw('SUM(US.shiftEndBalance) as totalAmount'),'US.storeId')
 		->where('US.storeId',$storeId)
 		->groupBy(DB::raw('Date(US.created_at)'))
         ->orderBy(DB::raw('Date(US.created_at)'),'DESC');

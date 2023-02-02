@@ -90,11 +90,11 @@ $Roles = config('app.Roles');
 					@foreach($results as $key=>$shiftReport)
 						<tr>
 							<td>{{ $shiftReport->dateCreated }}</td>
-							<td>--<!-- 1 --></td>
-							<td>--<!-- 2 --></td>
-							<td>SAR {{$shiftReport->totalAmount}}</td>
+							<td>1</td>
+							<td>{{$shiftReport->totalShifts}}</td>
+							<td>SAR --<!-- {{$shiftReport->totalAmount}} --></td>
 							<td>SAR --<!-- 1 --></td>
-							<td>SAR --<!-- 8,888 --></td>
+							<td>SAR {{$shiftReport->totalAmount}}</td>
 							<td>
 								<div class="btn-group">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
