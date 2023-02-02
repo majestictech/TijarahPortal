@@ -57,13 +57,18 @@ class StoreReportsController extends Controller
 	
 	public function salesreports($storeId)
     {
+		
 		$type = "today";
 		$reportType = "daily";
-		$customStartDate = new Carbon('first day of January 2021');
+		$customStartDate = Carbon::now()->toDateString();		
+		$customStartDate = Carbon::now();		
 		$customEndDate = Carbon::now()->toDateString();
 		
-		$start_date = "";
-		$end_date = "";
+		$start_date = $customStartDate;
+		$end_date = $customEndDate;
+		//print_r($customStartDate);
+		//print_r($start_date);
+		//die;
 		
 		if(isset($_GET['reportType']))
 			$reportType = $_GET['reportType'];
@@ -95,6 +100,7 @@ class StoreReportsController extends Controller
 		}
 		
 		
+			
 		
 	    
 	    $totalVat = 0;
@@ -117,6 +123,8 @@ class StoreReportsController extends Controller
                 
             $fromDate = $checkDate;
             $toDate = $checkDate;
+			/* print_r($queryData);
+			die; */
 	    }
 	    else {
 	    
@@ -240,7 +248,29 @@ class StoreReportsController extends Controller
         $results['fromDate'] = $fromDate;
         $results['toDate'] = $toDate;
 		
-		return view('admin.storereports.salesreports',compact('storeId','results','reportType','type','start_date','end_date'));
+		/*
+		$typeCheck = isset($_GET['type'])?$_GET['type']:"today";
+		
+		switch ($typeCheck) {
+			case "today":
+				//die;
+				$start_date = Carbon::now()->toDateString();
+				$end_date = Carbon::now()->toDateString();
+				break;
+			case "yesterday":
+				//die;
+				$start_date = Carbon::now()->subDays(1)->toDateString();
+				$end_date = Carbon::now()->subDays(1)->toDateString();
+				break;
+			case "thismonth":
+				//die;
+				$start_date = Carbon::now()->subMonths(1)->toDateString();
+				$end_date = Carbon::now()->toDateString();
+				break;
+		}
+		*/
+		
+		return view('admin.storereports.salesreports', compact('storeId', 'results', 'reportType', 'type', 'start_date', 'end_date'));
     }
 	
 	public function vatreports($storeId)
@@ -666,7 +696,7 @@ class StoreReportsController extends Controller
 	
 	public function mediareports($storeId)
     {
-		if(isset($_GET['start']))
+		/* if(isset($_GET['start']))
 			$startDate = $_GET['start'];
 		else
 			$startDate = '';
@@ -718,7 +748,144 @@ class StoreReportsController extends Controller
 	    if($results['otherCount'] == 0)
 	        $results['otherAmount'] = 0;
 	    else
-	        $results['otherAmount'] = $resultsOther->otherAmount;
+	        $results['otherAmount'] = $resultsOther->otherAmount; */
+
+			/* $startDate = $_GET['start'];
+			$endDate = $_GET['end']; */
+			if(isset($_GET['start']))
+			$startDate = $_GET['start'];
+			else
+				$startDate = '';
+			
+			if(isset($_GET['end']))
+				$endDate = $_GET['end'];
+			else
+			$endDate = '';
+			
+			if(empty($startDate))
+				$startDate = new Carbon('first day of January 2021');
+				
+			if(empty($endDate))
+				$endDate = Carbon::now()->toDateString();
+			
+			$resultsCash = DB::table('orders_pos')->select(DB::raw('Count(id) as cashCount'), DB::raw('SUM(totalAmount - refundTotalAmount) as cashAmount'), DB::raw('SUM(refundTotalAmount) as refundTotalAmount'))
+			->where('paymentStatus', '=', 'Cash')
+			->whereBetween(DB::raw('Date(created_at)'), [$startDate, $endDate])
+			->where('storeId','=',$storeId)->first();
+			
+			$resultsCashRefund = DB::table('orders_pos')->select(DB::raw('Count(id) as cashRefundCount'))
+			->where('refundTotalAmount','>','0')
+			->where(function($query) {
+				$query->orwhere('paymentStatus', '=', 'Cash')
+					->orwhere('paymentStatus', '=', 'Multiple');
+			})
+			->whereBetween(DB::raw('Date(created_at)'), [$startDate, $endDate])
+			->where('storeId','=',$storeId)->first();
+			
+			$resultsCard = DB::table('orders_pos')->select(DB::raw('Count(id) as cardCount'), DB::raw('SUM(totalAmount - refundTotalAmount) as cardAmount'), DB::raw('SUM(refundTotalAmount) as refundTotalAmount'))
+			->where('paymentStatus', '=', 'Card')
+			->whereBetween(DB::raw('Date(created_at)'), [$startDate, $endDate])
+			->where('storeId','=',$storeId)->first();
+			
+			$resultsCardRefund = DB::table('orders_pos')->select(DB::raw('Count(id) as cardRefundCount'))
+			->where('refundTotalAmount','>','0')
+			->where('paymentStatus', '=', 'Card')
+			->whereBetween(DB::raw('Date(created_at)'), [$startDate, $endDate])
+			->where('storeId','=',$storeId)->first();
+			
+			$resultsOther = DB::table('orders_pos')->select(DB::raw('Count(id) as otherCount'), DB::raw('SUM(totalAmount - refundTotalAmount) as otherAmount'))
+			->where('paymentStatus', '=', 'Credit')
+			->whereBetween(DB::raw('Date(created_at)'), [$startDate, $endDate])
+			->where('storeId','=',$storeId)->first();
+			
+			$resultsCreditRefund = DB::table('orders_pos')->select(DB::raw('Count(id) as creditRefundCount'))
+			->where('refundTotalAmount','>','0')
+			->where('paymentStatus', '=', 'Credit')
+			->whereBetween(DB::raw('Date(created_at)'), [$startDate, $endDate])
+			->where('storeId','=',$storeId)->first();
+			
+			// Calculate Sum of refund in case of multiple. This will be subtracted from Cash amount
+			$resultsMultipleRefund = DB::table('orders_pos')->select(DB::raw('SUM(refundTotalAmount) as multipleRefundAmount'))
+			->where('paymentStatus', '=', 'Multiple')
+			->whereBetween(DB::raw('Date(created_at)'), [$startDate, $endDate])
+			->where('storeId','=',$storeId)->first();
+			
+			$resultsMultipleCash = DB::table('multiplepayment')->select('paymentMode', DB::raw('Count(id) as multipleCount'), DB::raw('SUM(amount) as totalAmount'))
+			->whereBetween(DB::raw('Date(created_at)'), [$startDate, $endDate])
+			//->where(TJ8082301031981)
+			->where('storeId','=',$storeId)->groupBy('paymentMode')->get();
+			
+			$refundedAmount = DB::table('orders_pos')->select(DB::raw('SUM(refundTotalAmount) as RefundAmount'),DB::raw('Count(id) as refundCount'))
+			 ->whereBetween(DB::raw('Date(created_at)'), [$startDate, $endDate])
+			->where('storeId','=',$storeId)
+			->where('refundTotalAmount','>','0')
+			->first();
+			
+			$salesCount =  DB::table('orders_pos')->select(DB::raw('Count(id) as salesCount'))
+			 ->whereBetween(DB::raw('Date(created_at)'), [$startDate, $endDate])
+			->where('storeId','=',$storeId)
+			->first();
+			
+			
+			//print_r($salesCount);
+			
+			//die;
+			
+			$results['cashCount'] = $resultsCash->cashCount;
+			$results['cardCount'] = $resultsCard->cardCount;
+			$results['otherCount'] = $resultsOther->otherCount;
+			$results['refundCount'] = $refundedAmount->refundCount;
+			$results['salesCount'] = $salesCount->salesCount;
+			
+			$results['multipleCount'] = 0;
+			
+			if($results['cashCount'] == 0)
+				$results['cashAmount'] = 0;
+			else {
+				// Need to subtract here only and not above as cashCount if condition logic breaks if subtracted above
+				$results['cashCount'] = $results['cashCount'] - $resultsCashRefund->cashRefundCount;
+				$results['cashAmount'] = $resultsCash->cashAmount - $resultsMultipleRefund->multipleRefundAmount;
+			}
+				
+			if($results['cardCount'] == 0)
+				$results['cardAmount'] = 0;
+			else {
+				// Need to subtract here only and not above as cardCount if condition logic breaks if subtracted above
+				$results['cardCount'] = $results['cardCount'] - $resultsCardRefund->cardRefundCount;
+				$results['cardAmount'] = $resultsCard->cardAmount;
+			}
+				
+			if($results['otherCount'] == 0)
+				$results['otherAmount'] = 0;
+			else {
+				// Need to subtract here only and not above as otherCount if condition logic breaks if subtracted above
+				$results['otherCount'] = $results['otherCount'] - $resultsCreditRefund->creditRefundCount;
+				$results['otherAmount'] = $resultsOther->otherAmount;
+			}
+			
+			//$results['refundAmount'] = $resultsCash->refundTotalAmount + $resultsCard->refundTotalAmount;
+			$results['refundAmount'] = $refundedAmount->RefundAmount;
+			
+			
+			//print_r($results);
+			
+			
+			foreach($resultsMultipleCash as $result) {
+				if($result->paymentMode == 'CASH') {
+					$results['cashAmount'] = $results['cashAmount'] + $result->totalAmount;
+					$results['cashCount'] += $results['multipleCount'] + $result->multipleCount;
+					
+					
+				}
+				else if($result->paymentMode == 'CARD') {
+					$results['cardAmount'] = $results['cardAmount'] + $result->totalAmount;
+					$results['cardCount'] += $results['multipleCount'] + $result->multipleCount;
+				}
+				
+				//$results['multipleCount'] = $results['multipleCount'] + $result->multipleCount;
+			}
+			
+			//print_r($results);
 		
 		return view('admin.storereports.mediareports',compact('storeId','results','startDate','endDate'));
     }
@@ -804,13 +971,10 @@ class StoreReportsController extends Controller
 		    
 	    $results = $results->groupBy('Name', 'userId', 'U.contactNumber', 'U.email')->get();
 		
-		return view('admin.storereports.profitlossreports',compact('storeId','results','startDate','endDate','search'));
-    }
-
-	public function shiftreports($storeId)
-    {
-		
-		if(isset($_GET['start']))
+		//$type = $_GET['type'];
+	   /*  $customStartDate = $_GET['start'];
+	    $customEndDate = $_GET['end']; */
+		/* if(isset($_GET['start']))
 			$startDate = $_GET['start'];
 		else
 			$startDate = '';
@@ -819,116 +983,152 @@ class StoreReportsController extends Controller
 			$endDate = $_GET['end'];
 		else
 			$endDate = '';
+
+		if(isset($_GET['type']))
+			$type = $_GET['type'];
+		else
+			$type = '';
+		
+	   
+	    $totalSumAmount = 0;
+        $totalVatAmount = 0;
+        $fromDate = 0;
+        $toDate = 0;
+        $queryData = DB::table('reports')
+                ->select('productName',DB::raw('ROUND(((SUM(price) - SUM(costPrice))) - vat/quantity,2) as margin'),DB::raw('ROUND(((SUM(total) - SUM(vat) - (costPrice * quantity)) ),2) as profit'), DB::raw('ROUND((SUM(quantity) - SUM(refundQuantity)),2) as qty'),DB::raw('ROUND((SUM(total) - SUM(refundTotal)),2) as totalAmount'),DB::raw('ROUND((SUM(vat) - SUM(refundVat)),2) as vat'),DB::raw('ROUND((SUM(price)),2) as totalPrice'))
+                ->where('storeId',$storeId);
+        
+        if($type == 'profitlastsixmonths') {
+
+            $checkDate = Carbon::now()->subMonths(6)->toDateString();
+    	    $queryData = $queryData->where(DB::raw('Date(created_at)'),'>=',$checkDate);
+                
+        }
+         
+        if($type == 'profitcustom') {
+           $queryData = $queryData->whereBetween(DB::raw('Date(created_at)'), [$customStartDate, $customEndDate]);
+            $fromDate = $customStartDate;
+            $toDate = $customEndDate;
+        }
+        
+        if($type == 'profitlastsixmonths' || $type == 'profitcustom') 
+        {
+            $queryData = $queryData->groupBy('productName','price','costPrice')->orderBy('created_at','DESC');
+        }
+        
+        $completeData = $queryData->get();
+		 print_r($completeData);
+		die; 
+        
+        foreach($completeData as $data) {
+            $totalSumAmount += $data->totalAmount;
+            $totalVatAmount += $data->vat;
+        }
+
+        $queryData = $queryData->paginate(10);
+        
+        $results['profitdata'] = $queryData;
+        $results['totalSumAmount'] = round($totalSumAmount,2);
+        $results['totalVatAmount'] = round($totalVatAmount,2);
+        $results['fromDate'] = $fromDate;
+        $results['toDate'] = $toDate;
+		
+		$search= ''; */
+
+		
+		return view('admin.storereports.profitlossreports',compact('storeId','results','startDate','endDate','search'));
+    }
+
+	public function shiftreports($storeId,Request $request)
+    {
+		
+		
+		$startDate = $request->start;
+        $endDate = $request->end;
+		
+		
 		
 	    if(isset($_GET['search']))
 			$search = $_GET['search'];
 		else
 			$search = '';
-	    
-	    $customStartDate = $startDate . ' 00:00:00';
-		$customEndDate = $endDate . ' 23:59:59';
+	   
 		
-	    if(empty($startDate)) {
-	        $customStartDate = new Carbon('first day of January 2021');
-	    }
-	        
-	    if(empty($endDate))
-	        $customEndDate = Carbon::now()->toDateString() . ' 23:59:59';
+	    $results = DB::table('usersshift as US')
+		->leftJoin('stores as S','S.id','=','US.storeId')
+		->select ('US.shiftId',DB::raw('Date(US.created_at) as dateCreated'),DB::raw('SUM(S.cashDrawerBalance) as totalAmount'),'US.storeId')
+		->where('US.storeId',$storeId)
+		->groupBy(DB::raw('Date(US.created_at)'))
+        ->orderBy(DB::raw('Date(US.created_at)'),'DESC');
 		
-	    $results = DB::table('cashier as C')->select(DB::raw('CONCAT(U.firstName, " ", U.lastName) AS Name'), 'U.id as userId', 'U.contactNumber', 'U.email', DB::raw('Count(O.id) as billCount'), DB::raw('SUM(O.totalAmount - O.refundTotalAmount) as totalSales'))
-	    ->leftJoin('users as U','U.id','=','C.userId')
-	    ->leftJoin('orders_pos as O','O.userId','=','C.userId')
-	    ->whereBetween(DB::raw('Date(O.created_at)'), [$customStartDate, $customEndDate])
-	    ->where('C.storeId','=',$storeId);
-	    
-	    if(!empty($search))
-		    $results = $results->where('U.firstName', 'LIKE', $search.'%');
-		    
-	    $results = $results->groupBy('Name', 'userId', 'U.contactNumber', 'U.email')->get();
+		
+        if(isset($request->start) && isset($request->end)) {
+            $startDate = $request->start . ' 00:00:00';
+          // print_r ($startdate = $request->start_date);
+            $endDate = $request->end . ' 23:59:59';
+           
+            
+            $results = $results->whereBetween(DB::raw('Date(US.created_at)'),[$request->start,$request->end]);
+            
+            
+        }
+		
+		
+		$results = $results->get();
+
 		
 		return view('admin.storereports.shiftreports',compact('storeId','results','startDate','endDate','search'));
     }
 
-	public function shiftdayreport($storeId)
+	public function shiftdayreport($storeId, $shiftDate, Request $request)
     {
+		$storeId =$storeId;
+		$shiftDate = $shiftDate;
+		$startDate = $request->start;
+        $endDate = $request->end;
 		
-		if(isset($_GET['start']))
-			$startDate = $_GET['start'];
-		else
-			$startDate = '';
 		
-		if(isset($_GET['end']))
-			$endDate = $_GET['end'];
-		else
-			$endDate = '';
 		
 	    if(isset($_GET['search']))
 			$search = $_GET['search'];
 		else
 			$search = '';
 	    
-	    $customStartDate = $startDate . ' 00:00:00';
-		$customEndDate = $endDate . ' 23:59:59';
+	     $results = DB::table('usersshift as US')
+		//->leftJoin('stores as S','S.id','=','US.storeId')
+		->leftJoin('users as U','U.id','US.userId')
+		->select ('US.shiftId','US.storeId','U.firstName','U.lastName',DB::raw('Date(US.created_at) as dateCreated'),'US.shiftEndBalance','US.shiftInBalance','US.userId')
+		->where(DB::raw('Date(US.created_at)'),$shiftDate)
+		->where('US.storeId',$storeId);
+		//->groupBy(DB::raw('Date(US.created_at)'))
+        //->orderBy(DB::raw('Date(US.created_at)'),'DESC');
 		
-	    if(empty($startDate)) {
-	        $customStartDate = new Carbon('first day of January 2021');
-	    }
-	        
-	    if(empty($endDate))
-	        $customEndDate = Carbon::now()->toDateString() . ' 23:59:59';
+		if(isset($request->start) && isset($request->end)) {
+            $startDate = $request->start . ' 00:00:00';
+            $endDate = $request->end . ' 23:59:59';
+            $results = $results->whereBetween(DB::raw('Date(US.created_at)'),[$request->start,$request->end]);
+            
+        }
 		
-	    $results = DB::table('cashier as C')->select(DB::raw('CONCAT(U.firstName, " ", U.lastName) AS Name'), 'U.id as userId', 'U.contactNumber', 'U.email', DB::raw('Count(O.id) as billCount'), DB::raw('SUM(O.totalAmount - O.refundTotalAmount) as totalSales'))
-	    ->leftJoin('users as U','U.id','=','C.userId')
-	    ->leftJoin('orders_pos as O','O.userId','=','C.userId')
-	    ->whereBetween(DB::raw('Date(O.created_at)'), [$customStartDate, $customEndDate])
-	    ->where('C.storeId','=',$storeId);
+		
+		$results = $results->get();
+		
+		//print_r($results);
+		//die;
+		
+		
 	    
-	    if(!empty($search))
-		    $results = $results->where('U.firstName', 'LIKE', $search.'%');
-		    
-	    $results = $results->groupBy('Name', 'userId', 'U.contactNumber', 'U.email')->get();
 		
-		return view('admin.storereports.shiftdayreport',compact('storeId','results','startDate','endDate','search'));
+		return view('admin.storereports.shiftdayreport',compact('results','startDate','endDate','search','storeId','shiftDate'));
     }
-	public function shiftreport($storeId)
+	public function shiftreport($userid)
     {
 		
-		if(isset($_GET['start']))
-			$startDate = $_GET['start'];
-		else
-			$startDate = '';
+		 $results = DB::table('usersshift as US')
+		->leftJoin('users as U','U.id','US.userId')
+		->select ('US.shiftId','US.storeId','U.firstName','U.lastName',DB::raw('Date(US.created_at) as dateCreated'),'US.shiftEndBalance','US.shiftInBalance','US.userId')
+		->where('US.userId',$userid)->get();
 		
-		if(isset($_GET['end']))
-			$endDate = $_GET['end'];
-		else
-			$endDate = '';
-		
-	    if(isset($_GET['search']))
-			$search = $_GET['search'];
-		else
-			$search = '';
-	    
-	    $customStartDate = $startDate . ' 00:00:00';
-		$customEndDate = $endDate . ' 23:59:59';
-		
-	    if(empty($startDate)) {
-	        $customStartDate = new Carbon('first day of January 2021');
-	    }
-	        
-	    if(empty($endDate))
-	        $customEndDate = Carbon::now()->toDateString() . ' 23:59:59';
-		
-	    $results = DB::table('cashier as C')->select(DB::raw('CONCAT(U.firstName, " ", U.lastName) AS Name'), 'U.id as userId', 'U.contactNumber', 'U.email', DB::raw('Count(O.id) as billCount'), DB::raw('SUM(O.totalAmount - O.refundTotalAmount) as totalSales'))
-	    ->leftJoin('users as U','U.id','=','C.userId')
-	    ->leftJoin('orders_pos as O','O.userId','=','C.userId')
-	    ->whereBetween(DB::raw('Date(O.created_at)'), [$customStartDate, $customEndDate])
-	    ->where('C.storeId','=',$storeId);
-	    
-	    if(!empty($search))
-		    $results = $results->where('U.firstName', 'LIKE', $search.'%');
-		    
-	    $results = $results->groupBy('Name', 'userId', 'U.contactNumber', 'U.email')->get();
-		
-		return view('admin.storereports.shiftreport',compact('storeId','results','startDate','endDate','search'));
+		return view('admin.storereports.shiftreport',compact('results'));
     }
 }

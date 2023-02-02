@@ -44,7 +44,7 @@ helper::checkStoreId($storeId);
         		    <div class="row">
     					<div class="col-md-3 mb-3 ">
     						<select name="reportType" class="form-select single-select" id="type" onChange="this.form.submit();">
-        						<option value="" @if(empty($reportType)) selected="selected" @endif>{{ __('lang.salesreports')}}</option>
+        						<!-- <option value="" @if(empty($reportType)) selected="selected" @endif>{{ __('lang.salesreports')}}</option> -->
     							<option value="daily" @if($reportType == 'daily') selected="selected" @endif>{{ __('lang.dailysalesreports')}}</option>
     							<option value="billwise" @if($reportType == 'billwise') selected="selected" @endif>{{ __('lang.billwisereport')}}</option>
     							<option value="category" @if($reportType == 'category') selected="selected" @endif>{{ __('lang.categoryreport')}}</option>
@@ -57,7 +57,7 @@ helper::checkStoreId($storeId);
                                     <input type="date" name="start_date" value="{{$start_date}}" id="min" class="form-control" placeholder="{{ __('lang.fromdate')}}"  />
                                 </div>
     							<div class="col-md-6">
-                                    <input type="date" name="end_date" id="max" class="form-control" value="{{$end_date}}" placeholder="{{ __('lang.todate')}}"  />
+                                    <input type="date" name="end_date" value="{{$end_date}}" id="max" class="form-control"  placeholder="{{ __('lang.todate')}}"  />
                                 </div>
             				</div>
             			</div>
@@ -110,6 +110,24 @@ helper::checkStoreId($storeId);
     							<th scope="col">{{ __('lang.date')}}</th>
     							<th scope="col">{{ __('lang.totalbills')}}</th>
     							<th scope="col">{{ __('lang.totalamount')}}</th>
+    						</tr>
+    					</thead>
+    					<tbody>
+    						@foreach($results['bills'] as $result)
+    						<tr>
+    							<td>{{$result->created_at}}</td>
+    							<td>{{$result->orderId}}</td>
+    							<td>{{$result->totalAmount}}</td>
+    						</tr>
+    						@endforeach
+    					</tbody>
+					
+					@elseif($reportType == 'category')
+    					<thead>
+    						<tr>
+    							<th scope="col">{{ __('lang.category')}}</th>
+    							<th scope="col">{{ __('lang.quantity')}}</th>
+    							<th scope="col">{{ __('lang.revenue')}}</th>
     						</tr>
     					</thead>
     					<tbody>

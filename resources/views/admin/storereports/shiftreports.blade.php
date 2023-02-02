@@ -87,40 +87,26 @@ $Roles = config('app.Roles');
 						</tr>
 					</thead>
 					<tbody>
+					@foreach($results as $key=>$shiftReport)
 						<tr>
-							<td>00-00-0001</td>
-							<td>1</td>
-							<td>2</td>
-							<td>SAR 8,889</td>
-							<td>SAR 1</td>
-							<td>SAR 8,888</td>
+							<td>{{ $shiftReport->dateCreated }}</td>
+							<td>--<!-- 1 --></td>
+							<td>--<!-- 2 --></td>
+							<td>SAR {{$shiftReport->totalAmount}}</td>
+							<td>SAR --<!-- 1 --></td>
+							<td>SAR --<!-- 8,888 --></td>
 							<td>
 								<div class="btn-group">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
 									</button>
 									<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-										<a class="dropdown-item" href="{{url('/admin/storereports/shiftdayreport/505')}}"><i class="fadeIn animated bx bx-show"></i> {{ __('lang.view')}}</a>
+										<a class="dropdown-item" href="{{url('/admin/storereports/shiftdayreport/'.$shiftReport->storeId.'/'.$shiftReport->dateCreated)}}"><i class="fadeIn animated bx bx-show"></i> {{ __('lang.view')}}</a>
 									</div>
 								</div>
 							</td>
 						</tr>
-                        <tr>
-							<td>00-00-0002</td>
-							<td>1</td>
-							<td>2</td>
-							<td>SAR 7,778</td>
-							<td>SAR 1</td>
-							<td>SAR 7,777</td>
-							<td>
-								<div class="btn-group">
-									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
-									</button>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-										<a class="dropdown-item" href="{{url('/admin/storereports/shiftdayreport/505')}}"><i class="fadeIn animated bx bx-show"></i> {{ __('lang.view')}}</a>
-									</div>
-								</div>
-							</td>
-						</tr>
+						@endforeach
+                        
 						
 					</tbody>
 				</table>

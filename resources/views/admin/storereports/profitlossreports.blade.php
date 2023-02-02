@@ -118,12 +118,12 @@ $Roles = config('app.Roles');
 					<!-- <tbody>
 						@foreach($results as $result)
 						<tr>
-							<td>{{$result->Name}}</td>
-							<td>{{$result->userId}}</td>
-							<td>{{$result->contactNumber}}</td>
-							<td>{{$result->email}}</td>
-							<td>{{$result->billCount}}</td>
-							<td> {{ __('lang.sar')}}  {{$result->totalSales}}</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>}</td>
+							<td> {{ __('lang.sar')}}  </td>
 						</tr>
 						@endforeach
 					</tbody> -->

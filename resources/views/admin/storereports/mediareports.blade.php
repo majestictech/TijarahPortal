@@ -77,6 +77,11 @@ $Roles = config('app.Roles');
 							<td style="width:100px;">{{$results['cardCount']}}</td>
 							<td style="width:100px;">{{$results['cardAmount']}}</td>
 						</tr>
+						<tr>
+							<td style="width:100px;">{{ __('lang.cash')}}</td>
+							<td style="width:100px;">{{$results['cashCount']}}</td>
+							<td style="width:100px;">{{$results['cashAmount']}}</td>
+						</tr>
 						
 						<tr>
 							<td style="width:100px;">{{ __('lang.credit')}}</td>
@@ -84,10 +89,11 @@ $Roles = config('app.Roles');
 							<td style="width:100px;">{{$results['otherAmount']}}</td>
 						</tr>
 						<tr>
-							<td style="width:100px;">{{ __('lang.cash')}}</td>
-							<td style="width:100px;">{{$results['cashCount']}}</td>
-							<td style="width:100px;">{{$results['cashAmount']}}</td>
+							<td style="width:100px;">{{ __('lang.refund')}}</td>
+							<td style="width:100px;">{{$results['refundCount']}}</td>
+							<td style="width:100px;">{{$results['refundAmount']}}</td>
 						</tr>
+						
 					</tbody>
 				</table>
 				

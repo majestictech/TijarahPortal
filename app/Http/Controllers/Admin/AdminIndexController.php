@@ -82,7 +82,8 @@ class AdminIndexController extends Controller
 			$endDate = $todayEndDate;
 		}
 
-        if (Auth::user()->roleId != 4 && Auth::user()->roleId != 11){
+        if (Auth::user()->roleId != 4 && Auth::user()->roleId != 11 && Auth::user()->roleId != 12){
+			
 			//All Except of Store Owner(4) and Chain Admin(11)
 
 			/* Today Orderplaced Count Start */
@@ -602,7 +603,7 @@ class AdminIndexController extends Controller
     	 	return view('admin.dashboard.index',compact('todayOrderCount', 'allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate','revenueLabels','revenueData','billLabels','billData','basketLabels','basketData','date'));
     		
         }
-		else if(Auth::user()->roleId == 11 || Auth::user()->roleId == 12 ){	
+		else if(Auth::user()->roleId == 11 ||  Auth::user()->roleId == 12){	
     	    //Chain Admin = 11
 
 			/* Parent and Child Store Id Start */
@@ -636,9 +637,9 @@ class AdminIndexController extends Controller
 			 ->whereIn('S.id', $storeDetails)
 			 ->get();
 			 $todayOrderCount = $orderplaced1->count();
-		 //print_r($todayOrderCount);
-		 // die;
-		 /* Today  Order Count End*/
+			//print_r($todayOrderCount);
+			// die;
+			/* Today  Order Count End*/
 			 
 			 /* Orderplaced Count Start */
 			 $orderplaced=  DB::Table('chainstores as CS')
@@ -710,7 +711,7 @@ class AdminIndexController extends Controller
 			/* if(!empty($storeFilter)) {
 				$stores= $stores->where('S.id', $storeFilter);
 			}
- */
+ 			*/
 			$stores = $stores->get();
     		$activestores = $stores->count();	
 			/*  All Stores and Store Count End*/
@@ -980,7 +981,7 @@ class AdminIndexController extends Controller
 			//die;
 			/*Bill Count End */
 
-		/* 	print_r($lastSevendaysRevenue);	
+			/* 	print_r($lastSevendaysRevenue);	
 			print_r('<br>');	
 			print_r($lastSevendaysRevenue[0]->totalAmount);	 */
 			/* Find Day Name Using Date*/
@@ -1017,7 +1018,7 @@ class AdminIndexController extends Controller
     	 	return view('admin.dashboard.index',compact('orderplaced', 'allcustomer', 'allStores', 'activestores', 'storedata', 'todayOrderCount', 'allorderCount', 'todayRevenueCount', 'revenues', 'storeDetails', 'topSellingData', 'lastdaysRevenue', 'maxInventory', 'outOfStock', 'instock', 'productNotAvailable','productAvailable', 'lowInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate','revenueLabels','revenueData','billLabels','billData','basketLabels','basketData')); 
     		
         }
-        
+		
     }
 
 }
