@@ -253,9 +253,10 @@ class AdminIndexController extends Controller
 				for($i=0; $i<7; $i++) {
 					$day = Carbon::now()->subDays($i);
 					$checkDate = $day->toDateString();
-					//$dateDay = $day->format('D');
-					$dateDay = $day->format('d/m');
+					//$dateDay = $day->format('jM');
+					$dateDay = $day->format('d') ;
 					
+					//dd($dateDay);
 					// Search For Revenue, Average Basket and Bills used common as in both totalAmount is used
 					$position = array_search($checkDate, $graphRevenueSearch);
 					
@@ -490,7 +491,7 @@ class AdminIndexController extends Controller
 					$day = Carbon::now()->subDays($i);
 					$checkDate = $day->toDateString();
 					//$dateDay = $day->format('D');
-					$dateDay = $day->format('d/m');
+					$dateDay = $day->format('jS M');
 					
 					// Search For Revenue, Average Basket and Bills used common as in both totalAmount is used
 					$position = array_search($checkDate, $graphRevenueSearch);

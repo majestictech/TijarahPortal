@@ -48,11 +48,13 @@ $Roles = config('app.Roles');
 <!--end breadcrumb-->
 <div class="row">
 	<div class="col-xl-12 mx-auto">
-        <div class="row">
-		<div class="col-6 mx-auto"><h6 class="mb-0 text-uppercase">{{ __('lang.reports')}}</h6></div>
-		<div class="col-6 mx-auto text-end"><button class="btn btn-primary p-1">{{ __('lang.reprintshift/dayendreport')}}</button>
-        </div></div>
-		<hr/>
+        <!-- <div class="row">
+			<div class="col-6 mx-auto"><h6 class="mb-0 text-uppercase">{{ __('lang.reports')}}</h6></div>
+			<div class="col-6 mx-auto text-end">
+				<button class="btn btn-primary p-1">{{ __('lang.reprintshift/dayendreport')}}</button>
+			</div>
+		</div>
+		<hr/> -->
 		<div class="card">
 			<div class="card-body rounded">
             <table class="table mb-0 table-bordered" id="myTable">
