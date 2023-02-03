@@ -985,8 +985,7 @@ chart.render(); */
           type: 'area'
       },
       xAxis: {
-          categories: [{{$revenueLabels}}],
-          
+          categories: [{{$revenueLabels}}]
       },
 
       plotOptions: {
