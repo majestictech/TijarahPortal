@@ -63,14 +63,14 @@ $Roles = config('app.Roles');
         			     <button type="submit" class="btn btn-primary px-5" name="searchBtn" value="yes">Search</button>
         			</div>
                 </div>
-                <div class="row pb-3">
+                <!-- <div class="row pb-3">
     				<div>
                         <button name="type" value="today" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">Today</button>
                         <button name="type" value="yesterday" class="pt-1 pb-1 btn btn-primary text-white" style="border:none;  border-radius:5px">Yesterday</button>
                         <button name="type" value="thismonth" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.thismonth')}}</button>
                     </div>
     					
-    			</div>
+    			</div> -->
     		</form>
 				
 				<table class="table mb-0 table-striped table-bordered" id="myTable">
@@ -92,9 +92,9 @@ $Roles = config('app.Roles');
 							<td>{{ $shiftReport->dateCreated }}</td>
 							<td>1</td>
 							<td>{{$shiftReport->totalShifts}}</td>
-							<td>SAR --<!-- {{$shiftReport->totalAmount}} --></td>
-							<td>SAR --<!-- 1 --></td>
-							<td>SAR {{$shiftReport->totalAmount}}</td>
+							<td>SAR {{$shiftReport->shiftEndCDBalance}}</td>
+							<td>SAR {{$shiftReport->adjustAmount}}</td>
+							<td>SAR {{$shiftReport->shiftEndBalance}}</td>
 							<td>
 								<div class="btn-group">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>

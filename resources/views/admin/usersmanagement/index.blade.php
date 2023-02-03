@@ -26,7 +26,7 @@ helper::checkUserURLAccess('adminmanagement_manage','');
 <!--end breadcrumb-->
 <div class="row">
 	<div class="col-xl-12 mx-auto">
-		<h6 class="mb-0 text-uppercase">{{ __('lang.allusers')}}</h6>
+		<h6 class="mb-0 text-uppercase">{{ __('lang.allusers')}}123</h6>
 		<hr/>
 
 		<div class="card">
@@ -75,20 +75,11 @@ helper::checkUserURLAccess('adminmanagement_manage','');
                             <td>{{$usersManagementData->contactNumber}}</td>
 							<td>{{$usersManagementData->email}}</td>
 							<td>
-								<?php
-									if($usersManagementData->roleId == 1){
-										echo "Admin";
-									}
-									else if($usersManagementData->roleId == 2){
-										echo "Sub-Admin";
-									}
-									else if($usersManagementData->roleId == 11){
-										echo "Chain Admin";
-									}
-									else if($usersManagementData->roleId == 12){
-										echo "Chain Sub-Admin";
-									}
-								?>
+								@foreach($masRoles as $key =>$masRole)
+									<?php
+									echo ($usersManagementData->roleId == $masRole->id) ?  $masRole->name: "";
+									?>
+								@endforeach
 							</td>
 							<td>
 								<div class="btn-group">

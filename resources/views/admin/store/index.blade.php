@@ -255,8 +255,6 @@ use App\Helpers\AppHelper as Helper;
                 @if ($storecount > 0)
     				<div class="pagination_links">
     				{{$stores->appends(array('search' => $search,'storeFilter'=>$storeFilter))->links()}}
-    				
-
     				</div>
 				@endif
 			</div>
