@@ -478,7 +478,7 @@ for git */
 	Route::get('admin/storereports/profitlossreports/{id}', 'Admin\StoreReportsController@profitlossreports');
 	Route::get('admin/storereports/shiftreports/{storeid}', 'Admin\StoreReportsController@shiftreports');
 	Route::get('admin/storereports/shiftdayreport/{storeid}/{shiftdate}', 'Admin\StoreReportsController@shiftdayreport');
-	Route::get('admin/storereports/shiftreport/{userid}', 'Admin\StoreReportsController@shiftreport');
+	Route::get('admin/storereports/shiftreport/{id}', 'Admin\StoreReportsController@shiftreport');
 	
 
 	//----------------Report----------------------------------

@@ -62,16 +62,16 @@ $Roles = config('app.Roles');
 						<tr>
 							<td>{{ $shiftDayReport->shiftId }}</td>
 							<td>{{ $shiftDayReport->firstName }} {{ $shiftDayReport->lastName }}</td>
-							<td>{{$shiftDayReport->shiftInBalance}}</td>
+							<td>{{$shiftDayReport->shiftInCDBalance}}</td>
+							<td>{{$shiftDayReport->shiftEndCDBalance}}</td>
+							<td>{{$shiftDayReport->adjustAmount}}</td>
 							<td>{{$shiftDayReport->shiftEndBalance}}</td>
-							<td>--<!-- 0 SAR --></td>
-							<td>--<!-- SAR 4,444 --></td>
 							<td>
 								<div class="btn-group">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
 									</button>
 									<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-										<a class="dropdown-item" href="{{url('/admin/storereports/shiftreport/'.$shiftDayReport->userId)}}"><i class="fadeIn animated bx bx-show"></i> {{ __('lang.view')}}</a>
+										<a class="dropdown-item" href="{{url('/admin/storereports/shiftreport/'.$shiftDayReport->id)}}"><i class="fadeIn animated bx bx-show"></i> {{ __('lang.view')}}</a>
 									</div>
 								</div>
 							</td>

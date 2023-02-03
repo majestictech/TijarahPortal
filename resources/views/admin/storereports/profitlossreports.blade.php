@@ -45,32 +45,32 @@ $Roles = config('app.Roles');
                 	<div class="col-md-4">
         				<div class="row input-daterange pb-4">
                             <div class="col-md-6">
-                                <input type="date" name="start" value="{{$startDate}}" class="form-control" value="" placeholder="{{ __('lang.fromdate')}}"  />
+                                <input type="date" name="start" class="form-control" value="{{$startDate}}" placeholder="{{ __('lang.fromdate')}}"  />
                             </div>
 							<div class="col-md-6">
-                                <input type="date" name="end" value="{{$endDate}}" class="form-control" value="" placeholder="{{ __('lang.todate')}}"  />
+                                <input type="date" name="end" value="{{$endDate}}" class="form-control"  placeholder="{{ __('lang.todate')}}"  />
                             </div>
         				</div>
         			</div>
     			
         		    <div class="col-md-3 mb-3 ">
-    				    <input type="text" name="search" style="height: 37px;" placeholder="Search" value="{{$search}}" class="form-control form-control-sm" value=""/>
+    				    <input type="text" name="search" style="height: 37px;" placeholder="Search" value="{{$search}}" class="form-control form-control-sm"/>
                     </div>
         		    
         		    
         		    
         			<div class="col-md-2 mb-3 ">
-        			     <button type="submit" class="btn btn-primary px-5" name="searchBtn" value="yes">Search</button>
+        			     <button type="submit" class="btn btn-primary px-5" name="searchBtn">Search</button>
         			</div>
                 </div>
     		</form>
-				<div class="row pb-3">
+				<!-- <div class="row pb-3">
 						<div>
 								<button type="button" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.profitmargin')}}</button>
 								<button class="pt-1 pb-1 btn btn-primary text-white" style="border:none;  border-radius:5px">{{ __('lang.profit&loss')}}</button>
 								<button class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.profit&lossprojection')}}</button>		
 						</div>
-				</div>
+				</div> -->
 				<table class="table mb-0 table-striped table-bordered" id="myTable">
 				
 					<thead>
@@ -85,50 +85,20 @@ $Roles = config('app.Roles');
 							<th scope="col">{{ __('lang.totalmargin(sar)')}}</th>
 						</tr>
 					</thead>
+					@foreach($results as $key =>$result)
 					<tr>
-						<td>Galaxy smooth milk 36 grm</td>
-						<td>3.50</td>
-						<td>0.00</td>
-						<td>0.00</td>
-						<td>3.50</td>
-						<td>1.0</td>
-						<td>3.50</td>
-						<td>3.50</td>
+						<td>{{$result->productName}}</td>
+						<td>{{$result->price}}</td>
+						<td>{{$result->costPrice}}</td>
+						<td>{{$result->costPrice}}</td>
+						<td>{{$result->price}}</td>
+						<td>{{$result->qty}}</td>
+						<td>{{$result->margin}}</td>
+						<td>{{($result->qty) * ($result->margin)}}</td>
 					</tr>
-					<tr>
-						<td>Galaxy smooth milk 36 grm</td>
-						<td>3.50</td>
-						<td>0.00</td>
-						<td>0.00</td>
-						<td>3.50</td>
-						<td>1.0</td>
-						<td>3.50</td>
-						<td>3.50</td>
-					</tr>
-					<tr>
-						<td>Galaxy smooth milk 36 grm</td>
-						<td>3.50</td>
-						<td>0.00</td>
-						<td>0.00</td>
-						<td>3.50</td>
-						<td>1.0</td>
-						<td>3.50</td>
-						<td>3.50</td>
-					</tr>
-					<!-- <tbody>
-						@foreach($results as $result)
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td>}</td>
-							<td> {{ __('lang.sar')}}  </td>
-						</tr>
-						@endforeach
-					</tbody> -->
+					@endforeach
 				</table>
-				
+				{{ $results->appends(array('search' => $search,'start'=>$startDate, 'end'=>$endDate))->links() }}
 			</div>
 		</div>
 	</div>

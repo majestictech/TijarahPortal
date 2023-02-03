@@ -20,28 +20,53 @@ class UsersManagementController extends Controller
 		print_r($authUser);
 		//die;
 		//$Gender = config('app.Gender');
-		$masRoles = DB::Table('mas_role as m')->whereIn('m.id',[1, 2])->get();
+		$masRoles = DB::Table('mas_role as m')->select('m.id','m.name');
 
 		$search = $request->search;
 		$search = trim($search);
 
 		$roleFilter = $request->roleFilter;
 
-		$usersmanagementdata = DB::Table('users as U')
+	/* 	$usersmanagementdata = DB::Table('users as U')
 		->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber', 'U.roleId');
 		if($authUser == 1) {
 			 $usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [1, 2, 11, 12]);
+
+			 $masRoles = $masRoles->whereIn('m.id',[1, 2, 11, 12]);
 		}
 		else if($authUser == 2) {
 			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 2, 11, 12);
+			$masRoles = $masRoles->whereIn('m.id',[2, 11, 12]);
 		}
 		else if($authUser == 11) {
 			$usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [11, 12]);
+			$masRoles = $masRoles->whereIn('m.id', [11, 12]);
+		}
+		else if($authUser == 12) {
+			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 12);
+		} */
+
+		$usersmanagementdata = DB::Table('users as U')->leftJoin('mas_role as m','m.id','U.roleId')
+		->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber', 'U.roleId');
+		if($authUser == 1) {
+			 $usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [1, 2, 11, 12]);
+
+			 $masRoles = $masRoles->whereIn('m.id',[1, 2, 11, 12]);
+		}
+		else if($authUser == 2) {
+			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 2, 11, 12);
+			$masRoles = $masRoles->whereIn('m.id',[2, 11, 12]);
+		}
+		else if($authUser == 11) {
+			$usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [11, 12]);
+			$masRoles = $masRoles->whereIn('m.id', [11, 12]);
 		}
 		else if($authUser == 12) {
 			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 12);
 		}
 
+		$masRoles = $masRoles->get();
+		
 
 		// Role Check Starts
 		if(!empty($roleFilter))
@@ -118,6 +143,8 @@ class UsersManagementController extends Controller
 		*/
 
 		$usersmanagementdata = $usersmanagementdata->orderBy('U.id', 'DESC')->paginate(10);
+		/* print_r($usersmanagementdata);
+		die; */
 		
 		$usersmanagementcount=count($usersmanagementdata);
 		//echo $usersmanagementdata;
@@ -137,7 +164,7 @@ class UsersManagementController extends Controller
 		$masRoles = DB::Table('mas_role as m');
 		
 		if($authUser == 1) {
-			$masRoles = $masRoles->whereIN('m.id',[1, 2])->get();
+			$masRoles = $masRoles->whereIn('m.id',[1, 2])->get();
 		}
 		else if($authUser == 2) {
 			$masRoles = $masRoles->where('m.id',2)->get();
@@ -198,9 +225,12 @@ class UsersManagementController extends Controller
 	public function edit($id)
     {
 		
-		$userData = DB::Table('users as U')->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber', 'U.roleId')->where('U.id', $id)->get();
+		
+		$userData = DB::Table('users as U')->leftJoin('mas_role as m','m.id','U.roleId')
+		->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber', 'U.roleId','m.name')->where('U.id', $id)->get();
 		
 		$userData = $userData[0];
+		
 
 		return view('admin.usersmanagement.edit',compact('userData'));
     }

@@ -142,15 +142,17 @@ $Roles = config('app.Roles');
 				</a>
 			</div>
 			<div class="col-md-6">
-				<a href="{{url('/admin/storereports/profitlossreports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
-					{{ __('lang.profit&loss')}}
-				</a>
-			</div>
-		</div>
-		<div class="row mb-4 text-center">
-			<div class="col-md-6">
 				<a href="{{url('/admin/storereports/shiftreports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
 					{{ __('lang.shiftreports')}}
+				</a>
+			</div>
+			
+		</div>
+		<div class="row mb-4 text-center">
+			
+			<div class="col-md-6">
+				<a href="{{url('/admin/storereports/profitlossreports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
+					{{ __('lang.profit&loss')}}
 				</a>
 			</div>
 		</div>

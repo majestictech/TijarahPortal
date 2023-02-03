@@ -62,7 +62,8 @@ helper::checkUserURLAccess('adminmanagement_manage','adminmanagement_edit');
 					<div class="col-md-6">
 						<label for="inputEmailAddress" class="form-label">{{ __('lang.user')}} </label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class="fadeIn animated bx bx-user-circle"></i></span>
-							<input type="text" name="roleId" class="form-control border-start-0" id="inputEmailAddress" placeholder="{{ __('lang.user')}}" value="<?php echo ($userData->roleId ==1) ? "Admin" : "Sub-Admin"; ?>" />
+							<input type="text" name="roleId" class="form-control border-start-0" id="inputEmailAddress" placeholder="{{ __('lang.user')}}" value="{{$userData->name}}" />
+							
 						</div>
 					</div>
 					<div class="col-6">

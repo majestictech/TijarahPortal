@@ -64,6 +64,7 @@ helper::checkStoreId($storeId);
             			
             			<div class="col-md-2 mb-3 ">
             			     <button type="submit" class="btn btn-primary px-5" name="searchBtn" value="yes">Search</button>
+							 <!--<button type="submit" class="btn btn-primary px-5" name="type" value="catwisecustom">Search</button>-->
             			</div>
                     </div>
     				<div class="row pb-3">
@@ -77,6 +78,12 @@ helper::checkStoreId($storeId);
     					    <div>
         					    <button name="type" value="billwisetoday" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">Today</button>
         						<button name="type" value="billwisethismonth" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.thismonth')}}</button>
+        					</div>
+						@elseif($reportType == 'category')
+    					    <div>
+        					    <button name="type" value="catwiseyesterday" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">Yesterday</button>
+        					    <button name="type" value="catwisetoday" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">Today</button>
+        						<button name="type" value="catwisethismonth" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.thismonth')}}</button>
         					</div>
     					@endif
     				</div>
@@ -133,8 +140,8 @@ helper::checkStoreId($storeId);
     					<tbody>
     						@foreach($results['bills'] as $result)
     						<tr>
-    							<td>{{$result->created_at}}</td>
-    							<td>{{$result->orderId}}</td>
+    							<td>{{$result->categoryName}}</td>
+    							<td>{{$result->qty}}</td>
     							<td>{{$result->totalAmount}}</td>
     						</tr>
     						@endforeach
