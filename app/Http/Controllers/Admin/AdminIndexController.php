@@ -71,9 +71,10 @@ class AdminIndexController extends Controller
 		
 		if($fixReportsOrders == 'fixOrders') {
 			$orders = DB::Table('orders_pos as O')->select('O.id','O.orderId','O.orderDetail','O.storeId','O.created_at')
-			->whereNotIn('O.id', DB::table('reports')->pluck('orderId'))
+			->whereNotIn('O.id', DB::table('reports')->where('storeId',9588)->pluck('orderId'))
+			->where('O.storeId',9588)
 			->orderBy('O.id','DESC')
-			->limit(1000)
+			->limit(50)
 			->get();
 			
 			// Entry in Reports Table Starts
