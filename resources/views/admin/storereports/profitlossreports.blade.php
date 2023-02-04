@@ -94,9 +94,9 @@ $Roles = config('app.Roles');
 						<!-- <td>{{$result->costPrice}}</td> -->
 						<td>{{$result->price}}</td>
 						<td>{{$result->qty}}</td>
-						<td>{{$result->margin}}</td>
+						<td>{{round($result->margin,2)}}</td>
 						<td>{{$result->percentprofit}}</td>
-						<td>{{($result->qty) * ($result->margin)}}</td>
+						<td>{{round(($result->qty) * ($result->margin),2)}}</td>
 					</tr>
 					@endforeach
 				</table>
