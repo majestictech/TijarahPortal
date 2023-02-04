@@ -76,24 +76,26 @@ $Roles = config('app.Roles');
 					<thead>
 						<tr>
 							<th scope="col">{{ __('lang.name')}}</th>
-							<th scope="col">{{ __('lang.mrp(sar)')}}</th>
+							<!-- <th scope="col">{{ __('lang.mrp(sar)')}}</th> -->
 							<th scope="col">{{ __('lang.c.p(sar)')}}</th>
-							<th scope="col">{{ __('lang.c.p(sar)excl')}}</th>
+							<!-- <th scope="col">{{ __('lang.c.p(sar)excl')}}</th> -->
 							<th scope="col">{{ __('lang.s.p(sar)')}}</th>
 							<th scope="col">{{ __('lang.qty')}}</th>
 							<th scope="col">{{ __('lang.margin(sar)')}}</th>
+							<th scope="col">{{ __('lang.percentage')}}</th>
 							<th scope="col">{{ __('lang.totalmargin(sar)')}}</th>
 						</tr>
 					</thead>
 					@foreach($results as $key =>$result)
 					<tr>
 						<td>{{$result->productName}}</td>
-						<td>{{$result->price}}</td>
+					<!-- 	<td>{{$result->price}}</td> -->
 						<td>{{$result->costPrice}}</td>
-						<td>{{$result->costPrice}}</td>
+						<!-- <td>{{$result->costPrice}}</td> -->
 						<td>{{$result->price}}</td>
 						<td>{{$result->qty}}</td>
 						<td>{{$result->margin}}</td>
+						<td>{{$result->percentprofit}}</td>
 						<td>{{($result->qty) * ($result->margin)}}</td>
 					</tr>
 					@endforeach

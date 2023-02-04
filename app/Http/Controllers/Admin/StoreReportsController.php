@@ -60,15 +60,46 @@ class StoreReportsController extends Controller
 		
 		$type = "today";
 		$reportType = "daily";
-		$customStartDate = Carbon::now()->toDateString();		
-		$customStartDate = Carbon::now();		
-		$customEndDate = Carbon::now()->toDateString();
+		if(isset($_GET['startDate']) && !empty($_GET['startDate'])) {
+		    $startDate = $_GET['startDate'];
+			$customStartDate = $_GET['startDate'] . ' 00:00:00';
+		}
+		else{
+			$startDate = '';
+		}
+		if(isset($_GET['endDate']) && !empty($_GET['startDate'])) {
+		    $endDate = $_GET['endDate'];
+			$customEndDate = $_GET['endDate'] . ' 23:59:59';
+		}
+		else{
+			$endDate ='';
+		}
+	
+		if(isset($_GET['type']))
+			$type = $_GET['type'];
 		
-		$start_date = $customStartDate;
-		$end_date = $customEndDate;
-		//print_r($customStartDate);
-		//print_r($start_date);
-		//die;
+		if(isset($_GET['search']) && !empty($_GET['search'])) {
+			$search = $_GET['search'];
+		}
+		
+		
+	   
+	    $customStartDate = $startDate . ' 00:00:00';
+		$customEndDate = $endDate . ' 23:59:59';
+		$fromDate = 0;
+        $toDate = 0;
+		
+	    if(empty($startDate)) {
+	        $customStartDate = new Carbon('first day of January 2021');
+	    }
+	        
+	    if(empty($endDate))
+	        $customEndDate = Carbon::now()->toDateString() . ' 23:59:59';
+		
+		
+		
+		
+		
 		
 		if(isset($_GET['reportType']))
 			$reportType = $_GET['reportType'];
@@ -79,25 +110,7 @@ class StoreReportsController extends Controller
 		if(isset($_GET['type']))
 			$type = $_GET['type'];
 		
-		if(isset($_GET['start_date']) && !empty($_GET['start_date'])) {
-		    $start_date = $_GET['start_date'];
-			$customStartDate = $_GET['start_date'] . ' 00:00:00';
-			
-			if($reportType == 'daily')
-			    $type = 'custom';
-			else if($reportType == 'billwise')
-			    $type = 'billwisecustom';
-		}
 		
-		if(isset($_GET['end_date']) && !empty($_GET['start_date'])) {
-		    $end_date = $_GET['end_date'];
-			$customEndDate = $_GET['end_date'] . ' 23:59:59';
-			
-			if($reportType == 'daily')
-			    $type = 'custom';
-			else if($reportType == 'billwise')
-			    $type = 'billwisecustom';
-		}
 		
 		
 	    $totalVat = 0;
@@ -128,7 +141,7 @@ class StoreReportsController extends Controller
     	    // Reference
     	    
             
-            if($type == 'today' || $type == 'yesterday' || $type == 'thismonth' || $type == 'lastsixmonths' || $type == 'custom') {
+            if($type == 'today' || $type == 'yesterday' || $type == 'thismonth' || $type == 'billwisethismonth' || $type == 'billwisetoday'|| $type == 'lastsixmonths' || $type == 'custom') {
                 $queryData = DB::table('orders_pos')
                     ->select(DB::raw('COUNT(id) as totalBill'), DB::raw('ROUND((SUM(vat) - SUM(refundVat)),2) as vat'), DB::raw('(SUM(totalAmount) - SUM(refundTotalAmount)) as totalAmount'), DB::raw('Date(created_at) as created_at'))
                     ->where('storeId',$storeId);
@@ -145,16 +158,16 @@ class StoreReportsController extends Controller
     	        
     	        $queryData = $queryData->where(DB::raw('Date(created_at)'),'=',$checkDate);
     	        
-    	        $fromDate = $checkDate;
-                $toDate = $checkDate;
+    	        $startDate = $checkDate;
+                $endDate = $checkDate;
     	    }
     	    else if($type == 'yesterday') {
     	        $checkDate = Carbon::now()->subDays(1)->toDateString();
     	        
     	        $queryData = $queryData->where(DB::raw('Date(created_at)'),'=',$checkDate);
     	        
-    	        $fromDate = $checkDate;
-                $toDate = $checkDate;
+    	        $startDate = $checkDate;
+                $endDate = $checkDate;
     	    }
     	    else if($type == 'thismonth' || $type == 'billwisethismonth') {
     	        $checkDate = Carbon::now()->month;
@@ -163,10 +176,10 @@ class StoreReportsController extends Controller
     	        
     	        // This needs to fixed as start date will be first date of the month
     	        //$fromDate = $checkDate;
-    	        $fromDate = Carbon::now()->startOfMonth()->toDateString();
-                $toDate = Carbon::now()->toDateString();
+    	        $startDate = Carbon::now()->startOfMonth()->toDateString();
+                $endDate = Carbon::now()->toDateString();
     	    }
-    	    else if($type == 'quartely') {
+    	    /*else if($type == 'quartely') {
     	        $checkDate = new \Carbon\Carbon('-3 months'); // for the last quarter requirement
     	        $startDate = $checkDate->startOfQuarter()->toDateString();
     	        $endDate = $checkDate->endOfQuarter()->toDateString();
@@ -183,7 +196,7 @@ class StoreReportsController extends Controller
     	        
     	        $fromDate = $checkDate;
                 $toDate = Carbon::now()->toDateString();
-    	    }
+    	    }*/
     	    else if($type == 'custom' || $type == 'billwisecustom') {
     	        $checkDate = Carbon::now()->subMonths(6)->toDateString();
     	        
@@ -192,22 +205,30 @@ class StoreReportsController extends Controller
     	        
     	        $fromDate = $customStartDate;
                 $toDate = $customEndDate;
+				
+				$startDate = $_GET['startDate'];
+				$endDate = $_GET['endDate'];
     	    }
     	    
 
-            if($type == 'today' || $type == 'yesterday' || $type == 'thismonth' || $type == 'custom') {
+            if($type == 'today' || $type == 'yesterday' || $type == 'thismonth' || $type == 'custom' || $type == 'billwisetoday' || $type == 'billwisethismonth') {
                 $queryData = $queryData->groupBy(DB::raw('Date(created_at)'))
                     ->orderBy('created_at','DESC');
+				
             }
-            else if($type == 'lastsixmonths') {
+            /*else if($type == 'lastsixmonths') {
             //else if($type == 'lastsixmonths' || $type == 'custom') {
                 $queryData = $queryData->groupBy(DB::raw('Month(created_at)'))
                     ->orderBy('created_at','DESC');
-            }
+            }*/
             else {
                 $queryData = $queryData->orderBy('created_at','DESC');
             }
 			
+			
+			//print_r($fromDate);
+			//print_r($toDate);
+			//die;
 			
 			
 			
@@ -218,6 +239,7 @@ class StoreReportsController extends Controller
 		if($reportType == 'category'){
 			$queryData = DB::table('reports')
             ->select(DB::raw("(CASE WHEN `categoryName` IS NULL THEN 'Custom' ELSE `categoryName` END) as categoryName"), DB::raw('ROUND((SUM(quantity) - SUM(refundQuantity)),2) as qty'), DB::raw('ROUND((SUM(total) - SUM(refundTotal) - SUM(total*(discPer/100))),2) as totalAmount'))
+			->groupBy('categoryName')
             ->where('storeId',$storeId);
 			
 			if($type == 'catwisetoday') {
@@ -237,18 +259,76 @@ class StoreReportsController extends Controller
 				$queryData = $queryData->where(DB::raw('Month(created_at)'),'=',$checkDate);
 				$fromDate = Carbon::now()->startOfMonth()->toDateString();
 				$toDate = Carbon::now()->toDateString();
+				
+				$startDate = Carbon::now()->startOfMonth()->toDateString();
+                $endDate = Carbon::now()->toDateString();
+				
 			}
-			if($type == 'catwisecustom') {
+			if($type == 'custom') {
 				//print_r($customStartDate);
 				//print_r($customEndDate);
 				$queryData = $queryData->whereBetween(DB::raw('Date(created_at)'), [$customStartDate, $customEndDate]);
 				$fromDate = $customStartDate;
                 $toDate = $customEndDate;
+				$startDate = $_GET['startDate'];
+				$endDate = $_GET['endDate'];
 			}
 		  
 			if($type == 'catwisetoday' || $type == 'catwiseyesterday') 
 			{
-				$queryData = $queryData->groupBy('categoryName')->orderBy('created_at','DESC');
+				$queryData = $queryData->orderBy('created_at','DESC');
+				$fromDate = $checkDate;
+				$toDate = $checkDate;
+				$startDate = $checkDate;
+                $endDate = $checkDate;
+			}
+			
+			
+		}
+		if($reportType == 'productwise'){
+			$queryData = DB::table('reports')
+            ->select('productName' , DB::raw('ROUND((SUM(quantity) - SUM(refundQuantity)),2) as qty'), DB::raw('ROUND((SUM(total) - SUM(refundTotal) - SUM(total*(discPer/100))),2) as totalAmount'),'price')
+			->groupBy('productName')
+			->orderBy('id', 'DESC')
+            ->where('storeId',$storeId);
+			
+			if($type == 'producttoday') {
+			$checkDate = Carbon::now()->toDateString();
+			$queryData = $queryData->where(DB::raw('Date(created_at)'),'=',$checkDate);
+			$startDate = $checkDate;
+            $endDate = $checkDate;
+			}
+			
+			
+			
+			if($type == 'productthismonth') 
+			{
+				$checkDate = Carbon::now()->month;
+				$queryData = $queryData->where(DB::raw('Month(created_at)'),'=',$checkDate);
+				$fromDate = Carbon::now()->startOfMonth()->toDateString();
+				$toDate = Carbon::now()->toDateString();
+				$startDate = Carbon::now()->startOfMonth()->toDateString();
+                $endDate = Carbon::now()->toDateString();
+				
+				//print_r($startDate);
+				//die;
+				
+			}
+			if($type == 'custom') {
+				print_r($customStartDate);
+				print_r($customEndDate);
+				$queryData = $queryData->whereBetween(DB::raw('Date(created_at)'), [$customStartDate, $customEndDate]);
+				$fromDate = $customStartDate;
+                $toDate = $customEndDate;
+				$startDate = $_GET['startDate'];
+				$endDate = $_GET['endDate'];
+				//print_r($endDate);
+				//die;
+			}
+		  
+			if($type == 'producttoday') 
+			{
+				$queryData = $queryData->orderBy('created_at','DESC');
 				$fromDate = $checkDate;
 				$toDate = $checkDate;
 			}
@@ -263,11 +343,12 @@ class StoreReportsController extends Controller
         $completeData = $queryData->get();
         
         foreach($completeData as $data) {
-			if($reportType != 'category'){
-            $totalVat += $data->vat;
+			if($reportType != 'category' && $reportType != 'productwise'){
+           		 $totalVat += $data->vat;
 			}
             $totalSumAmount += $data->totalAmount;
         }
+       
 
         $queryData = $queryData->paginate(100);
 
@@ -281,19 +362,43 @@ class StoreReportsController extends Controller
         $results['fromDate'] = $fromDate;
         $results['toDate'] = $toDate;
 		
+		//print_r($results['bills']);
+		//die;
 		
 		
-		return view('admin.storereports.salesreports', compact('storeId', 'results', 'reportType', 'type', 'start_date', 'end_date'));
+		
+		return view('admin.storereports.salesreports', compact('storeId', 'results', 'reportType', 'type', 'startDate', 'endDate'));
     }
 	
 	public function vatreports($storeId)
     {   
 		$type = "vattoday";
+		
+		
+		if(isset($_GET['startDate']) && !empty($_GET['startDate'])) {
+		    $startDate = $_GET['startDate'];
+			$customStartDate = $_GET['startDate'] . ' 00:00:00';
+		}
+		else{
+			$startDate = '';
+		}
+		if(isset($_GET['endDate']) && !empty($_GET['startDate'])) {
+		    $endDate = $_GET['endDate'];
+			$customEndDate = $_GET['endDate'] . ' 23:59:59';
+		}
+		else{
+			$endDate ='';
+		}
 	
 		if(isset($_GET['type']))
 			$type = $_GET['type'];
 		
-	    if(isset($_GET['start']))
+		if(isset($_GET['search']) && !empty($_GET['search'])) {
+			$search = $_GET['search'];
+		}
+		
+		
+	    /*if(isset($_GET['start']))
 			$startDate = $_GET['start'];
 		else
 			$startDate = '';
@@ -302,9 +407,11 @@ class StoreReportsController extends Controller
 			$endDate = $_GET['end'];
 		else
 			$endDate = '';
-	    
+	    */
 	    $customStartDate = $startDate . ' 00:00:00';
 		$customEndDate = $endDate . ' 23:59:59';
+		$fromDate = 0;
+        $toDate = 0;
 		
 	    if(empty($startDate)) {
 	        $customStartDate = new Carbon('first day of January 2021');
@@ -315,17 +422,13 @@ class StoreReportsController extends Controller
 	        
         $queryPurchaseData = DB::table('vendorInvoice')->select(DB::raw('ROUND((SUM(vatAmount)),2) as totalVat'))->where('status','Complete')->where('storeId',$storeId);
         
-        /*
-        $queryData = DB::table('reports')
-                ->select('productName',DB::raw('ROUND((SUM(price) - SUM(vat)),2) as sellingPrice'),DB::raw('ROUND((SUM(quantity) - SUM(refundQuantity)),2) as qty'),DB::raw('ROUND((SUM(total) - SUM(refundTotal) - SUM(total*(discPer/100))),2) as totalAmount'),
-                DB::raw('ROUND((SUM(vat) - SUM(refundVat)),2) as vat'),DB::raw('ROUND((price - (price*(discPer/100))),2) as totalPrice'),DB::raw('ROUND((SUM(costPrice)),2) as totalcostPrice'), DB::raw('ROUND((SUM(vat)*100 / ((SUM(price) - SUM(vat)))),2) as vatPer'))
-                ->where('storeId',$storeId);
-        */
+        
         
         
         $queryData = DB::table('reports')
                 ->select('productName',DB::raw('ROUND((SUM(price) - SUM(refundPrice)),2) as sellingPrice'),DB::raw('ROUND((SUM(quantity) - SUM(refundQuantity)),2) as qty'),DB::raw('ROUND(SUM(total) - SUM(refundTotal),2) as totalAmount'),
-                DB::raw('ROUND((SUM(vat) - SUM(refundVat)),2) as vat'),DB::raw('ROUND((SUM(costPrice)),2) as totalcostPrice'), DB::raw('ROUND((SUM(vat/quantity)*100)/(SUM(price) - SUM(vat/quantity)),2) as vatPer'))
+                DB::raw('ROUND((SUM(vat) - SUM(refundVat)),2) as vat'),DB::raw('ROUND((SUM(costPrice*quantity) - SUM(costPrice*refundQuantity)),2) as totalcostPrice'), DB::raw('ROUND((SUM(vat/quantity)*100)/(SUM(price) - SUM(vat/quantity)),2) as vatPer'))
+                //->select('productName',DB::raw('ROUND((SUM(price) - SUM(refundPrice)),2) as sellingPrice'),DB::raw('ROUND((SUM(quantity) - SUM(refundQuantity)),2) as qty'),DB::raw('ROUND(SUM(total) - SUM(refundTotal),2) as totalAmount'),DB::raw('ROUND((SUM(vat) - SUM(refundVat)),2) as vat'),DB::raw('ROUND((SUM(costPrice) - SUM(refundCostPrice) ),2) as totalcostPrice'), DB::raw('ROUND((SUM(vat/quantity)*100)/(SUM(price) - SUM(vat/quantity)),2) as vatPer'))
                 ->where('storeId',$storeId);
         
         
@@ -343,6 +446,8 @@ class StoreReportsController extends Controller
     	    $queryData = $queryData->where(DB::raw('Date(created_at)'),'=',$checkDate);
     	    
     	    $queryPurchaseData = $queryPurchaseData->where(DB::raw('Date(created_at)'),'=',$checkDate);
+			$startDate = $checkDate;
+            $endDate = $checkDate;
         }
         
         if($type == 'vatyesterday') {
@@ -351,6 +456,8 @@ class StoreReportsController extends Controller
     	   $queryData = $queryData->where(DB::raw('Date(created_at)'),'=',$checkDate);
     	   
     	   $queryPurchaseData = $queryPurchaseData->where(DB::raw('Date(created_at)'),'=',$checkDate);
+		   $startDate = $checkDate;
+           $endDate = $checkDate;
     	   
         }
         
@@ -365,13 +472,16 @@ class StoreReportsController extends Controller
     	    //die;
     	    
             $toDate = Carbon::now()->toDateString();
+			
+			$startDate = $fromDate;
+            $endDate = $toDate;
         }
         
         
         
         
         
-        if($type == 'vatlastsixmonths') {
+        /*if($type == 'vatlastsixmonths') {
 
             $checkDate = Carbon::now()->subMonths(6)->toDateString();
     	    $queryData = $queryData->where(DB::raw('Date(created_at)'),'>=',$checkDate);
@@ -379,12 +489,14 @@ class StoreReportsController extends Controller
     	    $queryPurchaseData = $queryPurchaseData->where(DB::raw('Date(created_at)'),'>=',$checkDate);
                 
         }
-         
+        */
         if($type == 'vatcustom') {
            $queryData = $queryData->whereBetween(DB::raw('Date(created_at)'), [$customStartDate, $customEndDate]);
            $queryPurchaseData = $queryPurchaseData->whereBetween(DB::raw('Date(created_at)'), [$customStartDate, $customEndDate]);
            $fromDate = $customStartDate;
            $toDate = $customEndDate;
+		   $startDate = $_GET['startDate'];
+		   $endDate = $_GET['endDate'];
         }
         
         
@@ -394,7 +506,10 @@ class StoreReportsController extends Controller
             $toDate = $checkDate;
         }
         
-        $queryData = $queryData->groupBy('productName','price')->orderBy('qty','DESC');
+        $queryData = $queryData->groupBy('productName','price')->orderBy('id','DESC');
+		
+		if(!empty($search))
+		    $queryData = $queryData->where('productName', 'LIKE', $search.'%');
         
         $completeData = $queryData->get();
         $completePurchaseData = $queryPurchaseData->first();
@@ -402,9 +517,7 @@ class StoreReportsController extends Controller
         $totalVatPurchase = $completePurchaseData->totalVat;
         
         
-        //print_r($completeData);
-        //die;
-        
+       
         $totalSumAmount = 0;
         $totalVatAmount = 0;
         
@@ -414,6 +527,8 @@ class StoreReportsController extends Controller
         }
 
         $queryData = $queryData->paginate(10);
+		
+		
         
         $results['vatdata'] = $queryData;
         $results['totalSumAmount'] = round($totalSumAmount,2);
@@ -424,24 +539,36 @@ class StoreReportsController extends Controller
 		
 		$rows = $queryData;
 		
+		
+		
 		return view('admin.storereports.vatreports',compact('storeId','results','startDate','endDate'));
     }
 	
 	public function refundreports($storeId)
     {   
 		$type = "refundtoday";
+		if(isset($_GET['startDate']) && !empty($_GET['startDate'])) {
+		    $startDate = $_GET['startDate'];
+			$customStartDate = $_GET['startDate'] . ' 00:00:00';
+		}
+		else{
+			$startDate = '';
+		}
+		
+		if(isset($_GET['endDate']) && !empty($_GET['startDate'])) {
+		    $endDate = $_GET['endDate'];
+			$customEndDate = $_GET['endDate'] . ' 23:59:59';
+		}
+		else{
+			$endDate = '';
+		}
+	
 		if(isset($_GET['type']))
 			$type = $_GET['type'];
 		
-	    if(isset($_GET['start']))
-			$startDate = $_GET['start'];
-		else
-			$startDate = '';
-		
-		if(isset($_GET['end']))
-			$endDate = $_GET['end'];
-		else
-			$endDate = '';
+		if(isset($_GET['search']) && !empty($_GET['search'])) {
+			$search = $_GET['search'];
+		}
 	    
 	    $customStartDate = $startDate . ' 00:00:00';
 		$customEndDate = $endDate . ' 23:59:59';
@@ -461,8 +588,10 @@ class StoreReportsController extends Controller
         $queryData = DB::table('reports')
                 ->leftJoin('orders_pos','orders_pos.orderId','=','reports.orderNumber')
                 ->leftJoin('customers','customers.id','=','orders_pos.customerId')
-                ->select('reports.created_at','reports.orderNumber','customers.customerName')
+                ->select('reports.created_at','reports.orderNumber',DB::raw('SUM(reports.quantity) as qty'),DB::raw('SUM(reports.refundQuantity) as refundQty'),DB::raw('SUM(reports.refundTotal) as totalAmount'),'customers.customerName')
+                ->select('reports.created_at','reports.orderNumber',DB::raw('SUM(reports.quantity) as qty'),DB::raw('SUM(reports.refundQuantity) as refundQty'),DB::raw('SUM(reports.refundTotal) as totalAmount'),'customers.customerName')
                 ->where('reports.refundQuantity','>',0)
+				->groupBy('reports.orderNumber')
                 
                 ->where('reports.storeId',$storeId);
         
@@ -478,26 +607,32 @@ class StoreReportsController extends Controller
     	   $queryData = $queryData->where(DB::raw('Date(reports.updated_at)'),'=',$checkDate);
         }
          
+		
         if($type == 'refundcustom') {
            //$checkDate = Carbon::now()->subDays(1)->toDateString();
     	    $queryData = $queryData->whereBetween(DB::raw('Date(reports.updated_at)'), [$customStartDate, $customEndDate]);
+			$startDate = $_GET['startDate'];
+			$endDate = $_GET['endDate'];
         }
         
+		
         if($type == 'refundtoday' || $type == 'refundyesterday') 
         {
             $queryData = $queryData->orderBy('reports.updated_at','DESC');
             
             $fromDate = $checkDate;
             $toDate = $checkDate;
+			 $startDate = $checkDate;
+           $endDate = $checkDate;
         }
         
-        if($type == 'refundcustom' ) 
+        /*if($type == 'refundcustom' ) 
         {
             $queryData = $queryData->orderBy('reports.updated_at','DESC');
                     
             $fromDate = $customStartDate;
             $toDate = $customEndDate;
-        }
+        }*/
         
         $completeData = $queryData->get();
         
@@ -512,7 +647,10 @@ class StoreReportsController extends Controller
         $datas['fromDate'] = $fromDate;
         $datas['toDate'] = $toDate;
 		
-		return view('admin.storereports.refundreports',compact('storeId','datas'));
+		
+		
+		
+		return view('admin.storereports.refundreports',compact('storeId','datas','startDate','endDate'));
     }
 	
 	public function purchasereports($storeId)
@@ -966,7 +1104,7 @@ class StoreReportsController extends Controller
 
 
 		$results = DB::table('reports')
-		->select('productName','price','costPrice', 'storeId', DB::raw('SUM(quantity) as qty'), DB::raw('(price - costPrice) as margin'))
+		->select('productName','price','costPrice', 'storeId', DB::raw('SUM(quantity) as qty'), DB::raw('(price - costPrice) as margin'),DB::raw('ROUND((((price - costPrice)/costPrice) * 100),2) as percentprofit'))
 		->where('storeId', $storeId);
 
 		if(!empty($search)) {
@@ -998,7 +1136,7 @@ class StoreReportsController extends Controller
 		
 	    $results = DB::table('usersshift as US')
 		->leftJoin('stores as S','S.id','=','US.storeId')
-		->select ( DB::raw('SUM(US.shiftEndCDBalance) as shiftEndCDBalance'), DB::raw('SUM(US.shiftEndBalance) as shiftEndBalance'), DB::raw('((SUM(US.shiftEndBalance)) - (SUM(US.shiftEndCDBalance))) as adjustAmount'), DB::raw('COUNT(US.id) as totalShifts'), DB::raw('Date(US.created_at) as dateCreated'), DB::raw('SUM(US.shiftEndBalance) as totalAmount'),'US.storeId')
+		->select ( DB::raw('SUM(US.shiftEndCDBalance) as shiftEndCDBalance'), DB::raw('SUM(US.shiftEndBalance) as shiftEndBalance'), DB::raw('ROUND((SUM(US.shiftEndBalance) - SUM(US.shiftEndCDBalance)),2) as adjustAmount'), DB::raw('COUNT(US.id) as totalShifts'), DB::raw('Date(US.created_at) as dateCreated'), DB::raw('ROUND(SUM(US.shiftEndBalance),2) as totalAmount'),'US.storeId')
 		->where('US.storeId',$storeId)
 		->where('US.status','Closed')
 		->groupBy(DB::raw('Date(US.created_at)'))

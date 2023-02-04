@@ -80,9 +80,9 @@ $Roles = config('app.Roles');
 							<th scope="col">{{ __('lang.date')}}</th>
 							<th scope="col">{{ __('lang.no.ofdevices/terminals')}}</th>
 							<th scope="col">{{ __('lang.totalshifts')}}</th>
-							<th scope="col">{{ __('lang.systemamount')}}</th>
+							<!-- <th scope="col">{{ __('lang.systemamount')}}</th>
 							<th scope="col">{{ __('lang.adjustedamount')}}</th>
-							<th scope="col">{{ __('lang.finalbalance')}}</th>
+							<th scope="col">{{ __('lang.finalbalance')}}</th> -->
 							<th scope="col" width="15%">{{ __('lang.action')}}</th>
 						</tr>
 					</thead>
@@ -92,9 +92,9 @@ $Roles = config('app.Roles');
 							<td>{{ $shiftReport->dateCreated }}</td>
 							<td>1</td>
 							<td>{{$shiftReport->totalShifts}}</td>
-							<td>SAR {{$shiftReport->shiftEndCDBalance}}</td>
+							<!-- <td>SAR {{$shiftReport->shiftEndCDBalance}}</td>
 							<td>SAR {{$shiftReport->adjustAmount}}</td>
-							<td>SAR {{$shiftReport->shiftEndBalance}}</td>
+							<td>SAR {{$shiftReport->shiftEndBalance}}</td> -->
 							<td>
 								<div class="btn-group">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>

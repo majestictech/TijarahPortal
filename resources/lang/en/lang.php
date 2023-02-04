@@ -640,6 +640,7 @@
   'req_promoname'=>'Please Enter Promo Name.',
   'req_promodate'=>'Please Enter PromoCode Duration Date.',
   'percentageoff'=>'Percentage off',
+  'percentage'=>'Percentage',
   'amountoff'=>'Amount off',
   'enterpercentageamountoff'=>'Enter Percentage / Amount off',
   'eg2050'=>'e.g. 20% / $50',
@@ -1292,6 +1293,7 @@
     'no.ofdevices/terminals' => 'No. Of Devices/Terminals',
     'totalshifts' => 'Total Shifts',
     'systemamount' => 'System Amount',
+    'system' => 'System',
     'adjustedamount' => 'Adjusted Amount',
     'finalbalance' => 'Final Balance',
 

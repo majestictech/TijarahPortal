@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use App\Orders_pos;
 use App\Customer;
 use App\Product;
+use App\Reports;
 use Illuminate\Support\Str;
 
 
@@ -66,8 +67,132 @@ class AdminIndexController extends Controller
 	
     public function index(Request $request)
     {
-		//if(!isset($_REQUEST['test']))
-		//	return redirect('admin/order'); 
+		$fixReportsOrders = isset($_REQUEST['fixReports'])?$_REQUEST['fixReports']:'';
+		
+		if($fixReportsOrders == 'fixOrders') {
+			$orders = DB::Table('orders_pos as O')->select('O.id','O.orderId','O.orderDetail','O.storeId','O.created_at')
+			->whereNotIn('O.id', DB::table('reports')->pluck('orderId'))
+			->orderBy('O.id','DESC')
+			->limit(1000)
+			->get();
+			
+			// Entry in Reports Table Starts
+			foreach($orders as $order)
+			{
+				$products = json_decode($order->orderDetail);
+				
+				
+				if(!empty($products->products)) {
+				try {
+					foreach($products->products as $product) 
+					{
+						$productFound = false;
+						if(substr($product->id,0,1) != 'C') {
+							$updateProduct = new Product;
+							
+							$updateProduct = Product::find($product->id);
+							
+							if(!empty($updateProduct)) {
+								$productFound = true;
+								$productid = $updateProduct->id;
+								$catId = $updateProduct->categoryId;
+							}
+						
+						
+							$updateReport = new Reports;
+							
+							if($productFound == true) {
+								$results = DB::Table('categories')
+								->leftJoin('categories_ar','categories_ar.categoryId','=','categories.id')
+								->select('categories.id','categories.name','categories_ar.name as nameArCat')
+								->where('categories.id','=',$catId)->first();
+							}
+
+							$updateReport->storeId = $order->storeId;
+							$updateReport->orderId = $order->id;
+							$updateReport->orderNumber = $order->orderId;
+
+							if($productFound == true)
+								$updateReport->productName = utf8_encode($product->name);
+
+							if(!empty($product->name_ar))
+								$updateReport->productNameAr = $product->name_ar;
+							if(empty($product->name_ar))
+								$updateReport->productNameAr = '';
+							
+							if($productFound == true) {
+								$updateReport->categoryName = $results->name;
+								$updateReport->categoryNameAr = $results->nameArCat;
+							}
+							$updateReport->price = $product->sellingPrice;
+							$updateReport->costPrice = $product->costPrice;
+							$updateReport->quantity = $product->amount;
+
+
+							$discountPercentage = 0;
+							if($product->discPer == 'NaN')
+								$discountPercentage = $product->discPer;
+								
+							$discountedPrice = $product->sellingPrice  - $product->sellingPrice*$discountPercentage/100;
+
+							$productVat = ($discountedPrice - ($discountedPrice/ (1+ ($product->tax/100)))) * $product->amount;
+
+
+							$updateReport->vat = $productVat;
+							$updateReport->discPer = $product->discPer;
+							$updateReport->total = $product->total;
+
+							$updateReport->barCode = $product->barCode;
+							$updateReport->save();
+						}
+						
+						if(substr($product->id,0,1) == 'C') {
+							// Make Entry in Reports Table for each product
+						
+							$updateReport = new Reports;
+							
+							/*$results = DB::Table('categories')
+							->leftJoin('categories_ar','categories_ar.categoryId','=','categories.id')
+							->select('categories.id','categories.name','categories_ar.name as nameArCat')
+							->where('categories.id','=',$catId)->first();*/
+							
+							
+							$updateReport->storeId = $order->storeId;
+							$updateReport->orderId = $order->id;
+							$updateReport->orderNumber = $order->orderId;
+							
+							$updateReport->productName = $product->name;
+							
+							if(!empty($product->name_ar))
+								$updateReport->productNameAr = $product->name_ar;
+							if(empty($product->name_ar))
+								$updateReport->productNameAr = '';
+							
+							$updateReport->price = $product->sellingPrice;
+							$updateReport->costPrice = $product->costPrice;
+							$updateReport->quantity = $product->amount;
+							
+							
+							$discountedPrice = $product->sellingPrice  - $product->sellingPrice*$product->discPer/100;
+							
+							$productVat = ($discountedPrice - ($discountedPrice/ (1+ ($product->tax/100)))) * $product->amount;
+							
+							
+							$updateReport->vat = $productVat;
+							$updateReport->discPer = $product->discPer;
+							$updateReport->total = $product->total;
+							
+							//$updateReport->barCode = $product->barCode;
+							$updateReport->save();
+						}
+					}
+				} catch (\Exception $e) {
+					continue;
+				}
+				}
+			}
+			// Entry in Reports Table End
+		}
 
     	$storeFilter = $request->storeFilter;
 		$storeId = $request->storeId;
