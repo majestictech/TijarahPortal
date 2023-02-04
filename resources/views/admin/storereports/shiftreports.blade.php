@@ -53,9 +53,9 @@ $Roles = config('app.Roles');
         				</div>
         			</div>
     			
-        		    <div class="col-md-3 mb-3 ">
+        		   <!--  <div class="col-md-3 mb-3 ">
     				    <input type="text" name="search" style="height: 37px;" placeholder="Search" value="{{$search}}" class="form-control form-control-sm" value=""/>
-                    </div>
+                    </div> -->
         		    
         		    
         		    
@@ -110,7 +110,7 @@ $Roles = config('app.Roles');
 						
 					</tbody>
 				</table>
-				
+				{{ $results->appends(array('start' => $startDate,'end'=>$endDate))->links() }}
 			</div>
 		</div>
 	</div>

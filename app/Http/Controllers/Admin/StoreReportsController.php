@@ -350,7 +350,7 @@ class StoreReportsController extends Controller
         }
        
 
-        $queryData = $queryData->paginate(100);
+        $queryData = $queryData->paginate(5);
 
         
         
@@ -373,7 +373,7 @@ class StoreReportsController extends Controller
 	public function vatreports($storeId)
     {   
 		$type = "vattoday";
-		
+		$search ='';
 		
 		if(isset($_GET['startDate']) && !empty($_GET['startDate'])) {
 		    $startDate = $_GET['startDate'];
@@ -541,7 +541,7 @@ class StoreReportsController extends Controller
 		
 		
 		
-		return view('admin.storereports.vatreports',compact('storeId','results','startDate','endDate'));
+		return view('admin.storereports.vatreports',compact('storeId','results','startDate','endDate', 'search'));
     }
 	
 	public function refundreports($storeId)
@@ -1155,7 +1155,7 @@ class StoreReportsController extends Controller
         }
 		
 		
-		$results = $results->get();
+		$results = $results->paginate(10);
 
 		
 		return view('admin.storereports.shiftreports',compact('storeId','results','startDate','endDate','search'));
@@ -1193,7 +1193,7 @@ class StoreReportsController extends Controller
         }
 		
 		
-		$results = $results->get();
+		$results = $results->paginate(10);
 		
 		/* print_r($results);
 		die; */

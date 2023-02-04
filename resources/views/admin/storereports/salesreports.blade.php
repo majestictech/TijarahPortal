@@ -174,7 +174,7 @@ helper::checkStoreId($storeId);
     					</tbody>
 					@endif
 				</table>
-				
+				{{ $results['bills']->appends(array('reportType'=>$reportType,'startDate' => $startDate,'endDate'=>$endDate,'type'=>$type))->links() }}
 			</div>
 		</div>
 	</div>

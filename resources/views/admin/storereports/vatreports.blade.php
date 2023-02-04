@@ -51,7 +51,7 @@ $Roles = config('app.Roles');
 						</div>
 					
 						<div class="col-md-3">
-							<input type="text" name="search" style="height: 37px;" placeholder="Search" class="form-control form-control-sm" value=""/>
+							<input type="text" name="search" style="height: 37px;" placeholder="Search" class="form-control form-control-sm" value="{{$search}}"/>
 						</div>
 						
 						
@@ -97,6 +97,8 @@ $Roles = config('app.Roles');
 						@endforeach
 					</tbody>
 				</table>
+				{{$results['vatdata']->appends(array('search' => $search,'startDate'=>$startDate,'endDate'=>$endDate))->links() }}
+			</div>
 			</div>
 		</div>
 	</div>

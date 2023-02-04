@@ -90,7 +90,7 @@ $Roles = config('app.Roles');
 						
 					</tbody>
 				</table>
-				
+				{{ $results->links() }}
 			</div>
 		</div>
 	</div>

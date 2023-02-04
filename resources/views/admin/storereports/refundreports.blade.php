@@ -56,9 +56,9 @@ $Roles = config('app.Roles');
 							</div>
 						</div>
 					
-						<div class="col-md-3 mb-3 ">
+						<!-- <div class="col-md-3 mb-3 ">
 							<input type="text" name="search" style="height: 37px;" placeholder="Search" class="form-control form-control-sm" value=""/>
-						</div>
+						</div> -->
 						
 						<div class="col-md-2 mb-3 ">
 							 <button type="submit" class="btn btn-primary px-5" name="type" value="refundcustom">Search</button>
@@ -103,6 +103,7 @@ $Roles = config('app.Roles');
 						@endforeach
 					</tbody>
 				</table>
+				{{ $datas['refunddata']->appends(array('startDate' => $startDate,'endDate'=>$endDate))->links() }}
 			</div>
 		</div>
 	</div>
