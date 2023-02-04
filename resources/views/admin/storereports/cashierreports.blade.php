@@ -90,7 +90,7 @@ $Roles = config('app.Roles');
 						@endforeach
 					</tbody>
 				</table>
-				
+			
 			</div>
 		</div>
 	</div>

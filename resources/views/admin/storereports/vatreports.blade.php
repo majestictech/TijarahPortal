@@ -97,7 +97,7 @@ $Roles = config('app.Roles');
 						@endforeach
 					</tbody>
 				</table>
-				{{$results['vatdata']->appends(array('search' => $search,'startDate'=>$startDate,'endDate'=>$endDate))->links() }}
+				{{$results['vatdata']->appends(array('search' => $search,'startDate'=>$startDate,'endDate'=>$endDate, 'type'=>$type))->links() }}
 			</div>
 			</div>
 		</div>

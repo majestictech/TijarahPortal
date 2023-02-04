@@ -103,7 +103,7 @@ $Roles = config('app.Roles');
 						@endforeach
 					</tbody>
 				</table>
-				{{ $datas['refunddata']->appends(array('startDate' => $startDate,'endDate'=>$endDate))->links() }}
+				{{ $datas['refunddata']->appends(array('startDate' => $startDate,'endDate'=>$endDate,'type'=>$type))->links() }}
 			</div>
 		</div>
 	</div>
