@@ -54,16 +54,16 @@ helper::checkStoreId($storeId);
                     	<div class="col-md-4">
             				<div class="row input-daterange pb-4">
                                 <div class="col-md-6">
-                                    <input type="date" name="start_date" value="{{$start_date}}" id="min" class="form-control" placeholder="{{ __('lang.fromdate')}}"  />
+                                    <input type="date" name="startDate" value="{{$startDate}}" id="startDate" class="form-control" placeholder="{{ __('lang.fromdate')}}"  />
                                 </div>
     							<div class="col-md-6">
-                                    <input type="date" name="end_date" value="{{$end_date}}" id="max" class="form-control"  placeholder="{{ __('lang.todate')}}"  />
+                                    <input type="date" name="endDate" value="{{$endDate}}" id="endDate" class="form-control"  placeholder="{{ __('lang.todate')}}"  />
                                 </div>
             				</div>
             			</div>
             			
             			<div class="col-md-2 mb-3 ">
-            			     <button type="submit" class="btn btn-primary px-5" name="searchBtn" value="yes">Search</button>
+            			     <button type="submit" class="btn btn-primary px-5" name="type" value="custom">Search</button>
 							 <!--<button type="submit" class="btn btn-primary px-5" name="type" value="catwisecustom">Search</button>-->
             			</div>
                     </div>
@@ -84,6 +84,12 @@ helper::checkStoreId($storeId);
         					    <button name="type" value="catwiseyesterday" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">Yesterday</button>
         					    <button name="type" value="catwisetoday" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">Today</button>
         						<button name="type" value="catwisethismonth" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.thismonth')}}</button>
+        					</div>
+						@elseif($reportType == 'productwise')
+    					    <div>
+        					    <button name="type" value="producttoday" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">Today</button>
+        		
+        						<button name="type" value="productthismonth" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.thismonth')}}</button>
         					</div>
     					@endif
     				</div>
@@ -123,7 +129,7 @@ helper::checkStoreId($storeId);
     						@foreach($results['bills'] as $result)
     						<tr>
     							<td>{{$result->created_at}}</td>
-    							<td>{{$result->orderId}}</td>
+    							<td>{{$result->totalBill}}</td>
     							<td>{{$result->totalAmount}}</td>
     						</tr>
     						@endforeach
@@ -141,6 +147,26 @@ helper::checkStoreId($storeId);
     						@foreach($results['bills'] as $result)
     						<tr>
     							<td>{{$result->categoryName}}</td>
+    							<td>{{$result->qty}}</td>
+    							<td>{{$result->totalAmount}}</td>
+    						</tr>
+    						@endforeach
+    					</tbody>
+
+					@elseif($reportType == 'productwise')
+    					<thead>
+    						<tr>
+    							<th scope="col">{{ __('lang.name')}}</th>
+    							<th scope="col">{{ __('lang.s.p(sar)')}}</th>
+    							<th scope="col">{{ __('lang.quantity')}}</th>
+    							<th scope="col">{{ __('lang.revenue')}}</th>
+    						</tr>
+    					</thead>
+    					<tbody>
+    						@foreach($results['bills'] as $result)
+    						<tr>
+    							<td>{{$result->productName}}</td>
+    							<td>{{$result->price}}</td>
     							<td>{{$result->qty}}</td>
     							<td>{{$result->totalAmount}}</td>
     						</tr>

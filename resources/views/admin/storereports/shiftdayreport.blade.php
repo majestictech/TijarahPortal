@@ -48,13 +48,21 @@ $Roles = config('app.Roles');
 				
 					<thead>
 						<tr>
-							<th scope="col">{{ __('lang.shiftno.')}}</th>
-							<th scope="col">{{ __('lang.cashier')}}</th>
-							<th scope="col">{{ __('lang.openingbalance')}}</th>
-							<th scope="col">{{ __('lang.closingbalance')}}</th>
-							<th scope="col">{{ __('lang.adjustedamount')}}</th>
-							<th scope="col">{{ __('lang.finalbalance')}}</th>
-							<th scope="col" width="15%">{{ __('lang.action')}}</th>
+							<th scope="col" rowspan="2" class="text-center align-middle">{{ __('lang.shiftno.')}}</th>
+							<th scope="col" rowspan="2" class="text-center align-middle">{{ __('lang.cashier')}}</th>
+							<th scope="col" colspan="2"  class="text-center border-bottom">{{ __('lang.openingbalance')}}</th>
+							<th scope="col" colspan="2" class="text-center border-bottom">{{ __('lang.closingbalance')}}</th>
+							<th scope="col" rowspan="2" class="text-center align-middle">{{ __('lang.adjustedamount')}}</th>
+							<th scope="col" rowspan="2" class="text-center align-middle">{{ __('lang.finalbalance')}}</th>
+							<th scope="col" width="15%" rowspan="2" class="text-center align-middle">{{ __('lang.action')}}</th>
+						</tr>
+						<tr>
+							
+							<th scope="col" class="text-center">{{ __('lang.system')}}</th>
+							<th scope="col" class="text-center">{{ __('lang.cashier')}}</th>
+							<th scope="col" class="text-center">{{ __('lang.system')}}</th>
+							<th scope="col" class="text-center">{{ __('lang.cashier')}}</th>
+							
 						</tr>
 					</thead>
 					<tbody>
@@ -63,7 +71,9 @@ $Roles = config('app.Roles');
 							<td>{{ $shiftDayReport->shiftId }}</td>
 							<td>{{ $shiftDayReport->firstName }} {{ $shiftDayReport->lastName }}</td>
 							<td>{{$shiftDayReport->shiftInCDBalance}}</td>
+							<td>{{$shiftDayReport->shiftInBalance}}</td>
 							<td>{{$shiftDayReport->shiftEndCDBalance}}</td>
+							<td>{{$shiftDayReport->shiftEndBalance}}</td>
 							<td>{{$shiftDayReport->adjustAmount}}</td>
 							<td>{{$shiftDayReport->shiftEndBalance}}</td>
 							<td>

@@ -48,10 +48,10 @@ $Roles = config('app.Roles');
 						<div class="col-md-4">
 							<div class="row input-daterange pb-4">
 								<div class="col-md-6">
-									<input type="date" name="start_date" id="min" class="form-control" value="" placeholder="{{ __('lang.fromdate')}}"  />
+									<input type="date" name="startDate" value="{{$startDate}}" id="startDate" class="form-control" placeholder="{{ __('lang.fromdate')}}"  />
 								</div>
 								<div class="col-md-6">
-									<input type="date" name="end_date" id="max" class="form-control" value="" placeholder="{{ __('lang.todate')}}"  />
+									<input type="date" name="endDate" value="{{$endDate}}" id="endDate" class="form-control"  placeholder="{{ __('lang.todate')}}"  />
 								</div>
 							</div>
 						</div>
@@ -61,43 +61,19 @@ $Roles = config('app.Roles');
 						</div>
 						
 						<div class="col-md-2 mb-3 ">
-							 <button type="submit" class="btn btn-primary px-5" name="searchBtn" value="yes">Search</button>
+							 <button type="submit" class="btn btn-primary px-5" name="type" value="refundcustom">Search</button>
 						</div>
 					</div>
-				</form>
-				<div class="row pb-3">
+					<div class="row pb-3">
 					<div>
-								<button type="button" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">Today</button>
-								<button class="pt-1 pb-1 btn btn-primary text-white" style="border:none;  border-radius:5px">Yesterday</button>
-								<button class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.thismonth')}}</button>		
-							</div>
-				</div>
-			    <!--<form action="" method="GET" id ="filter_results">
-					<div class="row"> 
-						<div class="col-md-6 mb-3">
-							<div class="input-group">
-								<button class="btn btn-outline-secondary" type="button"><i class='bx bx-book-content'></i>
-								</button>
-								<select name="storeFilter" class="form-select single-select" id="storeFilter" onChange="this.form.submit();">
-									<option value="" @if(empty($storeFilter)) selected="selected" @endif>{{ __('lang.refundreports')}}</option>
-								</select>
-								<div class="row input-daterange">
-									<div class="col-md-6">
-										<input type="date" name="start_date" id="min" class="form-control" value="" placeholder=""  />
-									</div>
-									<div class="col-md-6">
-										<input type="date" name="end_date" id="max" class="form-control" value="" placeholder=""  />
-									</div>
-								</div>
-							</div>
-							<div class="pt-3">
-								<button type="button" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.today')}}</button>
-								<button class="pt-1 pb-1 btn btn-primary text-white" style="border:none;  border-radius:5px">{{ __('lang.yesterday')}}</button>
-								<button class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.thismonth')}}</button>		
-							</div>
+						<button name="type" value="refundtoday" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">Today</button>
+						<button name="type" value="refundyesterday" class="pt-1 pb-1 btn btn-primary text-white" style="border:none;  border-radius:5px">Yesterday</button>
+						<!--<button name="type" value="refundcustom" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.thismonth')}}</button>-->
 						</div>
-					</div>
-    			</form>-->
+				</div>
+				</form>
+				
+			   
 				<table class="table mb-0 table-striped table-bordered" id="myTable">
 					<thead>
 						<tr>
@@ -109,6 +85,23 @@ $Roles = config('app.Roles');
 							<th scope="col">{{ __('lang.refundedamount(sar)')}}</th>
 						</tr>
 					</thead>
+					<tbody>
+					    @foreach($datas['refunddata'] as $result)
+							<tr>
+								<td>{{$result->orderNumber}}</td>
+								<td>{{$result->created_at}}</td>
+								@if($result->customerName)
+									<td> {{$result->customerName}}</td>
+								@else
+									<td>Guest</td>
+								@endif
+								<td>{{$result->refundQty}}</td>
+								<td>{{$result->qty}}</td>
+								<td>{{$result->totalAmount}}</td>
+								
+							</tr>
+						@endforeach
+					</tbody>
 				</table>
 			</div>
 		</div>

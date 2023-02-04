@@ -38,18 +38,14 @@ $Roles = config('app.Roles');
 			<div class="card-body">
 				<form action="" method="GET" id ="filter_results">
 					<div class="row mb-0 pb-0">
-						<!--<div class="col-md-3 mb-3">
-							<select name="storeFilter" class="form-select single-select" id="storeFilter" onChange="this.form.submit();">
-										<option value="" @if(empty($storeFilter)) selected="selected" @endif>{{ __('lang.vatreports')}}</option>
-									</select>
-						</div>-->
+						
 						<div class="col-md-4">
 							<div class="row input-daterange pb-4">
 								<div class="col-md-6">
-									<input type="date" name="start_date" id="min" class="form-control" value="{{$startDate}}" placeholder="{{ __('lang.fromdate')}}"  />
+									<input type="date" name="startDate" value="{{$startDate}}" id="startDate" class="form-control" placeholder="{{ __('lang.fromdate')}}"  />
 								</div>
 								<div class="col-md-6">
-									<input type="date" name="end_date" id="max" class="form-control" value="{{$endDate}}" placeholder="{{ __('lang.todate')}}"  />
+									<input type="date" name="endDate" value="{{$endDate}}" id="endDate" class="form-control"  placeholder="{{ __('lang.todate')}}"  />
 								</div>
 							</div>
 						</div>
@@ -61,46 +57,20 @@ $Roles = config('app.Roles');
 						
 						
 						<div class="col-md-2">
-							 <button type="submit" class="btn btn-primary px-5" name="searchBtn" value="yes">Search</button>
+							 <button type="submit" class="btn btn-primary px-5" name="type" value="vatcustom">Search</button>
 						</div>
 					</div>
 					<div class="row pb-3">
 					<div>
-								<button type="button" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">Today</button>
-								<button class="pt-1 pb-1 btn btn-primary text-white" style="border:none;  border-radius:5px">Yesterday</button>
-								<button class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.thismonth')}}</button>		
-							</div>
+						<button name="type" value="vattoday" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">Today</button>
+						<button name="type" value="vatyesterday" class="pt-1 pb-1 btn btn-primary text-white" style="border:none;  border-radius:5px">Yesterday</button>
+						<button name="type" value="vatthismonth" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.thismonth')}}</button>
+					</div>
 				</div>
 				</form>
 
 				
-			    <!--<form action="" method="GET" id ="filter_results">
-					<div class="row"> 
-						<div class="col-md-6 mb-3">
-							<div class="input-group">
-								<button class="btn btn-outline-secondary" type="button"><i class='bx bx-book-content'></i>
-								</button>
-								<select name="storeFilter" class="form-select single-select" id="storeFilter" onChange="this.form.submit();">
-									<option value="" @if(empty($storeFilter)) selected="selected" @endif>{{ __('lang.taxes')}}</option>
-								</select>
-								<div class="row input-daterange">
-									<div class="col-md-6">
-										<input type="date" name="start_date" id="min" class="form-control" value="" placeholder=""  />
-									</div>
-									<div class="col-md-6">
-										<input type="date" name="end_date" id="max" class="form-control" value="" placeholder=""  />
-									</div>
-								</div>
-							</div>
-							
-							<div class="pt-3">
-								<button type="button" class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.today')}}</button>
-								<button class="pt-1 pb-1 btn btn-primary text-white" style="border:none;  border-radius:5px">{{ __('lang.yesterday')}}</button>
-								<button class="pt-1 pb-1 btn btn-primary text-white" style="border:none; border-radius:5px">{{ __('lang.thismonth')}}</button>		
-							</div>
-						</div>
-					</div>
-    			</form>-->
+			    
 				<table class="table mb-0 table-striped table-bordered" id="myTable">
 					<thead>
 						<tr>
@@ -114,7 +84,17 @@ $Roles = config('app.Roles');
 						</tr>
 					</thead>
 					<tbody>
-					    
+					    @foreach($results['vatdata'] as $result)
+							<tr>
+								<td>{{$result->productName}}</td>
+								<td>{{$result->sellingPrice}}</td>
+								<td>{{$result->totalcostPrice}}</td>
+								<td>{{$result->vatPer}}</td>
+								<td>{{$result->vat}}</td>
+								<td>{{$result->qty}}</td>
+								<td>{{$result->totalAmount}}</td>
+							</tr>
+						@endforeach
 					</tbody>
 				</table>
 			</div>
