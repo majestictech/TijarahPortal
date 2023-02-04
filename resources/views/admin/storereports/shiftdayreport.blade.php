@@ -74,7 +74,7 @@ $Roles = config('app.Roles');
 							<td>{{$shiftDayReport->shiftInBalance}}</td>
 							<td>{{$shiftDayReport->shiftEndCDBalance}}</td>
 							<td>{{$shiftDayReport->shiftEndBalance}}</td>
-							<td>{{$shiftDayReport->adjustAmount}}</td>
+							<td>{{round($shiftDayReport->adjustAmount,2)}}</td>
 							<td>{{$shiftDayReport->shiftEndBalance}}</td>
 							<td>
 								<div class="btn-group">
