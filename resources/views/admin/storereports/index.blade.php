@@ -116,19 +116,21 @@ $Roles = config('app.Roles');
 					{{ __('lang.refundreports')}}
 				</a>
 			</div>
-            <div class="col-md-6">
-				<a href="{{url('/admin/storereports/inventoryreports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
-                {{ __('lang.inventoryreports')}}
+			<div class="col-md-6">
+				<a href="{{url('/admin/storereports/profitlossreports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
+					{{ __('lang.profit&loss')}}
 				</a>
 			</div>
+           
             
         </div>
         <div class="row mb-4 text-center">
-			<div class="col-md-6">
-				<a href="{{url('/admin/storereports/purchasereports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
-					{{ __('lang.purchasereports')}}
+		<div class="col-md-6">
+				<a href="{{url('/admin/storereports/shiftreports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
+					{{ __('lang.shiftreports')}}
 				</a>
 			</div>
+			
 			<div class="col-md-6">
 				<a href="{{url('/admin/storereports/mediareports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
 					{{ __('lang.mediareports')}}
@@ -141,20 +143,20 @@ $Roles = config('app.Roles');
 					{{ __('lang.cashierreports')}}
 				</a>
 			</div>
-			<div class="col-md-6">
-				<a href="{{url('/admin/storereports/shiftreports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
-					{{ __('lang.shiftreports')}}
+			<!-- <div class="col-md-6">
+				<a href="{{url('/admin/storereports/purchasereports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
+					{{ __('lang.purchasereports')}}
 				</a>
-			</div>
+			</div> -->
+			
 			
 		</div>
 		<div class="row mb-4 text-center">
-			
-			<div class="col-md-6">
-				<a href="{{url('/admin/storereports/profitlossreports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
-					{{ __('lang.profit&loss')}}
+			 <!-- <div class="col-md-6">
+				<a href="{{url('/admin/storereports/inventoryreports/' . $storeId)}}" class="btn btn-style btn-primary" style="padding: 40px 10px;">
+                {{ __('lang.inventoryreports')}}
 				</a>
-			</div>
+			</div> -->
 		</div>
 		
 

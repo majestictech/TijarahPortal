@@ -1114,7 +1114,7 @@ class StoreReportsController extends Controller
 			$results = $results->whereBetween(DB::raw('Date(created_at)'),[$startDate,$endDate]);
 		}
 
-		$results = $results->groupBy('productName')->paginate(10);
+		$results = $results->groupBy('productName')->orderBy('qty','DESC')->paginate(10);
 
 		return view('admin.storereports.profitlossreports',compact('storeId','results','search','startDate','endDate'));
     }
