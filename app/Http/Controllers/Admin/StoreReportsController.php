@@ -350,7 +350,7 @@ class StoreReportsController extends Controller
         }
        
 
-        $queryData = $queryData->paginate(5);
+        $queryData = $queryData->paginate(10);
 
         
         
@@ -541,7 +541,7 @@ class StoreReportsController extends Controller
 		
 		
 		
-		return view('admin.storereports.vatreports',compact('storeId','results','startDate','endDate', 'search'));
+		return view('admin.storereports.vatreports',compact('storeId','results','startDate','endDate', 'search', 'type'));
     }
 	
 	public function refundreports($storeId)
@@ -650,7 +650,7 @@ class StoreReportsController extends Controller
 		
 		
 		
-		return view('admin.storereports.refundreports',compact('storeId','datas','startDate','endDate'));
+		return view('admin.storereports.refundreports',compact('storeId','datas','startDate','endDate','type'));
     }
 	
 	public function purchasereports($storeId)
@@ -1069,16 +1069,17 @@ class StoreReportsController extends Controller
 	    if(empty($endDate))
 	        $customEndDate = Carbon::now()->toDateString() . ' 23:59:59';
 		
-	    $results = DB::table('cashier as C')->select(DB::raw('CONCAT(U.firstName, " ", U.lastName) AS Name'), 'U.id as userId', 'U.contactNumber', 'U.email', DB::raw('Count(O.id) as billCount'), DB::raw('SUM(O.totalAmount - O.refundTotalAmount) as totalSales'))
-	    ->leftJoin('users as U','U.id','=','C.userId')
+	    $results = DB::table('cashier as C')
+		->leftJoin('users as U','U.id','=','C.userId')
 	    ->leftJoin('orders_pos as O','O.userId','=','C.userId')
+		->select(DB::raw('CONCAT(U.firstName, " ", U.lastName) AS Name'), 'U.id as userId', 'U.contactNumber', 'U.email', DB::raw('Count(O.id) as billCount'), DB::raw('SUM(O.totalAmount - O.refundTotalAmount) as totalSales'))
 	    ->whereBetween(DB::raw('Date(O.created_at)'), [$customStartDate, $customEndDate])
 	    ->where('C.storeId','=',$storeId);
 	    
 	    if(!empty($search))
 		    $results = $results->where('U.firstName', 'LIKE', $search.'%');
 		    
-	    $results = $results->groupBy('Name', 'userId', 'U.contactNumber', 'U.email')->get();
+	    $results = $results->groupBy('userId', 'U.contactNumber', 'U.email')->get();
 		
 		return view('admin.storereports.cashierreports',compact('storeId','results','startDate','endDate','search'));
     }
@@ -1104,7 +1105,7 @@ class StoreReportsController extends Controller
 
 
 		$results = DB::table('reports')
-		->select('productName','price','costPrice', 'storeId', DB::raw('SUM(quantity) as qty'), DB::raw('(price - costPrice) as margin'),DB::raw('ROUND((((price - costPrice)/costPrice) * 100),2) as percentprofit'))
+		->select('productName','price','costPrice', 'storeId', DB::raw('SUM(quantity) as qty'), DB::raw('(price - costPrice) as margin'),DB::raw('ROUND((((price - costPrice)/costPrice) * 100),2) as percentprofit'), DB::raw('((price - costPrice) * (SUM(quantity))) as totalMargin'))
 		->where('storeId', $storeId);
 
 		if(!empty($search)) {
@@ -1115,6 +1116,8 @@ class StoreReportsController extends Controller
 		}
 
 		$results = $results->groupBy('productName')->orderBy('qty','DESC')->paginate(10);
+		print_r($results);
+		die;
 
 		return view('admin.storereports.profitlossreports',compact('storeId','results','search','startDate','endDate'));
     }
