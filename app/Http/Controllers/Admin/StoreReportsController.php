@@ -1105,7 +1105,7 @@ class StoreReportsController extends Controller
 
 
 		$results = DB::table('reports')
-		->select('productName','price','costPrice', 'storeId', DB::raw('SUM(quantity) as qty'), DB::raw('(price - costPrice) as margin'),DB::raw('ROUND((((price - costPrice)/costPrice) * 100),2) as percentprofit'))
+		->select('productName','price','costPrice', 'storeId', DB::raw('SUM(quantity) as qty'), DB::raw('(price - costPrice) as margin'),DB::raw('ROUND((((price - costPrice)/costPrice) * 100),2) as percentprofit'), DB::raw('((price - costPrice) * (SUM(quantity))) as totalMargin'))
 		->where('storeId', $storeId);
 
 		if(!empty($search)) {
@@ -1116,6 +1116,8 @@ class StoreReportsController extends Controller
 		}
 
 		$results = $results->groupBy('productName')->orderBy('qty','DESC')->paginate(10);
+		print_r($results);
+		die;
 
 		return view('admin.storereports.profitlossreports',compact('storeId','results','search','startDate','endDate'));
     }

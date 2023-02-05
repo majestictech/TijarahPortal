@@ -42,7 +42,7 @@ $Roles = config('app.Roles');
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.todaysrevenue')}}</a></p>
-    						<h5 class="my-0">SAR {{ $todayRevenueCount ?? '0'}}</h5>
+    						<h5 class="my-0">SAR {{ round($todayRevenueCount, 2) ?? '0'}}</h5>
     					</div>
     					<div class="text-danger ms-auto font-30">ريال
     					</div>
@@ -156,7 +156,7 @@ $Roles = config('app.Roles');
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.totalrevenue')}}</a></p>
-    						<h5 class="my-0">SAR {{ $revenues ?? '0'}}</h5>
+    						<h5 class="my-0">SAR {{ round($revenues, 2)?? '0'}}</h5>
     					</div>
     					<div class="text-danger ms-auto font-30">ريال
     					</div>
