@@ -1212,13 +1212,51 @@ class StoreReportsController extends Controller
 		$results = DB::table('usersshift as US')
 		->leftJoin('users as U','U.id','US.userId')
 		->leftJoin('mas_reason as M','M.id','US.shiftEndReason')
-		->select ('US.shiftId','US.storeId','U.firstName','U.lastName',DB::raw('Date(US.created_at) as dateCreated'), 'US.shiftEndBalance', 'US.shiftInBalance', 'US.shiftInCDBalance', 'US.shiftEndCDBalance', 'US.userId', 'US.shiftInTime', 'US.shiftEndTime', DB::raw('(US.shiftEndBalance - US.shiftEndCDBalance) as adjustAmount'), 'US.shiftEndReason','M.name as reason')
+		->select ('US.shiftId','US.storeId','U.firstName','U.lastName',DB::raw('Date(US.created_at) as dateCreated'), 'US.shiftEndBalance', 'US.shiftInBalance', 'US.shiftInCDBalance', 'US.shiftEndCDBalance', 'US.userId', 'US.shiftInTime', 'US.shiftEndTime', DB::raw('(US.shiftEndBalance - US.shiftEndCDBalance) as adjustAmount'), 'US.shiftEndReason', 'M.name as reason')
 		->where('US.id',$id)
 		->first();
-		/* print_r($results);
+
+		$userId = $results->userId;
+		$shiftInTime = $results ->shiftInTime;
+		$shiftEndTime = $results ->shiftEndTime;
+
+		/* $cashSale = DB::table('orders_pos as O')
+		->select('O.id', DB::raw('COUNT(O.id) as totalBills'),'orderId', 'O.created_at')
+		->whereBetween(DB::raw('O.created_at'),[$shiftInTime,$shiftEndTime])
+		->where('O.userId', 884)
+		->groupBy('id')
+		->orderBy('id', 'DESC')
+		->get(); */
+		$billCount = DB::table('orders_pos as O')->select('O.id', DB::raw('(COUNT(O.id)- COUNT(O.refundTotalAmount) ) as billCount'))
+		->whereBetween(DB::raw('O.created_at'),[$shiftInTime,$shiftEndTime])
+		->where('O.userId', $userId)->get();
+
+		$cashSales = DB::table('orders_pos as O')
+		->select('O.id', DB::raw('(SUM(O.totalAmount)- SUM(O.refundTotalAmount) ) as cash'))
+		->whereBetween(DB::raw('O.created_at'),[$shiftInTime,$shiftEndTime])
+		->where('O.paymentStatus', 'CASH')
+		->where('O.userId', $userId)->get();
+
+		$cardSales = DB::table('orders_pos as O')
+		->select('O.id', DB::raw('(SUM(O.totalAmount)- SUM(O.refundTotalAmount) ) as card'))
+		->whereBetween(DB::raw('O.created_at'),[$shiftInTime,$shiftEndTime])
+		->where('O.paymentStatus', 'CARD')
+		->where('O.userId', $userId)->get();
+
+		$refundAmounts = DB::table('orders_pos as O')
+		->select('O.id', DB::raw('SUM(O.refundTotalAmount) as refundAmount'))
+		->whereBetween(DB::raw('O.created_at'),[$shiftInTime,$shiftEndTime])
+		->where('O.refundTotalAmount', '>', 0)
+		->where('O.userId', $userId)->get();
+
+
+		
+		/* print_r($shiftInTime);
+		print_r($shiftEndTime); */
+		/* print_r($refundAmounts);
 		die; */
 		
-		return view('admin.storereports.shiftreport',compact('results'));
+		return view('admin.storereports.shiftreport',compact('results','billCount', 'cashSales', 'cardSales', 'refundAmounts'));
     }
 	
 	
