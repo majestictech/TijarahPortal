@@ -232,8 +232,8 @@ class ProductImport implements ToCollection, WithHeadingRow
     		$product->description = $row['description'];
     		$product->productTags = $row['producttags'];
     		$product->metaTitle = $row['metatitle'];
-    		$product->metaDescription = $row['metadescription'];
-    		$product->metaKeyword = $row['metakeyword'];
+    		$product->metaDescription = $row['metadescription']  ?? ' ';
+    		$product->metaKeyword = $row['metakeyword'] ?? ' ';
 
           	$product->save();
             
