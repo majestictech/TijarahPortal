@@ -261,8 +261,7 @@ class ProductImport implements ToCollection, WithHeadingRow
 				$productInventoryBatch->productId =  $product->id;
 			
 				$productInventoryBatch->inventory =  $row['inventory'];
-				print_r($productInventoryBatch->productId);
-				echo $productInventoryBatch->productId;
+				
 				//print_r($productInventoryBatch->inventory);
 				//print_r($productInventoryBatch->expityDate);
 				//die;
