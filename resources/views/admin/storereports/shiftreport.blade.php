@@ -60,24 +60,29 @@ $Roles = config('app.Roles');
             <table class="table mb-0 table-bordered" id="myTable">
 				<tbody>
                     <tr>
-                        <td class="col-6 ps-3">{{ __('lang.terminaldevice')}}: &nbsp; --<!-- T-Rex --><br>{{ __('lang.shiftnumber')}}: &nbsp;{{$results->shiftId}}<br>{{ __('lang.cashier')}}: &nbsp;{{$results->firstName}} {{$results->lastName}}<br>{{ __('lang.shiftin')}}: &nbsp;{{$results->shiftInTime}}<br>{{ __('lang.shiftend')}}: &nbsp;{{$results->shiftEndTime}}</td>
+                        <td class="col-6 ps-3"><!-- {{ __('lang.terminaldevice')}}: &nbsp; -- --><!-- T-Rex <br>-->{{ __('lang.shiftnumber')}}: &nbsp;{{$results->shiftId}}<br>{{ __('lang.cashier')}}: &nbsp;{{$results->firstName}} {{$results->lastName}}<br>{{ __('lang.shiftin')}}: &nbsp;{{$results->shiftInTime}}<br>{{ __('lang.shiftend')}}: &nbsp;{{$results->shiftEndTime}}</td>
                         
                         <td class="col-6 ps-3">{{ __('lang.openingbalance')}}(as System): &nbsp;{{$results->shiftInCDBalance}}<br>
 						{{ __('lang.openingbalance')}}(as Cashier): &nbsp;{{$results->shiftInBalance}}<br>
 						{{ __('lang.closingbalance')}}(as System): &nbsp;{{$results->shiftEndCDBalance}}<br>
 						{{ __('lang.closingbalance')}}(as Cashier): &nbsp;{{$results->shiftEndBalance}}<br>
-						{{ __('lang.cashsales')}}: &nbsp;--<!-- SAR 4,443 --><br>
-						{{ __('lang.cardsales')}}: &nbsp;--<!-- SAR 0 --><br>
-						{{ __('lang.creditdeposites')}}: &nbsp;--<!-- SAR 0 --><br>
-						{{ __('lang.numberofbills')}}: &nbsp;--<!-- XXXX --><br>
-						{{ __('lang.cashrefunds')}}: &nbsp;--<!-- SAR 0 --><br>
+						{{ __('lang.cashsales')}}: &nbsp;{{$cashSales[0]->cash ?? '0'}}<!-- SAR 4,443 --><br>
+						{{ __('lang.cardsales')}}: &nbsp;{{$cardSales[0]->card ?? '0'}}<!-- SAR 0 --><br>
+						<!-- {{ __('lang.creditdeposites')}}: &nbsp; --><!-- SAR 0 <br>-->
+						{{ __('lang.numberofbills')}}: &nbsp; {{$billCount[0]->billCount ?? '0'}}<!-- XXXX --><br>
+						{{ __('lang.cashrefunds')}}: &nbsp;{{$refundAmounts[0]->refundAmount ?? '0'}}<!-- SAR 0 --><br>
 						{{ __('lang.purchaseexpenses')}}: &nbsp;--<!-- SAR 0 --><br>
-						{{ __('lang.cashadjustments')}}: &nbsp;{{$results->adjustAmount}}</td>
+						{{ __('lang.cashadjustments')}}: &nbsp;{{$results->adjustAmount ?? '0'}}</td>
                     </tr>
                 </tbody>
             </table><hr/><table class="table mb-0 table-bordered" id="myTable">
             <div class="row">
-                <div class="col-6 ps-4">{{ __('lang.adjustmentreason')}} : {{$results->reason}}</div>
+				@if(empty($results->reason))
+					<div class="col-6 ps-4"> </div>
+				@else
+					<div class="col-6 ps-4">{{ __('lang.adjustmentreason')}} : {{$results->reason}}</div>
+				@endif
+                
                 <div class="col-6 d-flex">
                     <div class="col-4 ps-2">{{ __('lang.cashintray')}}</div>
                     <div class="col-2">{{ __('lang.sar')}} {{$results->shiftEndBalance}}</div>

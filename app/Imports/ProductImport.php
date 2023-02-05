@@ -6,6 +6,7 @@ use App\Product;
 use App\Brand;
 use App\Category;
 use App\Product_AR;
+use App\ProductInventoryBatch;
 use DB;
 use App\Helpers\AppHelper as Helper;
 
@@ -172,13 +173,14 @@ class ProductImport implements ToCollection, WithHeadingRow
 	        die;
 	        */
 	        
-	        
+	        $productInventory = false;
             if(!$product)
             {
 				/* print_r("Product not found");
 				die; */
                 $product = new Product;
                 $product_ar = new Product_AR;
+				$productInventory =true;
             }
             else
             {
@@ -248,9 +250,37 @@ class ProductImport implements ToCollection, WithHeadingRow
 				continue;
 			}
 			
-
+			
 			// Insert Inventory Batches Starts
-			//$productExpiryDate = $row['product_name_arabic'] ?? $row['name_arabic'] ?? $row['product_arabic'] ?? '';
+			if($productInventory == true && $row['inventory'] > 0) {
+				
+				
+				
+				$productInventoryBatch = new ProductInventoryBatch;
+
+				$productInventoryBatch->productId =  $product->id;
+			
+				$productInventoryBatch->inventory =  $row['inventory'];
+				print_r($productInventoryBatch->productId);
+				echo $productInventoryBatch->productId;
+				//print_r($productInventoryBatch->inventory);
+				//print_r($productInventoryBatch->expityDate);
+				//die;
+				//$productExpiryDate = date_create($row['product_expiry'])  ?? date_create($row['expiry']) ?? date_create($row['Expiry']) ?? '2099-02-05 23:59:59';
+				$productExpiryDate = $row['expiry'] ?? '2099-02-05';
+				$productExpiryDate = date_create($productExpiryDate);
+
+				$productInventoryBatch->expiryDate = $productExpiryDate;
+
+				/* gettype($productExpiryDate);
+				echo "<br>";
+				die; */
+
+				$productInventoryBatch->save();
+
+			}
+			
+			//$productExpiryDate = $row['product_expiry'] ?? $row['name_arabic'] ?? $row['product_arabic'] ?? '2099';
 
 			// Insert Inventory Batches Starts
         }
