@@ -26,11 +26,24 @@ helper::checkUserURLAccess('storetype_manage','');
 </div>
 <!--end breadcrumb-->
 <div class="row">
+
 	<div class="col-xl-12 mx-auto">
 		<h6 class="mb-0 text-uppercase">{{ __('lang.allstoretype')}}</h6>
 		<hr/>
 		<div class="card">
 			<div class="card-body">
+			<form action="" method="GET" id ="filter_results">
+				<div class="row">
+					<div class="col-md-3 mb-3 ">
+						<label for="search" class="form-label">{{ __('lang.search')}}</label>
+						<input type="text" name="search" class="form-control form-control-sm" value="{{$search}}"/>                      
+					</div>
+					<div class="col-md-3 mb-3 pt-4">
+						<label for="" class="form-label"></label>
+						<button type="submit" class="btn btn-primary px-5">{{ __('lang.search')}}</button>
+					</div>  
+				</div>
+			</form>
 				<table class="table mb-0 table-striped table-bordered" id="myTable">
 					<thead>
 						<tr>
