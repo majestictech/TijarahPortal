@@ -1227,8 +1227,9 @@ class StoreReportsController extends Controller
 		->groupBy('id')
 		->orderBy('id', 'DESC')
 		->get(); */
-		$billCount = DB::table('orders_pos as O')->select('O.id', DB::raw('(COUNT(O.id)- COUNT(O.refundTotalAmount) ) as billCount'))
+		$billCount = DB::table('orders_pos as O')->select('O.id', DB::raw('(COUNT(O.id) ) as billCount'))
 		->whereBetween(DB::raw('O.created_at'),[$shiftInTime,$shiftEndTime])
+		->where('O.refundTotalAmount', '>', 0)
 		->where('O.userId', $userId)->get();
 
 		$cashSales = DB::table('orders_pos as O')

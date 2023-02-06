@@ -252,7 +252,7 @@ class ProductImport implements ToCollection, WithHeadingRow
 			
 			
 			// Insert Inventory Batches Starts
-			if($productInventory == true && $row['inventory'] > 0) {
+			if($productInventory == true) {
 				
 				
 				
@@ -260,7 +260,7 @@ class ProductImport implements ToCollection, WithHeadingRow
 
 				$productInventoryBatch->productId =  $product->id;
 			
-				$productInventoryBatch->inventory =  $row['inventory'];
+				$productInventoryBatch->inventory =  $row['inventory'] ?? '0';
 				
 				//print_r($productInventoryBatch->inventory);
 				//print_r($productInventoryBatch->expityDate);
