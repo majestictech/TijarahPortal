@@ -1116,9 +1116,9 @@ class StoreReportsController extends Controller
 		}
 
 		$results = $results->groupBy('productName')->orderBy('qty','DESC')->paginate(10);
-		print_r($results);
+		/* print_r($results);
 		die;
-
+ */
 		return view('admin.storereports.profitlossreports',compact('storeId','results','search','startDate','endDate'));
     }
 
