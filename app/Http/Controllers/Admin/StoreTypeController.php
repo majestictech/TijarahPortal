@@ -19,12 +19,22 @@ class StoreTypeController extends Controller
 		return view('admin.storetype.create');
     }
 
-    public function index()
-    {      
+    public function index(Request $request)
+    {     
+
+        $search = $request->search;
+		$search = trim($search);
+
 		$storetype = DB::Table('mas_storetype')
          ->select('id','name','type')
-		->orderBy('created_at', 'DESC')->get();
-        return view('admin.storetype.index', compact('storetype'));
+		->orderBy('created_at', 'DESC');
+        
+        if(!empty($search)) {
+            $storetype = $storetype->where('name','LIKE', '%' . $search . '%');
+        }
+
+        $storetype = $storetype ->get();
+        return view('admin.storetype.index', compact('storetype', 'search'));
 	}
 	
 	public function store(Request $request)
