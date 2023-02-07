@@ -557,6 +557,8 @@ class StoreController extends Controller
 			//$stores->storeType = $request->storeType;
 		}
         
+
+		
 		$stores->storeType = $request->storeType;
 		$stores->regNo = $request->regNo;
 		$stores->address = $request->address;
@@ -765,7 +767,7 @@ class StoreController extends Controller
 		   'address'=> 'required',
 		   'printAddAr'=> 'required',
 		   'country'=> 'required',
-		   'subscriptionPlanId'=> 'required',
+		  // 'subscriptionPlanId'=> 'required',
 		   'appVersionUpdate'=> 'required',
 		  // 'contactName'=> 'required',
 		   'email' => 'required',
@@ -838,7 +840,8 @@ class StoreController extends Controller
 		$stores->vatNumber =$request->vatNumber;
 		$stores->printFooterEn =$request->printFooterEn;
 		$stores->printFooterAr =$request->printFooterAr;
-		$stores->subscriptionPlanId =$request->subscriptionPlanId;
+		if(!empty($request->subscriptionPlanId))
+			$stores->subscriptionPlanId =$request->subscriptionPlanId;
 		$stores->subscriptionExpiry =$request->subscriptionExpiry;
 		$stores->appVersionUpdate =$request->appVersionUpdate;
 		//print_r($stores->storeName);
