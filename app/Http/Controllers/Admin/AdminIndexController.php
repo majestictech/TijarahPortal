@@ -874,15 +874,16 @@ class AdminIndexController extends Controller
 
 			$revenues = DB::table('orders_pos as O')
 			->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'))
-			->whereIn('O.storeId', $storeDetails);
+			->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 
-			if(!empty($storeFilter) && (!empty($startDate) && !empty($endDate))) {
-				$revenues = $revenues->where('O.storeId', $storeFilter)->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
+			if(empty($storeFilter)) {
+				$revenues = $revenues->whereIn('O.storeId', $storeDetails);
 			}
 			else if(!empty($storeFilter)) {
 				$revenues = $revenues->where('O.storeId', $storeFilter);
 			}
-			else if(!empty($startDate) && !empty($endDate)) {
+
+			if(!empty($startDate) && !empty($endDate)) {
 				$revenues = $revenues->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate]);
 			}
 
@@ -1141,8 +1142,112 @@ class AdminIndexController extends Controller
 			$outOfStock = Product::where('inventory','<=', 0)->count();
 			
 			$maxInventory = $instock - $lowInventory;  
+			/* print_r($startDate);
+			print_r($startDate);
+			print_r($storeDetails);
+			die; */
 
-    	 	return view('admin.dashboard.index',compact('orderplaced', 'allcustomer', 'allStores', 'activestores', 'storedata', 'todayOrderCount', 'allorderCount', 'todayRevenueCount', 'revenues', 'storeDetails', 'topSellingData', 'lastdaysRevenue', 'maxInventory', 'outOfStock', 'instock', 'productNotAvailable','productAvailable', 'lowInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate','revenueLabels','revenueData','billLabels','billData','basketLabels','basketData')); 
+			/* Total Cash and Card Revenue Start */
+
+			$multipleMode = DB::table('multiplepayment')->select('paymentMode', DB::raw('SUM(amount) as totalAmount'))
+			->whereBetween(DB::raw('Date(created_at)'), [$startDate, $endDate])
+			->whereIn('storeId', $storeDetails);
+
+			if(!empty($storeFilter)) {
+				$multipleMode = $multipleMode->where('storeId', $storeFilter);
+			}
+			
+			$multipleMode = $multipleMode->groupBy('paymentMode')->get();
+			/* print_r($multipleMode);
+			die; */
+			/* Multiple Refund Start */
+			$multipleRefund = DB::table('orders_pos as O')
+			->select('O.id', DB::raw('SUM(O.totalAmount) as refund'))
+			->where('O.paymentStatus', 'MULTIPLE')
+			->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate])
+			->whereIn('O.storeId', $storeDetails);
+			
+			if(!empty($storeFilter)) {
+				$multipleRefund = $multipleRefund->where('O.storeId', $storeFilter);
+			}
+			$multipleRefund = $multipleRefund->get();
+			$multipleRefund = $multipleRefund[0]->refund;
+			/* print_r($multipleRefund);
+			die; */
+
+			//$cashSale = $cashSales[0]->cash;
+			/* Multiple Refund ENd */
+
+			$cashSales = DB::table('orders_pos as O')
+			->select('O.id', DB::raw('(SUM(O.totalAmount)- SUM(O.refundTotalAmount) ) as cash'))
+			->where('O.paymentStatus', 'CASH')
+			->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate])
+			->whereIn('O.storeId', $storeDetails);
+			
+			if(!empty($storeFilter)) {
+				$cashSales = $cashSales->where('O.storeId', $storeFilter);
+			}
+			$cashSales = $cashSales->get();
+			$cashSale = $cashSales[0]->cash;
+			//if($multipleMode)
+			/* print_r($cashSales[0]->cash);
+			die; */
+
+			
+			$cardSales = DB::table('orders_pos as O')
+			->select('O.id', DB::raw('(SUM(O.totalAmount)- SUM(O.refundTotalAmount) ) as card'))
+			->whereBetween(DB::raw('Date(O.created_at)'),[$startDate,$endDate])
+			->where('O.paymentStatus', 'CARD')
+			->whereIn('storeId', $storeDetails);
+
+			if(!empty($storeFilter)) {
+				$cardSales = $cardSales->where('O.storeId', $storeFilter);
+			}
+			$cardSales = $cardSales->get();
+			$cardSale = $cardSales[0]->card;
+			/* print_r($cardSale);
+			print_r($result->totalAmount);
+			die; */
+			/* print_r($cashSales[0]->cash);
+			die; */
+			/*  */
+			foreach($multipleMode as $result) {
+				if($result->paymentMode == 'CASH') {
+					$cashSale = $cashSale + $result->totalAmount - $multipleRefund;
+				}
+				else if($result->paymentMode == 'CARD') {
+					$cardSale= $cardSale + $result->totalAmount;
+					/* print_r($result->totalAmount);
+					die; */
+				}
+				
+				/* print_r($cardSale);
+				die; */
+				//$results['multipleCount'] = $results['multipleCount'] + $result->multipleCount;
+			}
+
+			/*  */
+
+			/* Total Card and Card Revenue End */
+
+			/* Total Profit Percentage Start */
+			$profitPercentage = DB::table('reports')
+			->select('productName','price','costPrice', 'storeId',DB::raw('ROUND((((SUM(price) - SUM(costPrice))/SUM(costPrice)) * 100),2) as percentprofit'))
+			->whereIn('storeId', $storeDetails);
+
+			if(!empty($storeFilter)) {
+				$profitPercentage = $profitPercentage->where('storeId', $storeFilter);
+			}
+			if(!empty($startDate) && !empty($endDate)) {
+				$profitPercentage = $profitPercentage->whereBetween(DB::raw('Date(created_at)'),[$startDate,$endDate]);
+			}
+
+			$profitPercentage = $profitPercentage->get();
+			/* print_r($profitPercentage);
+			die; */
+			/* Total Profit Percentage End */
+
+			return view('admin.dashboard.index',compact('orderplaced', 'allcustomer', 'allStores', 'activestores', 'storedata', 'todayOrderCount', 'allorderCount', 'todayRevenueCount', 'revenues', 'storeDetails', 'topSellingData', 'lastdaysRevenue', 'maxInventory', 'outOfStock', 'instock', 'productNotAvailable','productAvailable', 'lowInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate','revenueLabels','revenueData','billLabels','billData','basketLabels','basketData', 'cashSale', 'cardSale', 'profitPercentage')); 
     		
         }
 		
