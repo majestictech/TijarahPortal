@@ -137,16 +137,54 @@ $Roles = config('app.Roles');
     					<div>
     						<p class="mb-0 text-secondary font-14">
                   <a href="{{url('/admin/order')}}"> 
-                    {{__('lang.totalorders')}}
+                    {{__('lang.totalorders')}} / {{ __('lang.totalrevenue')}}
                    </a>
                 </p>
-    						<h5 class="my-0">{{$allorderCount ?? '0'}}</h5>
+    						<h5 class="my-0">{{$allorderCount ?? '0'}} / SAR {{ round($revenues, 2) ?? '0'}}</h5>
     					</div>
     					<div class="text-info ms-auto font-30"><i class='bx bx-cart'></i>
     					</div>
     				</div>
     			</div>
-    			<div class="mt-1" id="chart5"></div>
+    			<div class="mt-1" id="chart4"></div>
+    		</div>
+    	</div>
+    	
+    	<!-- <div class="col">
+    		<div class="card radius-10 overflow-hidden">
+    			<div class="card-body">
+    				<div class="d-flex align-items-center">
+    					<div>
+    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.totalrevenue')}}</a></p>
+    						<h5 class="my-0">SAR {{ round($revenues, 2) ?? '0'}}</h5>
+    					</div>
+    					<div class="text-danger ms-auto font-30">ريال
+    					</div>
+    				</div>
+    			</div>
+    			<div class="mt-1" id="chart6"></div>
+    		</div>
+    	</div> -->
+
+       <!-- Chain Admin Start -->
+      @if(Auth::user()->roleId == 11)
+    	<div class="col">
+    		<div class="card radius-10 overflow-hidden">
+    			<div class="card-body">
+    				<div class="d-flex align-items-center">
+    					<div>
+    						<p class="mb-0 text-secondary font-14">
+                  <a href="{{url('/admin/order')}}"> 
+                    {{__('lang.todayscashrevenue')}}
+                   </a>
+                </p>
+    						<h5 class="my-0">{{ round($cashSale, 2) ?? '0'}}</h5>
+    					</div>
+    					<div class="text-info ms-auto font-30"><i class='bx bx-cart'></i>
+    					</div>
+    				</div>
+    			</div>
+    			<div class="mt-1" id="chart4"></div>
     		</div>
     	</div>
     	
@@ -155,17 +193,41 @@ $Roles = config('app.Roles');
     			<div class="card-body">
     				<div class="d-flex align-items-center">
     					<div>
-    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.totalrevenue')}}</a></p>
-    						<h5 class="my-0">SAR {{ round($revenues, 2)?? '0'}}</h5>
+    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.todayscardrevenue')}}</a></p>
+    						<h5 class="my-0">SAR {{ round($cardSale, 2) ?? '0'}}</h5>
     					</div>
     					<div class="text-danger ms-auto font-30">ريال
     					</div>
     				</div>
     			</div>
-    			<div class="mt-1" id="chart6"></div>
+    			<div class="mt-1" id="chart4"></div>
     		</div>
     	</div>
-    </div><!--end row-->
+    
+    	<div class="col">
+    		<div class="card radius-10 overflow-hidden">
+    			<div class="card-body">
+    				<div class="d-flex align-items-center">
+    					<div>
+    						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.profitpercentage')}}</a></p>
+    						<h5 class="my-0">{{ round($profitPercentage[0]->percentprofit, 2) ?? '0'}} %</h5>
+    					</div>
+    					<div class="text-danger ms-auto font-30">ريال
+    					</div>
+    				</div>
+    			</div>
+    			<div class="mt-1" id="chart4"></div>
+    		</div>
+    	</div>
+    
+      @endif  
+      <!-- Chain Admin End -->
+
+    </div>
+    <!--end row-->
+
+   
+   
     
     
     <div class="row">
@@ -401,7 +463,8 @@ $Roles = config('app.Roles');
             			<div class="card-body">
             				<div class="d-flex align-items-center">
             					<div>
-            						<p class="mb-0 text-secondary font-14"><a href="{{url('/admin/report/revenue')}}">{{ __('lang.todaysrevenue')}}</a></p>
+            						<p class="mb-0 text-secondary font-14">
+                          <a href="{{url('/admin/report/revenue')}}">{{ __('lang.todaysrevenue')}}</a></p>
             						<h5 class="my-0">SAR {{$revenues->totalAmount ?? ''}}</h5>
             					</div>
             					<div class="text-danger ms-auto font-30">ريال
@@ -416,7 +479,8 @@ $Roles = config('app.Roles');
             			<div class="card-body">
             				<div class="d-flex align-items-center">
             					<div>
-            						<p class="mb-0 text-secondary font-14"><a href="{{url('/admin/customer/'.$storedata->id)}}">{{ __('lang.customers')}}</a></p>
+            						<p class="mb-0 text-secondary font-14">
+                          <a href="{{url('/admin/customer/'.$storedata->id)}}">{{ __('lang.customers')}}</a></p>
             						<h5 class="my-0">{{$allcustomer ?? ''}}</h5>
             					</div>
             					<div class="text-success ms-auto font-30"><i class='bx bx-group'></i>
