@@ -210,7 +210,8 @@ $Roles = config('app.Roles');
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.profitpercentage')}}</a></p>
-    						<h5 class="my-0">{{ round($profitPercentage[0]->percentprofit, 2) ?? '0'}} %</h5>
+    						<!-- <h5 class="my-0">{{ round($profitPercentage[0]->percentprofit, 2) ?? '0'}} % PP</h5> -->
+    						<h5 class="my-0">{{ round($profitPercentage[0]->percentprofitgross, 2) ?? '0'}} % </h5>
     					</div>
     					<div class="text-danger ms-auto font-30">ريال
     					</div>

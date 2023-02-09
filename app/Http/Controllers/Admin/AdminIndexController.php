@@ -1232,7 +1232,7 @@ class AdminIndexController extends Controller
 
 			/* Total Profit Percentage Start */
 			$profitPercentage = DB::table('reports')
-			->select('productName','price','costPrice', 'storeId',DB::raw('ROUND((((SUM(price) - SUM(costPrice))/SUM(costPrice)) * 100),2) as percentprofit'))
+			->select('productName','price','costPrice', 'storeId', DB::raw('ROUND((((SUM(price) - SUM(costPrice))/SUM(costPrice)) * 100),2) as percentprofit'), DB::raw('ROUND((((SUM(price) - SUM(costPrice))/SUM(price)) * 100),2) as percentprofitgross'))
 			->whereIn('storeId', $storeDetails);
 
 			if(!empty($storeFilter)) {
@@ -1242,7 +1242,7 @@ class AdminIndexController extends Controller
 				$profitPercentage = $profitPercentage->whereBetween(DB::raw('Date(created_at)'),[$startDate,$endDate]);
 			}
 
-			$profitPercentage = $profitPercentage->get();
+			$profitPercentage = $profitPercentage->groupBy('productName')->get();
 			/* print_r($profitPercentage);
 			die; */
 			/* Total Profit Percentage End */

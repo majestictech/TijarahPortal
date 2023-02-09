@@ -111,9 +111,9 @@ helper::checkStoreId($storeId);
     						<tr>
     							<td class="sorting_desc">{{$result->created_at}}</td>
     							<td>{{$result->totalBill}}</td>
-    							<td>{{$result->totalAmount - $result->vat}}</td>
-    							<td>{{$result->vat}}</td>
-    							<td>{{$result->totalAmount}}</td>
+    							<td>{{round(($result->totalAmount - $result->vat), 2)}}</td>
+    							<td>{{round($result->vat, 2)}}</td>
+    							<td>{{round($result->totalAmount, 2)}}</td>
     						</tr>
     						@endforeach
     					</tbody>
@@ -130,7 +130,7 @@ helper::checkStoreId($storeId);
     						<tr>
     							<td>{{$result->created_at}}</td>
     							<td>{{$result->totalBill}}</td>
-    							<td>{{$result->totalAmount}}</td>
+    							<td>{{round($result->totalAmount, 2)}}</td>
     						</tr>
     						@endforeach
     					</tbody>
@@ -148,7 +148,7 @@ helper::checkStoreId($storeId);
     						<tr>
     							<td>{{$result->categoryName}}</td>
     							<td>{{$result->qty}}</td>
-    							<td>{{$result->totalAmount}}</td>
+    							<td>{{round($result->totalAmount, 2)}}</td>
     						</tr>
     						@endforeach
     					</tbody>
@@ -166,9 +166,9 @@ helper::checkStoreId($storeId);
     						@foreach($results['bills'] as $result)
     						<tr>
     							<td>{{$result->productName}}</td>
-    							<td>{{$result->price}}</td>
+    							<td>{{round($result->price, 2)}}</td>
     							<td>{{$result->qty}}</td>
-    							<td>{{$result->totalAmount}}</td>
+    							<td>{{round($result->totalAmount, 2)}}</td>
     						</tr>
     						@endforeach
     					</tbody>
