@@ -56,7 +56,7 @@ class Handler extends ExceptionHandler
         }
         else {
            return parent::render($request, $exception);
-           return response()->view('errors.custom', array('exception' => $exception), 500);
+           //return response()->view('errors.custom', array('exception' => $exception), 500);
         }
 
 		//if ($exception instanceof CustomException) {

@@ -71,11 +71,13 @@ class ProductExport extends DefaultValueBinder implements FromCollection, WithHe
             'Product Name - English',
             'Product Name - Arabic',
             'Brand',
+            'Product Code',
             'Code',
             'Barcode',
             'Selling Price',
             'Price',
             'Cost Price',
+            'Quantity',
             'Category',
             'Weight',
             'Weight Class',
@@ -86,13 +88,18 @@ class ProductExport extends DefaultValueBinder implements FromCollection, WithHe
             'splPriceFrom',
             'splPriceTo',
             'Inventory',
-            'Inventory Data',
+           /*  'Inventory Data', */
             'Min Inventory',
+            'Min Order Qty',
+            'Product Image',
             'description',
             'productTags',
             'metaTitle',
             'metaDescription',
-            'metaKeyword',
+            /* 'metaKeyword', */
+            'box barcode',
+            'pieces per box',
+            'expiry'
         ];
     }
 

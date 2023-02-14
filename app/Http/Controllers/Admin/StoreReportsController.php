@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use DB;
 use App\Reports;
 use App\Helpers\AppHelper as Helper;
+use App\Exports\ProfitLossReportExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StoreReportsController extends Controller
 {
@@ -1088,6 +1090,11 @@ class StoreReportsController extends Controller
     {
 		$storeId = $storeId;
 
+		if(isset($_GET['export']))
+			$export = $_GET['export'];
+		else
+			$export = '';
+
 		if(isset($_GET['search']))
 			$search = $_GET['search'];
 		else
@@ -1116,6 +1123,21 @@ class StoreReportsController extends Controller
 		}
 
 		$results = $results->groupBy('productName')->orderBy('qty','DESC')->paginate(10);
+		/* print_r($results);
+		die;
+ 		*/
+		 if(isset($export) && $export == 'yes') {
+			
+            $fileName = 'profilossreport.csv';
+            return Excel::download(new ProfitLossReportExport($storeId), $fileName  );
+        }
+
+		return view('admin.storereports.profitlossreports',compact('storeId','results','search','startDate','endDate'));
+    }
+	public function profitlossreportsexport(Request $request)
+    {
+		print_r(123);
+		die;
 		/* print_r($results);
 		die;
  */
