@@ -1128,7 +1128,19 @@ class StoreReportsController extends Controller
  		*/
 		 if(isset($export) && $export == 'yes') {
 			
-            $fileName = 'profilossreport.csv';
+			$startExport = explode('-',$startDate);
+			$startExportDate = $startExport[1].''.$startExport[2];
+
+			$endExport = explode('-',$endDate);
+			$endExportDate = $endExport[1].''.$endExport[2];
+
+			
+			/* print_r(gettype ($startExport));
+			print_r($startDate);
+			print_r($startExport);
+			print_r($startExportDate);
+			die; */
+            $fileName = 'p&l_'.$startExportDate.'_'.$endExportDate.'.csv';
             return Excel::download(new ProfitLossReportExport($storeId), $fileName  );
         }
 
