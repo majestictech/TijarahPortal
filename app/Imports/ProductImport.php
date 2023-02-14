@@ -196,6 +196,10 @@ class ProductImport implements ToCollection, WithHeadingRow
     		 $product->code = $row['product_code'] ?? $row['code'] ?? null;
     		$product->barCode = $barCode;
 
+			/* Box Barcode and Box Pieces Start */
+			$product->boxBarCode =  $row['box_barcode'] ?? $row['boxBarcode'] ?? null;
+			$product->piecesPerBox =  $row['pieces_per_box'] ?? $row['piecesPerBox'] ?? '0';
+			/* Box Barcode and Box Pieces End */
 			
     		$product->categoryId = $categoryId;
     		//$product->brandId = $brandId;

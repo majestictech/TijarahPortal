@@ -62,6 +62,9 @@ $Roles = config('app.Roles');
         			<div class="col-md-2 mb-3 ">
         			     <button type="submit" class="btn btn-primary px-5" name="searchBtn">Search</button>
         			</div>
+        			<div class="col-md-3 mb-3 ">
+        			     <button type="submit" class="btn btn-primary px-5" name="export" value="yes" id="export">Export</button>
+        			</div>
                 </div>
     		</form>
 				<!-- <div class="row pb-3">

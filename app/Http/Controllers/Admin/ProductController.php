@@ -88,10 +88,6 @@ class ProductController extends Controller
     
     public function storeindex($storeId)
     {   
-        
-        die;
-        die;
-        die;
 		$product = new Product;
 		$storeId = helper::getStoreId();
 		
@@ -112,7 +108,6 @@ class ProductController extends Controller
     
 	public function downloadPDF()
 	{
-
 		// load view for pdf file
 		$pdf = PDF::loadView('admin.product.preview')->setOptions(['defaultFont' => 'sans-serif']);
 
