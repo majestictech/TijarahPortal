@@ -116,7 +116,7 @@ class ProfitLossReportExport extends DefaultValueBinder implements FromCollectio
 			$results = $results->whereBetween(DB::raw('Date(created_at)'),[$startDate,$endDate]);
 		}
 
-		$results = $results->groupBy('productName')->orderBy('qty','DESC')->paginate(10);
+		$results = $results->groupBy('productName')->orderBy('qty','DESC')->get();
 
 
         return $results;
