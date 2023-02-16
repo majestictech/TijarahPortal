@@ -122,9 +122,9 @@ use App\Helpers\AppHelper as Helper;
 										
 										<a class="dropdown-item" href="{{url('/admin/customer/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-group"></i> {{ __('lang.storecustomers')}}</a>
 										
-										<!-- <a class="dropdown-item" href="{{url('/admin/store/lowinventoryemail?storeId='.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.lowinventory')}}</a>
+										<!-- <a class="dropdown-item" href="{{url('/admin/store/lowinventoryemail?storeId='.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.lowinventory')}}</a>-->
 										
-										<a class="dropdown-item" href="{{url('/admin/configemail/'.$StoreData->id.'/edit')}}"><i class="fadeIn animated bx bx-mail-send"></i> {{ __('lang.configemail')}}</a> -->
+										<a class="dropdown-item" href="{{url('/admin/configemail/'.$StoreData->id.'/edit')}}"><i class="fadeIn animated bx bx-mail-send"></i> {{ __('lang.configemail')}}</a> 
 										<a class="dropdown-item" href="{{url('/admin/product/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.inventory')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/view')}}"><i class="bx bx-show"></i> {{ __('lang.view')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/customerscreen/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.customerscreenslider')}}</a>
