@@ -484,7 +484,7 @@
  'edit'=>'Edit',
  'delete'=>'Delete',
  'showingentries'=>'Showing :Pagenum to :Total of :Total entries',
- 'previous'=>'Previous',
+ 'previous'=>'previous',
  'next'=>'Next',
  'entercategoryname'=>'Enter Category Name',
  'req_categoryname'=>'Please Enter Category Name.',
@@ -842,6 +842,9 @@
   'stock'=>'Stock',
   'expirydate'=>'Expiry Date',
   'editstock'=>'Edit Stock',
+  'productlog'=>'Product Log',
+  'previousstock'=>'previous Stock',
+  'newstock'=>'New Stock',
   
   
   'signin'=>'Sign In',
