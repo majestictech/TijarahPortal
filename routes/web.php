@@ -264,6 +264,9 @@ for git */
 	Route::get('admin/product/expirydate/{id}/edit','Admin\ProductController@editInventory')->name('product.expirydate.edit');
 	Route::get('admin/product/expirydate/{id}','Admin\ProductController@expirydate')->name('product.expirydate');
 	Route::post('admin/product/expirydate/update','Admin\ProductController@updateInventory')->name('expirydate.update');	
+
+	Route::get('admin/product/productlog/{id}','Admin\ProductController@productlog')->name('product.expirydate');
+
     //----------------Global Product----------------------------------
     
   // Route::get('admin/globalproducts/globalimport', 'Admin\GlobalProductsController@globalimport')->name('product.globalimport');

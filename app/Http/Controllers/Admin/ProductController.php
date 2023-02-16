@@ -469,6 +469,22 @@ class ProductController extends Controller
 		return view('admin.product.expirydate',compact('expiryDate','storeId'));
     }
 
+	 public function productlog($productId)
+    {
+		//die;
+		$productlogs = DB::Table('product_log as PL')
+		->leftJoin('users as U','U.id', 'PL.userId')
+		->leftJoin('stores as S','S.userId', 'PL.userId')
+		->select('PL.id', 'PL.userId', 'PL.productId', 'PL.previousStock', 'PL.newStock', 'S.id as storeId',DB::raw('CONCAT(U.firstName, " ", U.lastName) AS userName'), 'PL.created_at' )
+		->where('PL.productId', $productId )->orderBy('PL.created_at', 'DESC')->paginate(10);
+		/* print_r($productlogs);
+		die; */
+
+		$storeId = $productlogs[0]->storeId;		
+		
+		return view('admin.product.productlog',compact('productlogs','storeId'));
+    }
+
 
 
 	public function editInventory($id)
