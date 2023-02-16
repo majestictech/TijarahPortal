@@ -477,10 +477,10 @@ class ProductController extends Controller
 		->leftJoin('stores as S','S.userId', 'PL.userId')
 		->select('PL.id', 'PL.userId', 'PL.productId', 'PL.previousStock', 'PL.newStock', 'S.id as storeId',DB::raw('CONCAT(U.firstName, " ", U.lastName) AS userName'), 'PL.created_at' )
 		->where('PL.productId', $productId )->orderBy('PL.created_at', 'DESC')->paginate(10);
-		/* print_r($productlogs);
-		die; */
-
-		$storeId = $productlogs[0]->storeId;		
+		
+		$productStore = DB::Table('products')->select('storeId')->where('id', $productId)->first();
+		
+		$storeId = $productStore->storeId;		
 		
 		return view('admin.product.productlog',compact('productlogs','storeId'));
     }
