@@ -8,13 +8,13 @@ use App\Helpers\AppHelper as Helper;
 	<thead>
 		<tr>
 			<!-- //<th scope="col">{{ __('lang.orderid')}}</th> -->
-			<th scope="col">id</th>
-			<th scope="col">orderId</th>
-			<th scope="col">storeId</th>
-			<th scope="col">orderDetail</th>
-			<th scope="col">totalAmount</th>
-			<th scope="col">errorTotalCheck</th>
-			<th scope="col">created_at</th>
+			<th scope="col">Id</th>
+			<th scope="col">Order Id</th>
+			<th scope="col">Store Id</th>
+			<!--<th scope="col" width="40%">orderDetail</th>-->
+			<th scope="col">Total Amount</th>
+			<th scope="col">Total Actual Amount</th>
+			<th scope="col">Order Placed</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -24,7 +24,7 @@ use App\Helpers\AppHelper as Helper;
 			<td>{{$order->id}}</td>
 			<td>{{$order->orderId}}</td>
 			<td>{{$order->storeId}}</td>
-			<td>{{$order->orderDetail}}</td>
+			<!--<td>{{$order->orderDetail}}</td>-->
 			<td>{{$order->totalAmount}}</td>
 			<td>{{$order->errorTotalCheck}}</td>
 			<td>{{$order->created_at}}</td>
