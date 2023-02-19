@@ -576,7 +576,7 @@ class ProductController extends Controller
 				//print_r($product);
 				//echo "<br><br>";
 				if($product->discPer != 'NaN')
-					$productTotal = $productTotal + ($product->sellingPrice * $product->amount) - ($product->sellingPrice*$product->discPer/100);
+					$productTotal = $productTotal + (($product->sellingPrice) - ($product->sellingPrice*$product->discPer/100))* $product->amount;
 				else
 					$productTotal = $productTotal + ($product->sellingPrice * $product->amount);
 			}
