@@ -549,7 +549,7 @@ class ProductController extends Controller
 		//$checkDate = Carbon::now()->toDateString();
 		 
 		/* yesterday  */
-		$checkDate = Carbon::now()->subDays(120)->toDateString();
+		$checkDate = Carbon::now()->subDays(365)->toDateString();
 
 
 		$queryData = DB::table('orders_pos')
@@ -575,7 +575,7 @@ class ProductController extends Controller
 			foreach($orderDetails->products as $product) {
 				//print_r($product);
 				//echo "<br><br>";
-				$productTotal = $productTotal + ($product->sellingPrice * $product->amount);
+				$productTotal = $productTotal + ($product->sellingPrice * $product->amount) - ($product->sellingPrice*$product->discPer/100);
 			}
 			
 			//echo "<br><br>";
