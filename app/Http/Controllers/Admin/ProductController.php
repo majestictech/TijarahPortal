@@ -596,13 +596,13 @@ class ProductController extends Controller
 
 		//print_r($errorOrders);
 		
-		
+		/*
 		foreach($errorOrders as $order) {
 			print_r($order);
 			echo "<br><br>";
 		}
 		die;
-		
+		*/
 		return view('admin.product.test',compact('storeId', 'orderDetails', 'queryData', 'errorOrders'));
 	}
 	

@@ -8,23 +8,26 @@ use App\Helpers\AppHelper as Helper;
 	<thead>
 		<tr>
 			<!-- //<th scope="col">{{ __('lang.orderid')}}</th> -->
-			<th scope="col">{{ __('lang.id')}}</th>
-			<th scope="col">{{ __('lang.name')}}</th>
-			<th scope="col">{{ __('lang.sellingprice')}}</th>
-			<th scope="col">{{ __('lang.qty')}}</th>
-			<th scope="col">{{ __('lang.totalamount')}}</th>
-			
+			<th scope="col">id</th>
+			<th scope="col">orderId</th>
+			<th scope="col">storeId</th>
+			<th scope="col">orderDetail</th>
+			<th scope="col">totalAmount</th>
+			<th scope="col">errorTotalCheck</th>
+			<th scope="col">created_at</th>
 		</tr>
 	</thead>
 	<tbody>
 	
-	@foreach($orderDetails as $key =>$orderDetail)
+	@foreach($errorOrders as $key =>$order)
 		<tr> 
-			<td>{{$orderDetail->id}} </td>
-			<td>{{$orderDetail->name}} </td>
-			<td>{{$orderDetail->sellingPrice}}</td>
-			<td>{{$orderDetail->amount}}</td>
-			<td>{{$orderDetail->total}}</td>
+			<td>{{$order->id}}</td>
+			<td>{{$order->orderId}}</td>
+			<td>{{$order->storeId}}</td>
+			<td>{{$order->orderDetail}}</td>
+			<td>{{$order->totalAmount}}</td>
+			<td>{{$order->errorTotalCheck}}</td>
+			<td>{{$order->created_at}}</td>
 		</tr>
 	@endforeach
 	</tbody>
