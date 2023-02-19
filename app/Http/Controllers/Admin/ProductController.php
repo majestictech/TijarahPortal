@@ -575,7 +575,7 @@ class ProductController extends Controller
 			foreach($orderDetails->products as $product) {
 				//print_r($product);
 				//echo "<br><br>";
-				$productTotal = $productTotal + $product->total;
+				$productTotal = $productTotal + ($product->sellingPrice * $product->amount);
 			}
 			
 			//echo "<br><br>";
