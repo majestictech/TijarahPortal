@@ -555,7 +555,7 @@ class ProductController extends Controller
 		$queryData = DB::table('orders_pos')
 		->select('id','orderId', 'orderDetail', DB::raw('(vat - refundVat) as vat'), DB::raw('(totalAmount - refundTotalAmount) as totalAmount'),'created_at')
 		->where('storeId',$storeId)
-		->where(DB::raw('Date(created_at)'),'=',$checkDate)
+		//->where(DB::raw('Date(created_at)'),'>=',$checkDate)
 		->orderBy('id','DESC')
 		->get();
 
@@ -589,7 +589,13 @@ class ProductController extends Controller
 			
 		}	
 
-		print_r($errorOrders);
+		//print_r($errorOrders);
+		
+		
+		foreach($errorOrders as $order) {
+			print_r($order);
+			echo "<br><br>";
+		}
 		die;
 		
 		return view('admin.product.test',compact('storeId', 'orderDetails', 'queryData', 'errorOrders'));
