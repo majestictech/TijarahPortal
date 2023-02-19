@@ -549,7 +549,7 @@ class ProductController extends Controller
 		//$checkDate = Carbon::now()->toDateString();
 		 
 		/* yesterday  */
-		$checkDate = Carbon::now()->subDays(30)->toDateString();
+		$checkDate = Carbon::now()->subDays(120)->toDateString();
 
 
 		$queryData = DB::table('orders_pos')
