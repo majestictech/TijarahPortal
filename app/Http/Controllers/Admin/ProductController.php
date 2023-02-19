@@ -555,6 +555,7 @@ class ProductController extends Controller
 		$queryData = DB::table('orders_pos')
 		->select('id','orderId', 'orderDetail', 'totalAmount','storeId','created_at')
 		//->where('storeId',$storeId)
+		->where('totalAmount','>',0)
 		->where(DB::raw('Date(created_at)'),'>=',$checkDate)
 		->orderBy('id','DESC')
 		->get();
