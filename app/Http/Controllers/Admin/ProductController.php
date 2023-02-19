@@ -549,13 +549,13 @@ class ProductController extends Controller
 		//$checkDate = Carbon::now()->toDateString();
 		 
 		/* yesterday  */
-		$checkDate = Carbon::now()->subDays(3)->toDateString();
+		$checkDate = Carbon::now()->subDays(30)->toDateString();
 
 
 		$queryData = DB::table('orders_pos')
-		->select('id','orderId', 'orderDetail', 'totalAmount','created_at')
-		->where('storeId',$storeId)
-		//->where(DB::raw('Date(created_at)'),'>=',$checkDate)
+		->select('id','orderId', 'orderDetail', 'totalAmount','storeId','created_at')
+		//->where('storeId',$storeId)
+		->where(DB::raw('Date(created_at)'),'>=',$checkDate)
 		->orderBy('id','DESC')
 		->get();
 
