@@ -806,6 +806,8 @@
   'req_code'=>'Please Enter Code.',
   'barcode'=>'BarCode',
   'enterbarcode'=>'Enter BarCode',
+  'boxbarcode'=>'Box Bar Code',
+  'enterboxbarcode'=>'Enter Box BarCode',
   'req_barcode'=>'Please Enter BarCode.',
   'req_category'=>'Please Select a Category.',
   'subcategory'=>'Sub-Category',
