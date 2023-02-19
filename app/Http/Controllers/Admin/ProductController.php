@@ -553,7 +553,7 @@ class ProductController extends Controller
 
 
 		$queryData = DB::table('orders_pos')
-		->select('orderId', 'orderDetail', DB::raw('(vat - refundVat) as vat'), DB::raw('(totalAmount - refundTotalAmount) as totalAmount'),'created_at')
+		->select('id','orderId', 'orderDetail', DB::raw('(vat - refundVat) as vat'), DB::raw('(totalAmount - refundTotalAmount) as totalAmount'),'created_at')
 		->where('storeId',$storeId)
 		->where(DB::raw('Date(created_at)'),'=',$checkDate)
 		->orderBy('id','DESC')
