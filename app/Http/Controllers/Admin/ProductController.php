@@ -583,8 +583,9 @@ class ProductController extends Controller
 			//echo "<br><br>";
 			//echo $OD->totalAmount;
 			
-			if(round($OD->totalAmount,2) != round($productTotal,2)) {
-				$OD['errorTotalCheck'] = $productTotal;
+			
+			if(round(floatval($OD->totalAmount),2) != round($productTotal,2)) {
+				$OD->errorTotalCheck = round($productTotal,2);
 				$errorOrders[] = $OD;
 			}
 			
