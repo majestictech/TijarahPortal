@@ -245,6 +245,10 @@ for git */
 	
 	//----------------Product For Store Login ---------------------//
 	Route::get('admin/product', 'Admin\ProductController@index')->name('product.index');
+
+	//----------------Test ----------------------------------
+
+	Route::get('admin/test/{storeId}', 'Admin\ProductController@test')->name('product.create');
 	
 	
 	//----------------Product----------------------------------

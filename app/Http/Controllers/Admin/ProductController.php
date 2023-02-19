@@ -26,6 +26,7 @@ use App\Product_BN;
 use App\Exports\ProductExport;
 use Image;
 use Auth;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -539,6 +540,59 @@ class ProductController extends Controller
 		
 		Helper::addToLog('inventoryEdit',$request->inventory);
 		return redirect('admin/product/expirydate/'.$id); 
+	}
+	
+	public function test($storeId)
+	{
+		$storeId = $storeId;
+		/*  today */
+		$checkDate = Carbon::now()->toDateString();
+		 
+		/* yesterday  */
+		// $checkDate = Carbon::now()->subDays(1)->toDateString();
+
+
+		$queryData = DB::table('orders_pos')
+		->select('orderId', 'orderDetail', DB::raw('(vat - refundVat) as vat'), DB::raw('(totalAmount - refundTotalAmount) as totalAmount'),'created_at')
+		->where('storeId',$storeId)
+		->where(DB::raw('Date(created_at)'),'=',$checkDate)
+		->orderBy('id','DESC')
+		->get();
+
+		$errorOrders = [];
+		
+		foreach($queryData as $OD) {
+			$orderDetails = $OD->orderDetail;
+			//print_r($orderDetails);
+			$orderDetails = json_decode($orderDetails);
+			
+			//print_r($orderDetails);
+			
+			//echo "<br><br>";
+			
+			
+			$productTotal = 0;
+			foreach($orderDetails->products as $product) {
+				//print_r($product);
+				//echo "<br><br>";
+				$productTotal = $productTotal + $product->total;
+			}
+			
+			//echo "<br><br>";
+			//echo $productTotal;
+			//echo "<br><br>";
+			//echo $OD->totalAmount;
+			
+			if($OD->totalAmount != $productTotal) {
+				$errorOrders[] = $OD;
+			}
+			
+		}	
+
+		print_r($errorOrders);
+		die;
+		
+		return view('admin.product.test',compact('storeId', 'orderDetails', 'queryData', 'errorOrders'));
 	}
 	
 }
