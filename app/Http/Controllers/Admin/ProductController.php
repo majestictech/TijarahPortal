@@ -575,7 +575,10 @@ class ProductController extends Controller
 			foreach($orderDetails->products as $product) {
 				//print_r($product);
 				//echo "<br><br>";
-				$productTotal = $productTotal + ($product->sellingPrice * $product->amount) - ($product->sellingPrice*$product->discPer/100);
+				if($product->discPer != 'NaN')
+					$productTotal = $productTotal + ($product->sellingPrice * $product->amount) - ($product->sellingPrice*$product->discPer/100);
+				else
+					$productTotal = $productTotal + ($product->sellingPrice * $product->amount);
 			}
 			
 			//echo "<br><br>";
