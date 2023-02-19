@@ -106,6 +106,7 @@ use App\Helpers\AppHelper as Helper;
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/edit')}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.edit')}}</a>
 
 										<!-- <a class="dropdown-item" href="{{url('/admin/test/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.test')}}</a> -->
+										<!-- <a class="dropdown-item" href="{{url('/admin/errororderlog')}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.test')}}</a> -->
 										@endif
 
 										@if($StoreData->status==='Active')

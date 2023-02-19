@@ -202,6 +202,12 @@ helper::checkUserURLAccess('store_manage','store_inventory');
 								<input type="text" name="barCode" value="{{$ProductData->barCode}}" class="form-control border-start-0" id="barCode" placeholder="{{ __('lang.enterbarcode')}}">
 							</div>
 						</div>
+						<div class="col-md-6">
+							<label for="barCode" class="form-label">{{ __('lang.boxbarcode')}}</label>
+							<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-barcode'></i></span>
+								<input type="text" name="boxBarCode" value="{{$ProductData->boxBarCode}}" class="form-control border-start-0" id="boxBarCode" placeholder="{{ __('lang.enterboxbarcode')}}">
+							</div>
+						</div>
 						<!--<div class="col-md-6">
 							<label for="category" class="form-label">{{ __('lang.category')}} *</label>
 							<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bx-category'></i></span>

@@ -216,79 +216,6 @@ class ProductController extends Controller
         return redirect('admin/product/' . $request->storeId);             
     }
 	
-	public function update(Request $request)
-    {
-
-		$product = new Product;
-
-		$this->validate($request, [
-			'name'=> 'required',
-			'name_ar'=> 'required',
-			'sellingPrice'=> 'required',
-			'taxClassId'=> 'required'
-		   ]);
-
-		$product = Product::find($request->input('id'));
-        $product->name = $request->name;
-		$product->code = $request->code;
-		$product->barCode = $request->barCode;
-		$product->storeId = $request->storeId;
-		$product->categoryId = $request->categoryId;
-		$product->brandId = $request->brandId;
-		$product->productTags = $request->productTags;
-		$product->metaTitle = $request->metaTitle;
-		$product->metaDescription = $request->metaDescription;
-		$product->metaKeyword = $request->metaKeyword;	
-		$product->sellingPrice = $request->sellingPrice;	
-		$product->costPrice = $request->costPrice;
-		$product->minOrderQty = $request->minOrderQty;	
-		//$product->description = $request->description;
-		$product->status = $request->status;	
-		/*$product->productVariation = $request->productVariation;
-		$product->variation = $request->variation;
-		$product->variationUnit = $request->variationUnit;
-		$product->var_price = $request->var_price;*/
-		$product->minInventory = $request->minInventory;
-		$product->inventory = $request->inventory;
-		$product->looseItem = $request->looseItem;
-		//$product->weightClassId = $request->weightClassId;
-		$product->taxClassId = $request->taxClassId;
-		//$product->expiryDate =$request->expiryDate;
-		
-		$taxdata = Tax::WHERE('id', $request->taxClassId)->first();
-		
-		$product->price = $request->sellingPrice/(1+($taxdata->value/100));
-		
-		if($request->file())
-		{
-			$files = $request->file('productImage');
-			$destinationPath = public_path().'/products/';		
-			$filename = time().'.'.$files->getClientOriginalExtension();
-			$thumb_img = Image::make($files->getRealPath())->fit(100, 100);
-			$thumb_img->save($destinationPath.'/50x50/'.$filename,100);	
-			$files->move($destinationPath, $filename);
-			$product->productImage = $filename;	
-			$data = file_get_contents($destinationPath.'50x50/'.$filename);
-		    $productImgBase64 = base64_encode($data);
-		    $product->productImgBase64 = $productImgBase64;
-		}
-		
-        $product->save();
-		
-		$product_ar = Product_AR::select('id')->where('productID', $request->input('id'))->first();
-		
-		
-		
-		$product_ar->productId = $product->id;
-		$product_ar->name = $request->name_ar;
-	//	$product_ar->description = $request->desArabic;
-		$product_ar->save();
-		
-         Helper::addToLog('productEdit',$request->name);
-         return redirect('admin/product/' . $product->storeId);
-	}
-
-	
 	public function edit($id)
     {
         /*
@@ -391,7 +318,7 @@ class ProductController extends Controller
 		$ProductData = DB::Table('products AS P')->leftJoin('products_ar AS P_AR', 'P_AR.productId', '=', 'P.id')
 		->leftJoin('products_ur AS P_UR', 'P_UR.productId', '=', 'P.id')->leftJoin('products_ml AS P_ML', 'P_ML.productId', '=', 'P.id')
 		->leftJoin('products_bn AS P_BN', 'P_BN.productId', '=', 'P.id')
-		->select('P.looseItem','P.storeId','P.id','P.status','P.name','P.expiryDate','P.description','P.minInventory','P.taxClassId','P.inventory','P.metaTitle','P.metaDescription','P.metaKeyword','P.productImgBase64','P.sellingPrice','P.weight','P.weightClassId','P.costPrice','P.code','P.barCode','P.categoryId','P.productTags','P.minOrderQty','P_AR.name AS name_ar','P_AR.description AS desArabic','P_UR.name AS name_ur','P_UR.description AS desUrdu','P.taxClassId','P.productImage','P_ML.name AS name_ml','P_ML.description AS desMalay','P_BN.name AS name_bn','P_BN.description AS desBengali','P.brandId')
+		->select('P.looseItem','P.storeId','P.id','P.status','P.name','P.expiryDate','P.description','P.minInventory','P.taxClassId','P.inventory','P.metaTitle','P.metaDescription','P.metaKeyword','P.productImgBase64','P.sellingPrice','P.weight','P.weightClassId','P.costPrice','P.code','P.barCode', 'P.boxBarCode', 'P.categoryId', 'P.productTags', 'P.minOrderQty', 'P_AR.name AS name_ar','P_AR.description AS desArabic','P_UR.name AS name_ur','P_UR.description AS desUrdu','P.taxClassId','P.productImage','P_ML.name AS name_ml','P_ML.description AS desMalay','P_BN.name AS name_bn','P_BN.description AS desBengali','P.brandId')
 		->where('P.id', $id)->get();
 		$weightdata = Weight::orderBy('id', 'DESC')->get();
 		$taxdata = Tax::orderBy('id', 'DESC')->get();
@@ -421,6 +348,85 @@ class ProductController extends Controller
 		
 				
     }
+	public function update(Request $request)
+    {
+
+		$product = new Product;
+
+		$this->validate($request, [
+			'name'=> 'required',
+			'name_ar'=> 'required',
+			'sellingPrice'=> 'required',
+			'taxClassId'=> 'required'
+		   ]);
+
+		$product = Product::find($request->input('id'));
+        $product->name = $request->name;
+		$product->code = $request->code;
+		$product->barCode = $request->barCode;
+		$product->boxBarCode = $request->boxBarCode;
+		$product->storeId = $request->storeId;
+		$product->categoryId = $request->categoryId;
+		$product->brandId = $request->brandId;
+		$product->productTags = $request->productTags;
+		$product->metaTitle = $request->metaTitle;
+		$product->metaDescription = $request->metaDescription;
+		$product->metaKeyword = $request->metaKeyword;	
+		$product->sellingPrice = $request->sellingPrice;	
+		$product->costPrice = $request->costPrice;
+		$product->minOrderQty = $request->minOrderQty;	
+		//$product->description = $request->description;
+		$product->status = $request->status;	
+		/*$product->productVariation = $request->productVariation;
+		$product->variation = $request->variation;
+		$product->variationUnit = $request->variationUnit;
+		$product->var_price = $request->var_price;*/
+		$product->minInventory = $request->minInventory;
+		$product->inventory = $request->inventory;
+		$product->looseItem = $request->looseItem;
+		//$product->weightClassId = $request->weightClassId;
+		$product->taxClassId = $request->taxClassId;
+		//$product->expiryDate =$request->expiryDate;
+		
+		$taxdata = Tax::WHERE('id', $request->taxClassId)->first();
+		
+		$product->price = $request->sellingPrice/(1+($taxdata->value/100));
+		
+		if($request->file())
+		{
+			$files = $request->file('productImage');
+			$destinationPath = public_path().'/products/';		
+			$filename = time().'.'.$files->getClientOriginalExtension();
+			$thumb_img = Image::make($files->getRealPath())->fit(100, 100);
+			$thumb_img->save($destinationPath.'/50x50/'.$filename,100);	
+			$files->move($destinationPath, $filename);
+			$product->productImage = $filename;	
+			$data = file_get_contents($destinationPath.'50x50/'.$filename);
+		    $productImgBase64 = base64_encode($data);
+		    $product->productImgBase64 = $productImgBase64;
+		}
+		
+        $product->save();
+		
+		$product_ar = Product_AR::select('id')->where('productID', $request->input('id'))->first();
+		if(empty($product_ar)) {
+			$product_ar = new Product_AR;
+			/* print_r(123);
+			print_r($request->input('id'));
+			print_r($product->id);
+			die; */
+		}
+		
+		
+		// $product_ar->productId = $product->id;
+		$product_ar->productId = $request->input('id');
+		$product_ar->name = $request->name_ar;
+	//	$product_ar->description = $request->desArabic;
+		$product_ar->save();
+		
+         Helper::addToLog('productEdit',$request->name);
+         return redirect('admin/product/' . $product->storeId);
+	}
 	
 	
 	public function destroy($id)
