@@ -248,7 +248,8 @@ for git */
 
 	//----------------Test ----------------------------------
 
-	Route::get('admin/test/{storeId}', 'Admin\ProductController@test')->name('product.create');
+	/* Route::get('admin/test/{storeId}', 'Admin\ProductController@test')->name('product.create'); */
+	Route::get('admin/errororderlog', 'Admin\ProductController@test')->name('product.create');
 	
 	
 	//----------------Product----------------------------------
