@@ -104,6 +104,8 @@ use App\Helpers\AppHelper as Helper;
 										<!--<a class="dropdown-item" href="{{url('/admin/category/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-spreadsheet"></i> Categories</a>-->
 										@if(helper::checkUserRights('store_manage','store_edit'))
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/edit')}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.edit')}}</a>
+
+										<!-- <a class="dropdown-item" href="{{url('/admin/test/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.test')}}</a> -->
 										@endif
 
 										@if($StoreData->status==='Active')
