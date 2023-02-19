@@ -584,7 +584,7 @@ class ProductController extends Controller
 			//echo $OD->totalAmount;
 			
 			if(round($OD->totalAmount,2) != round($productTotal,2)) {
-				$OD['errorTotalCheck'] = $productTotal;
+				//$OD['errorTotalCheck'] = $productTotal;
 				$errorOrders[] = $OD;
 			}
 			
