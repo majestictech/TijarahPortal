@@ -208,7 +208,7 @@ class AdminIndexController extends Controller
 			$endDate = $todayEndDate;
 		}
 
-        if (Auth::user()->roleId != 4 && Auth::user()->roleId != 11 && Auth::user()->roleId != 12){
+        if (Auth::user()->roleId != 4 && Auth::user()->roleId != 11 && Auth::user()->roleId != 12 && Auth::user()->roleId != 14){
 			
 			//All Except of Store Owner(4) and Chain Admin(11)
 
@@ -730,7 +730,7 @@ class AdminIndexController extends Controller
     	 	return view('admin.dashboard.index',compact('todayOrderCount', 'allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate','revenueLabels','revenueData','billLabels','billData','basketLabels','basketData','date'));
     		
         }
-		else if(Auth::user()->roleId == 11 ||  Auth::user()->roleId == 12){	
+		else if(Auth::user()->roleId == 11 ||  Auth::user()->roleId == 12 ||  Auth::user()->roleId == 14) {
     	    //Chain Admin = 11
 
 			/* Parent and Child Store Id Start */
@@ -743,10 +743,11 @@ class AdminIndexController extends Controller
 			else {
 				$parentUserId =  DB::Table('chainstoreusers')
 				->where('userId', $userId)->first();
-				$parentUserId = $parentUserId->parentUserId;
+ 
+				$parentUserId = $parentUserId->parentAdminUserId;
 				//print_r($userId);
-				/* print_r($parentUserId);
-				die; */
+				//print_r($parentUserId);
+				//die;
 			}
 			
 			
@@ -1203,7 +1204,11 @@ class AdminIndexController extends Controller
 				$cashSales = $cashSales->where('O.storeId', $storeFilter);
 			}
 			$cashSales = $cashSales->get();
-			$cashSale = $cashSales[0]->cash;
+			
+			$cashSale = 0;
+			if(!empty($cashSales))
+				$cashSale = $cashSales[0]->cash;
+			
 			//if($multipleMode)
 			/* print_r($cashSales[0]->cash);
 			die; */

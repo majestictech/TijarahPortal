@@ -176,7 +176,7 @@ $Roles = config('app.Roles');
     	</div> -->
 
        <!-- Chain Admin Start -->
-      @if(Auth::user()->roleId == 11 || Auth::user()->roleId == 12)
+      @if(Auth::user()->roleId == 11 || Auth::user()->roleId == 12 || Auth::user()->roleId == 14)
     	<div class="col">
     		<div class="card radius-10 overflow-hidden">
     			<div class="card-body">
@@ -394,7 +394,7 @@ $Roles = config('app.Roles');
               <div class="card-body" style="padding: 0;">
                   <!--<canvas id="myChart" class="card" width="200" height="200"></canvas>-->
                   <div class="card" id="chart" ></div>
-                  <div class="card" style="padding: 5px; color: #157d4c;; font-weight: 600; margin-top: -22px; text-align: center; background: #eff3f6;">{{ __('lang.available')}}</div>
+                  <div class="card" style="padding: 5px; color: #006c35;; font-weight: 600; margin-top: -22px; text-align: center; background: #eff3f6;">{{ __('lang.available')}}</div>
               </div>
             </div>
             <div class="col-4" style="margin-top: 38px;">
