@@ -51,18 +51,32 @@ class StoreController extends Controller
         $search = $request->search;
       /*   print_r($storeFilter);
 		die; */
-		if(Auth::user()->roleId != 11 ) {		
+		
+		//dd(Auth::user()->roleId);
+		if(Auth::user()->roleId != 11 && Auth::user()->roleId != 12) {		
 			$stores=DB::Table('stores as S')->leftJoin('mas_country as C', 'C.id', '=', 'S.countryId')
 			->leftJoin('mas_storetype as M', 'M.id', '=', 'S.storeType')->leftJoin('users', 'users.id', '=', 'S.userId')
 			->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'fullName'"), 'S.id', 'M.name AS storeType', 'S.storeName', 'users.contactNumber', 'S.regNo', 'S.city', 'C.nicename', 'S.appVersion', 'S.deviceType', 'S.appType', 'S.shopSize', 'S.vatNumber', 'S.status', 'S.subscriptionExpiry');
 		}
 		else {
-			$parentUserId = auth()->user()->id;
+			$parentUserId = 0;
+			if(Auth::user()->roleId == 11)
+				$parentUserId = auth()->user()->id;
+			else {
+				$userId = Auth::user()->id ?? '' ;
+				$parentUserId = DB::Table('chainstoreusers')
+				->where('userId', $userId)->first();
+				
+				if(!empty($parentUserId))
+					$parentUserId = $parentUserId->parentAdminUserId;
+			}
 			
 			$stores=DB::Table('chainstores as CS')->leftJoin('stores as S', 'S.id', '=', 'CS.storeId')
 			->leftJoin('mas_country as C', 'C.id', '=', 'S.countryId')->leftJoin('mas_storetype as M', 'M.id', '=', 'S.storeType')->leftJoin('users', 'users.id', '=', 'S.userId')
            ->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'fullName'"),'S.id','M.name AS storeType', 'S.storeName', 'users.contactNumber', 'S.regNo', 'S.city', 'C.nicename', 'S.appVersion', 'S.deviceType', 'S.appType', 'S.shopSize', 'S.vatNumber', 'S.status', 'S.subscriptionExpiry')->where('CS.parentUserId', $parentUserId);
 		   //print_r($stores);
+		   
+		   //dd($parentUserId);
 		}
            
 

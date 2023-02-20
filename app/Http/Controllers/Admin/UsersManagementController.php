@@ -58,7 +58,7 @@ class UsersManagementController extends Controller
 			$parentUserId = DB::Table('chainstoreusers')
 			->where('userId', $userId)->first();
 			
-			$parentUserId = $parentUserId->parentUserId;
+			$parentUserId = $parentUserId->parentAdminUserId;
 		}
 		
 		
