@@ -121,28 +121,40 @@ use App\Helpers\AppHelper as Helper;
 										
 										<!--<a class="dropdown-item" href="{{url('/admin/cashier/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-group"></i> {{ __('lang.cashier')}}</a>-->
 
+										@if(helper::checkUserRights('store_manage','store_manageusers'))
 										<a class="dropdown-item" href="{{url('/admin/manageusers/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-group"></i> {{ __('lang.manageusers')}}</a>
-										
+										@endif
+										@if(helper::checkUserRights('store_manage','store_customers'))
 										<a class="dropdown-item" href="{{url('/admin/customer/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-group"></i> {{ __('lang.storecustomers')}}</a>
-										
+										@endif
 										<!-- <a class="dropdown-item" href="{{url('/admin/store/lowinventoryemail?storeId='.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.lowinventory')}}</a>-->
 										
+										@if(helper::checkUserRights('store_manage','store_disable'))
 										<a class="dropdown-item" href="{{url('/admin/configemail/'.$StoreData->id.'/edit')}}"><i class="fadeIn animated bx bx-mail-send"></i> {{ __('lang.configemail')}}</a> 
+										@endif
 										@if(helper::checkUserRights('store_manage','store_inventory'))
 										<a class="dropdown-item" href="{{url('/admin/product/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.inventory')}}</a>
 										@endif
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/view')}}"><i class="bx bx-show"></i> {{ __('lang.view')}}</a>
+										@if(helper::checkUserRights('store_manage','store_customerscreenslider'))
 										<a class="dropdown-item" href="{{url('/admin/customerscreen/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.customerscreenslider')}}</a>
+										@endif
 										<a class="dropdown-item" href="{{url('/admin/storereports/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.storereports')}}</a>
 										@if(helper::checkUserRights('store_manage','store_inventory'))
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/zeroinventory')}}" onclick="return confirm('Are you sure you want to zero the inventory?');"><i class="fadeIn animated bx bx-trash"></i> {{ __('lang.zeroinventory')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/emptyinventory')}}"  onclick="return confirm('Are you sure you want to empty the inventory?');"><i class="fadeIn animated bx bx-trash-alt"></i> {{ __('lang.emptyinventory')}}</a>
 										@endif
+										@if(helper::checkUserRights('store_manage','store_bills'))
 										<a class="dropdown-item" href="{{url('/admin/order/?storeId='.$StoreData->id)}}"><i class="fadeIn animated bx bx-receipt"></i> {{ __('lang.bills')}}</a>
+										@endif
 										<!-- <a class="dropdown-item" href="{{url('/admin/report/sales/'.$StoreData->id)}}"><i class="fadeIn animated bx bxs-offer"></i> {{ __('lang.sales')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/shift/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-time"></i> {{ __('lang.shifts')}}</a> -->
+										@if(helper::checkUserRights('store_manage','store_vendors'))
 										<a class="dropdown-item" href="{{url('/admin/vendor/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-purchase-tag"></i> {{ __('lang.vendors')}}</a>
+										@endif
+										@if(helper::checkUserRights('store_manage','store_invioces'))
 										<a class="dropdown-item" href="{{url('/admin/invoice/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-detail"></i> {{ __('lang.invoices')}}</a>
+										@endif
 										<!-- <a class="dropdown-item" href="{{url('/admin/purchaseorder/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-basket"></i> {{ __('lang.purchaseorderpo')}}</a> -->
 										<?php if(Auth::user()->roleId == 1){?>
 										    <a class="dropdown-item disabled" href="#" >
