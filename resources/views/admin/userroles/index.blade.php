@@ -221,7 +221,7 @@ use App\Helpers\AppHelper as Helper;
 			        
 			        <div class="col-md-3 pt-5 border-left-0 border-right-0">
     			        <div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="store_disable" <?php if(in_array('store_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <input type="checkbox" name="catPermissions[]" value="store_disable" <?php if(in_array('store_disable', $permissionArray)){ { echo "checked=''"; } } ?>>
                             <label for="store_disable" class="form-label">{{ __('lang.store_disable')}}</label><br>
     					</div>
     					<div class="col-md-12">
@@ -237,7 +237,7 @@ use App\Helpers\AppHelper as Helper;
                             <label for="store_lowinventoryemail" class="form-label">{{ __('lang.store_lowinventoryemail')}}</label><br>
     					</div> -->
     					<div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="store_inventory" <?php if(in_array('store_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <input type="checkbox" name="catPermissions[]" value="store_inventory" <?php if(in_array('store_inventory', $permissionArray)){ { echo "checked=''"; } } ?>>
                             <label for="store_inventory" class="form-label">{{ __('lang.store_inventory')}}</label><br>
     					</div>
     					<div class="col-md-12">
@@ -261,7 +261,7 @@ use App\Helpers\AppHelper as Helper;
                             <label for="store_emptyinventory" class="form-label">{{ __('lang.store_emptyinventory')}}</label><br>
     					</div>
     					<div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="store_bills" <?php if(in_array('store_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <input type="checkbox" name="catPermissions[]" value="store_bills" <?php if(in_array('store_bills', $permissionArray)){ { echo "checked=''"; } } ?>>
                             <label for="store_bills" class="form-label">{{ __('lang.store_bills')}}</label><br>
     					</div>
     					<div class="col-md-12">
@@ -280,7 +280,7 @@ use App\Helpers\AppHelper as Helper;
                             <label for="store_vendors" class="form-label">{{ __('lang.store_vendors')}}</label><br>
     					</div>
     			        <div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="store_invioces" <?php if(in_array('store_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <input type="checkbox" name="catPermissions[]" value="store_invioces" <?php if(in_array('store_invioces', $permissionArray)){ { echo "checked=''"; } } ?>>
                             <label for="store_invioces" class="form-label">{{ __('lang.store_invioces')}}</label><br>
     					</div>
     					<div class="col-md-12">

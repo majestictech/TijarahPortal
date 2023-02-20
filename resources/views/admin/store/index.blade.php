@@ -128,12 +128,16 @@ use App\Helpers\AppHelper as Helper;
 										<!-- <a class="dropdown-item" href="{{url('/admin/store/lowinventoryemail?storeId='.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.lowinventory')}}</a>-->
 										
 										<a class="dropdown-item" href="{{url('/admin/configemail/'.$StoreData->id.'/edit')}}"><i class="fadeIn animated bx bx-mail-send"></i> {{ __('lang.configemail')}}</a> 
+										@if(helper::checkUserRights('store_manage','store_inventory'))
 										<a class="dropdown-item" href="{{url('/admin/product/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.inventory')}}</a>
+										@endif
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/view')}}"><i class="bx bx-show"></i> {{ __('lang.view')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/customerscreen/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.customerscreenslider')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/storereports/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.storereports')}}</a>
+										@if(helper::checkUserRights('store_manage','store_inventory'))
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/zeroinventory')}}" onclick="return confirm('Are you sure you want to zero the inventory?');"><i class="fadeIn animated bx bx-trash"></i> {{ __('lang.zeroinventory')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/emptyinventory')}}"  onclick="return confirm('Are you sure you want to empty the inventory?');"><i class="fadeIn animated bx bx-trash-alt"></i> {{ __('lang.emptyinventory')}}</a>
+										@endif
 										<a class="dropdown-item" href="{{url('/admin/order/?storeId='.$StoreData->id)}}"><i class="fadeIn animated bx bx-receipt"></i> {{ __('lang.bills')}}</a>
 										<!-- <a class="dropdown-item" href="{{url('/admin/report/sales/'.$StoreData->id)}}"><i class="fadeIn animated bx bxs-offer"></i> {{ __('lang.sales')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/shift/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-time"></i> {{ __('lang.shifts')}}</a> -->
