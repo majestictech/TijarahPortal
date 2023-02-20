@@ -136,10 +136,15 @@ use App\Helpers\AppHelper as Helper;
 										<a class="dropdown-item" href="{{url('/admin/product/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.inventory')}}</a>
 										@endif
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/view')}}"><i class="bx bx-show"></i> {{ __('lang.view')}}</a>
+										
 										@if(helper::checkUserRights('store_manage','store_customerscreenslider'))
 										<a class="dropdown-item" href="{{url('/admin/customerscreen/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.customerscreenslider')}}</a>
 										@endif
+										
+										@if(helper::checkUserRights('store_manage','store_storereports'))
 										<a class="dropdown-item" href="{{url('/admin/storereports/'.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.storereports')}}</a>
+										@endif
+										
 										@if(helper::checkUserRights('store_manage','store_inventory'))
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/zeroinventory')}}" onclick="return confirm('Are you sure you want to zero the inventory?');"><i class="fadeIn animated bx bx-trash"></i> {{ __('lang.zeroinventory')}}</a>
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/emptyinventory')}}"  onclick="return confirm('Are you sure you want to empty the inventory?');"><i class="fadeIn animated bx bx-trash-alt"></i> {{ __('lang.emptyinventory')}}</a>
