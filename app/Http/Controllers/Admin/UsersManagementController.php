@@ -173,9 +173,6 @@ class UsersManagementController extends Controller
 		//echo $usersmanagementdata;
 		//die;
 		
-		echo 'parentUserId::' . $parentUserId;
-		die;
-		
 		return view('admin.usersmanagement.index',compact('usersmanagementdata','usersmanagementcount', 'search', 'masRoles', 'roleFilter', 'authUser'));
     }
 	
