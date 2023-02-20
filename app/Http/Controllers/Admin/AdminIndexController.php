@@ -1180,6 +1180,7 @@ class AdminIndexController extends Controller
 			$multipleRefund = DB::table('orders_pos as O')
 			->select('O.id', DB::raw('SUM(O.totalAmount) as refund'))
 			->where('O.paymentStatus', 'MULTIPLE')
+			->where('O.refundTotalAmount', '>',0)
 			->whereBetween(DB::raw('Date(O.created_at)'), [$startDate, $endDate])
 			->whereIn('O.storeId', $storeDetails);
 			
