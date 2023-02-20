@@ -60,7 +60,7 @@ $Roles = config('app.Roles');
     						<p class="mb-0 text-secondary font-14">
                   <a href="#">{{ __('lang.totalcustomers')}}</a>
                 </p>
-    						<h5 class="my-0">{{$allcustomer ?? ''}}</h5>
+    						<h5 class="my-0">{{$allcustomer ?? '0'}}</h5>
     					</div>
     					<div class="text-success ms-auto font-30"><i class='bx bx-group'></i>
     					</div>
@@ -135,18 +135,27 @@ $Roles = config('app.Roles');
     			<div class="card-body">
     				<div class="d-flex align-items-center">
     					<div>
-    						<p class="mb-0 text-secondary font-14">
-                  <a href="{{url('/admin/order')}}"> 
-                    {{__('lang.totalorders')}} / {{ __('lang.totalrevenue')}}
-                   </a>
-                </p>
+               @if(Auth::user()->roleId == 1 || Auth::user()->roleId == 2) 
+                  <p class="mb-0 text-secondary font-14">
+                    <a href="{{url('/admin/order')}}"> 
+                      {{__('lang.totalorders')}} / {{ __('lang.totalrevenue')}}
+                    </a>
+                  </p>
+                @else
+                  <p class="mb-0 text-secondary font-14">
+                    <a href="#"> 
+                      {{__('lang.totalorders')}} / {{ __('lang.totalrevenue')}}
+                    </a>
+                  </p>
+                @endif
+
     						<h5 class="my-0">{{$allorderCount ?? '0'}} / SAR {{ round($revenues, 2) ?? '0'}}</h5>
     					</div>
     					<div class="text-info ms-auto font-30"><i class='bx bx-cart'></i>
     					</div>
     				</div>
     			</div>
-    			<div class="mt-1" id="chart4"></div>
+    			<div class="mt-1" id="chart56"></div>
     		</div>
     	</div>
     	
@@ -167,7 +176,7 @@ $Roles = config('app.Roles');
     	</div> -->
 
        <!-- Chain Admin Start -->
-      @if(Auth::user()->roleId == 11)
+      @if(Auth::user()->roleId == 11 || Auth::user()->roleId == 12)
     	<div class="col">
     		<div class="card radius-10 overflow-hidden">
     			<div class="card-body">
@@ -184,7 +193,7 @@ $Roles = config('app.Roles');
     					</div>
     				</div>
     			</div>
-    			<div class="mt-1" id="chart4"></div>
+    			<div class="mt-1" id="chart7"></div>
     		</div>
     	</div>
     	
@@ -200,7 +209,7 @@ $Roles = config('app.Roles');
     					</div>
     				</div>
     			</div>
-    			<div class="mt-1" id="chart4"></div>
+    			<div class="mt-1" id="chart8"></div>
     		</div>
     	</div>
     
@@ -210,14 +219,21 @@ $Roles = config('app.Roles');
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.profitpercentage')}}</a></p>
-    						<!-- <h5 class="my-0">{{ round($profitPercentage[0]->percentprofit, 2) ?? '0'}} % PP</h5> -->
-    						<h5 class="my-0">{{ round($profitPercentage[0]->percentprofitgross, 2) ?? '0'}} % </h5>
+    						<h5 class="my-0">
+                  @if(!empty($profitPercentage))
+                     {{  round($profitPercentage[0]->percentprofitgross, 2)  }} % 
+                  
+                  @else {
+                   0 %
+                  }
+                  @endif 
+                </h5>
     					</div>
     					<div class="text-danger ms-auto font-30">ريال
     					</div>
     				</div>
     			</div>
-    			<div class="mt-1" id="chart4"></div>
+    			<div class="mt-1" id="chart9"></div>
     		</div>
     	</div>
     
@@ -318,7 +334,7 @@ $Roles = config('app.Roles');
     							<li><a class="dropdown-item" href="javascript:;">{{ __('lang.somethingelsehere')}}</a>
     							</li>
     						</ul>
-    					</div>
+    					  </div>
     				</div>
     				<div class="chart-container-0">
     					<!-- <canvas id="chart-order-status"></canvas> -->
@@ -989,15 +1005,20 @@ chart.render(); */
   chart: {
     type: 'column',
     options3d: {
-      enabled: true,
+      enabled: false,
       alpha: 1,
       beta: 5,
       depth: 45
     }
   },
   title: {
-    text: ''
-  },
+        text: '<span style="color: grey;font-size:12px;">Total no. of bills : </span>  '+ {{$allorderCount ?? '0'}},
+			align:'left',
+			style: {
+				fontWeight: 'bold',
+				color: '#a3a1fb',
+				fontSize:'15px'
+			}},
   /* subtitle: {
     text: 'Source: ' +
       '<a href="https://www.ssb.no/en/statbank/table/08804/"' +
@@ -1006,7 +1027,7 @@ chart.render(); */
   plotOptions: {
     column: {
       depth: 15,
-      color: '#157d4c'
+      color: '#a3a1fb'
     }
   },
   xAxis: {
@@ -1014,8 +1035,8 @@ chart.render(); */
   },
   yAxis: {
     title: {
-      text: 'NOk (million)',
-      margin: 20
+      text: 'No. of Bills',
+      // margin: 20
     }
   },
   tooltip: {
@@ -1023,6 +1044,7 @@ chart.render(); */
   },
   series: [{
     name: 'Sales',
+    color: '#a3a1fb',
     data: [{{$billData}}]
   }]
 });
@@ -1049,25 +1071,60 @@ chart.render(); */
       chart: {
           type: 'area'
       },
-      xAxis: {
+      title: {
+			text: '<span style="color: grey;font-size:12px;">Total Revenue : </span><span style="font-size: 10px"> SAR </span>'+ {{ round($revenues, 2) ?? '0'}},
+			align:'left',
+			style: {
+				fontWeight: 'bold',
+				color: '#19a496',
+				fontSize:'15px'
+			}
+		},
+      xAxis: {crosshair: {
+				width: 1,
+				color: '#cccccc',
+				zIndex:4
+			
+			},
           categories: [{{$revenueLabels}}]
       },
+      tooltip: {
+			valueSuffix: ' SAR'
+		  },
 
       plotOptions: {
-        line: {
-          dataLabels: {
-            enabled: true
-          },
-          enableMouseTracking: false,
-
-        }
+        area: {
+				fillColor: {
+					linearGradient: {
+						x1: 0,
+						y1: 0,
+						x2: 0,
+						y2: 1
+					},
+					stops: [
+						[0, '#caebe7'],
+						[1, '#ffffff']
+					]
+				},
+				marker: {
+					radius: 4
+				},
+				lineWidth: 2,
+				states: {
+					hover: {
+						lineWidth: 2
+					}
+				},
+				threshold: null
+			}
       },
       
       series: [{
           type: undefined,
           data: [{{$revenueData}}],
-          colors: ['#000000', '#006C35'],
-            colorByPoint: true
+          color: '#19a496'
+          // colors: ['#000000', '#006C35'],
+            // colorByPoint: true
       }]
   });
 /* Revenue Chart End */
@@ -1082,7 +1139,7 @@ chart.render(); */
   height: 335px;
 }
 rect.highcharts-point {
-  fill: #157d4c;
+  /* fill: #157d4c; */
 }
 </style>
 

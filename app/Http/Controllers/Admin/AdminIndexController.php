@@ -734,7 +734,21 @@ class AdminIndexController extends Controller
     	    //Chain Admin = 11
 
 			/* Parent and Child Store Id Start */
-			$parentUserId = auth()->user()->id;
+			$parentUserId ='';
+			$userId = Auth::user()->id ?? ' ' ;
+			
+			if(Auth::user()->roleId == 11) {
+				$parentUserId = auth()->user()->id;
+			}
+			else {
+				$parentUserId =  DB::Table('chainstoreusers')
+				->where('userId', $userId)->first();
+				$parentUserId = $parentUserId->parentUserId;
+				//print_r($userId);
+				/* print_r($parentUserId);
+				die; */
+			}
+			
 			
 			$storeDetails = DB::Table('chainstores as CS')->Join('stores as S','S.id','=','CS.storeId')
 			->where('CS.parentUserId', $parentUserId)->select('S.id')->get();
@@ -764,8 +778,8 @@ class AdminIndexController extends Controller
 			 ->whereIn('S.id', $storeDetails)
 			 ->get();
 			 $todayOrderCount = $orderplaced1->count();
-			//print_r($todayOrderCount);
-			// die;
+			/* print_r($todayOrderCount);
+			die; */
 			/* Today  Order Count End*/
 			 
 			 /* Orderplaced Count Start */
@@ -871,6 +885,7 @@ class AdminIndexController extends Controller
                     ->get();
     		
     		$todayRevenueCount = $todayRevenueCount[0]->totalAmount;
+			
 
 			$revenues = DB::table('orders_pos as O')
 			->select(DB::raw('SUM(totalAmount - refundTotalAmount) as totalAmount'))
@@ -1231,6 +1246,7 @@ class AdminIndexController extends Controller
 			/* Total Card and Card Revenue End */
 
 			/* Total Profit Percentage Start */
+			
 			$profitPercentage = DB::table('reports')
 			->select('productName','price','costPrice', 'storeId', DB::raw('ROUND((((SUM(price) - SUM(costPrice))/SUM(costPrice)) * 100),2) as percentprofit'), DB::raw('ROUND((((SUM(price) - SUM(costPrice))/SUM(price)) * 100),2) as percentprofitgross'))
 			->whereIn('storeId', $storeDetails);
@@ -1243,7 +1259,11 @@ class AdminIndexController extends Controller
 			}
 
 			$profitPercentage = $profitPercentage->groupBy('productName')->get();
-			/* print_r($profitPercentage);
+
+			/* print_r($startDate);
+			print_r($endDate);
+			print_r($storeDetails);
+			print_r($profitPercentage);
 			die; */
 			/* Total Profit Percentage End */
 
