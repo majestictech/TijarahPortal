@@ -690,7 +690,7 @@ Highcharts.chart('chart-1', {
         margin: [0, 0, 0, 0],
         marginTop: 0,
         options3d: {
-            enabled: true,
+            enabled: false,
             alpha: 30
         }
     },
@@ -741,7 +741,7 @@ Highcharts.chart('chart', {
         margin: [0, 0, 0, 0],
         marginTop: 0,
         options3d: {
-            enabled: true,
+            enabled: false,
             alpha: 30
         }
     },
@@ -920,7 +920,7 @@ Highcharts.chart('chart-2', {
         margin: [0, 0, 0, 0],
         marginTop: 0,
         options3d: {
-            enabled: true,
+            enabled: false,
             alpha: 30
         }
     },

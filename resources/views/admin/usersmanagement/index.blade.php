@@ -26,7 +26,7 @@ helper::checkUserURLAccess('adminmanagement_manage','');
 <!--end breadcrumb-->
 <div class="row">
 	<div class="col-xl-12 mx-auto">
-		<h6 class="mb-0 text-uppercase">{{ __('lang.allusers')}}123</h6>
+		<h6 class="mb-0 text-uppercase">{{ __('lang.allusers')}}</h6>
 		<hr/>
 
 		<div class="card">
