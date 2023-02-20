@@ -81,11 +81,11 @@ class UsersManagementController extends Controller
 			$masRoles = $masRoles->whereIn('m.id',[2, 11, 12]);
 		}
 		else if($authUser == 11) {
-			$usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [11, 12])->where('CSU.parentAdminUserId',$parentUserId);
-			$masRoles = $masRoles->whereIn('m.id', [11, 12]);
+			$usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [11, 12, 14])->where('CSU.parentAdminUserId',$parentUserId);
+			$masRoles = $masRoles->whereIn('m.id', [11, 12, 14]);
 		}
 		else if($authUser == 12) {
-			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 12)->where('CSU.parentAdminUserId',$parentUserId);
+			$usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [12, 14])->where('CSU.parentAdminUserId',$parentUserId);
 		}
 
 		$masRoles = $masRoles->get();
@@ -193,7 +193,7 @@ class UsersManagementController extends Controller
 			$masRoles = $masRoles->where('m.id',2)->get();
 		}
 		else if($authUser == 11) {
-			$masRoles = $masRoles->where('m.id', 12)->get();
+			$masRoles = $masRoles->whereIn('m.id', [12,14])->get();
 		}
 
 		

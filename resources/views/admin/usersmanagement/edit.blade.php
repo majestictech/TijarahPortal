@@ -59,13 +59,13 @@ helper::checkUserURLAccess('adminmanagement_manage','adminmanagement_edit');
 							<input type="email" name="email" class="form-control border-start-0" id="inputEmailAddress" placeholder="{{ __('lang.email')}}" value="{{$userData->email}}" required />
 						</div>
 					</div>
-					<div class="col-md-6">
+					<!-- <div class="col-md-6">
 						<label for="inputEmailAddress" class="form-label">{{ __('lang.user')}} </label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class="fadeIn animated bx bx-user-circle"></i></span>
 							<input type="text" name="roleId" class="form-control border-start-0" id="inputEmailAddress" placeholder="{{ __('lang.user')}}" value="{{$userData->name}}" />
 							
 						</div>
-					</div>
+					</div> -->
 					<div class="col-6">
 						<label for="inputChoosePassword" class="form-label">{{ __('lang.choosepassword')}}</label>
 						<div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-lock-open' ></i></span>
