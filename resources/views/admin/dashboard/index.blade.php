@@ -695,20 +695,25 @@ Highcharts.chart('chart-1', {
         }
     },
     title: {
-        text: ''
+        text: {{$outOfStock}},
+        style: {
+				fontWeight: 'bold',
+				color: '#000000',
+				backgroundColor:'#eff3f6'
+			}
     },
     plotOptions: {
         pie: {
 			dataLabels: {
 				enabled: false
 			},
-            innerSize: 80,
+            innerSize: '80%',
             depth: 50
         }
     },
     series: [{
         name: '',
-        data: [{name:'Out of Stock',y: outOfStock,color:'#157d4c'},{name:'Remaining Items',y: remainingData,color:'#157d4c'}],
+        data: [{name:'Out of Stock',y: outOfStock,color:'#ff616d'},{name:'Remaining Items',y: remainingData,color:'#e5e9ec'}],
     }]
 });
 
@@ -741,20 +746,25 @@ Highcharts.chart('chart', {
         }
     },
     title: {
-        text: ''
+        text: {{$productAvailable}},
+        style: {
+				fontWeight: 'bold',
+				color: '#000000',
+				backgroundColor:'#eff3f6'
+			}
     },
     plotOptions: {
         pie: {
 			dataLabels: {
 				enabled: false
 			},
-            innerSize: 80,
+            innerSize: '80%',
             depth: 50
         }
     },
     series: [{
         name: '',
-        data: [{name:'Products Available',y: productAvailable,color:'#157d4c'},{name:'Remaining Items',y: remainingDataAvail,color:'#157d4c'}],
+        data: [{name:'Products Available',y: productAvailable,color:'#006c35'},{name:'Remaining Items',y: remainingDataAvail,color:'#e5e9ec'}],
     }]
 });
 
@@ -915,21 +925,26 @@ Highcharts.chart('chart-2', {
         }
     },
     title: {
-        text: ''
+        text: {{$lowInventory}},
+        style: {
+				fontWeight: 'bold',
+				color: '#000000',
+				backgroundColor:'#eff3f6'
+			}
     },
     plotOptions: {
         pie: {
 			dataLabels: {
 				enabled: false
 			},
-            innerSize: 80,
+            innerSize: '80%',
             depth: 50
         }
     },
     series: [{
         name: '',
-        data: [{name:'Low Inventory',y: lowInventory,color:'#157d4c'},{name:'Remaining Items',y: remainingLowInvntory
-,color:'#157d4c'}],
+        data: [{name:'Low Inventory',y: lowInventory,color:'#f58634'},{name:'Remaining Items',y: remainingLowInvntory
+,color:'#e5e9ec'}],
     }]
 });
 

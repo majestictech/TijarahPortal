@@ -19,6 +19,7 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {      
+        // die;
         $todayDate = Carbon::now()->format('Y-m-d');
         //$data = $request->all();
         $search = $request->search;
