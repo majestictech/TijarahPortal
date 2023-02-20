@@ -100,7 +100,7 @@ use App\Helpers\AppHelper as Helper;
 								<div class="btn-group store-dropdown">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="bx bx-show"></i>
 									</button>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end" style="height: 73vh">
+									<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end" style="/*height: 73vh*/">
 										<!--<a class="dropdown-item" href="{{url('/admin/category/'.$StoreData->id)}}"><i class="fadeIn animated bx bx-spreadsheet"></i> Categories</a>-->
 										@if(helper::checkUserRights('store_manage','store_edit'))
 										<a class="dropdown-item" href="{{url('/admin/store/'.$StoreData->id.'/edit')}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.edit')}}</a>
