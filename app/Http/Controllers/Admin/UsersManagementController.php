@@ -9,6 +9,7 @@ use App\Helpers\AppHelper as Helper;
 use DB;
 use App\UserRole;
 use App\User;
+use App\ChainStoreUsers;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 
@@ -17,7 +18,7 @@ class UsersManagementController extends Controller
     public function index(Request $request)
     {		
 		$authUser= Auth::user()->roleId;
-		print_r($authUser);
+		//print_r($authUser);
 		//die;
 		//$Gender = config('app.Gender');
 		$masRoles = DB::Table('mas_role as m')->select('m.id','m.name');
@@ -46,8 +47,30 @@ class UsersManagementController extends Controller
 			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 12);
 		} */
 
-		$usersmanagementdata = DB::Table('users as U')->leftJoin('mas_role as m','m.id','U.roleId')
-		->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber', 'U.roleId');
+		$usersmanagementdata = DB::Table('users as U')->leftJoin('mas_role as m','m.id','U.roleId');
+				
+		$parentUserId = 0;
+		$userId = Auth::user()->id ?? '' ;
+		if($authUser == 11) {
+			$parentUserId = auth()->user()->id;
+		}
+		else if($authUser == 12) {
+			$parentUserId = DB::Table('chainstoreusers')
+			->where('userId', $userId)->first();
+			
+			$parentUserId = $parentUserId->parentUserId;
+		}
+		
+		
+		if($authUser == 11 || $authUser == 12) {
+			$usersmanagementdata = $usersmanagementdata->leftJoin('chainstoreusers as CSU','CSU.userId','U.id');
+		}
+		
+		
+		$usersmanagementdata = $usersmanagementdata->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber', 'U.roleId');
+		
+		
+		
 		if($authUser == 1) {
 			 $usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [1, 2, 11, 12]);
 
@@ -58,11 +81,11 @@ class UsersManagementController extends Controller
 			$masRoles = $masRoles->whereIn('m.id',[2, 11, 12]);
 		}
 		else if($authUser == 11) {
-			$usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [11, 12]);
+			$usersmanagementdata = $usersmanagementdata->whereIn('U.roleId', [11, 12])->where('CSU.parentAdminUserId',$parentUserId);
 			$masRoles = $masRoles->whereIn('m.id', [11, 12]);
 		}
 		else if($authUser == 12) {
-			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 12);
+			$usersmanagementdata = $usersmanagementdata->where('U.roleId', 12)->where('CSU.parentAdminUserId',$parentUserId);
 		}
 
 		$masRoles = $masRoles->get();
@@ -186,8 +209,20 @@ class UsersManagementController extends Controller
      	]);
 		*/
 		
-		$email = $request->email;
+		$authUser= Auth::user()->roleId;
+		$userId = Auth::user()->id ?? '' ;
+		if($authUser == 11) {
+			$parentUserId = auth()->user()->id;
+		}
+		else if($authUser == 12) {
+			$parentUserId = DB::Table('chainstoreusers')
+			->where('userId', $userId)->first();
+			
+			$parentUserId = $parentUserId->parentUserId;
+		}
 		
+		
+		$email = $request->email;
 		
 		$this->validate($request, [
 			'password' => 'min:6|required_with:passwordConfirmation|same:passwordConfirmation',
@@ -214,23 +249,24 @@ class UsersManagementController extends Controller
 		//$user->roleId = '1';
 		$user->save(); 
 
-		//echo $user;
-		//die;
+		
+		$userId = $user->id;
+		
+		$chainStoreUsers = new ChainStoreUsers;
+		$chainStoreUsers->userId = $userId;
+		$chainStoreUsers->parentAdminUserId = $parentUserId;
+		$chainStoreUsers->save();
+		
 		Helper::addToLog('adminmanagementAdd',$request->firstName);
         return redirect('admin/usersmanagement');             
     }
 	
-	
-	
 	public function edit($id)
     {
-		
-		
 		$userData = DB::Table('users as U')->leftJoin('mas_role as m','m.id','U.roleId')
 		->select('U.id','U.firstName','U.lastName','U.email','U.contactNumber', 'U.roleId','m.name')->where('U.id', $id)->get();
 		
 		$userData = $userData[0];
-		
 
 		return view('admin.usersmanagement.edit',compact('userData'));
     }

@@ -341,9 +341,9 @@ a.text-secondary:hover, a.text-secondary:focus {
     height: 400px;
 }
 
-path.highcharts-point.highcharts-color-0 {
+/* path.highcharts-point.highcharts-color-0 {
     fill:#157d4c !important;
-}
+} */
 
 .highcharts-figure,
 .highcharts-data-table table {
@@ -397,9 +397,9 @@ background: #f1f7ff;
     display: none;
 }
 
-path.highcharts-point.highcharts-color-1 {
-    fill: #000000 !important;
-}
+/* path.highcharts-point.highcharts-color-1 {
+    fill: #000000 ;
+} */
 
 #chart-A svg.highcharts-root {
     height: 223px;
