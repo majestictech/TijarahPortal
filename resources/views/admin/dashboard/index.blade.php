@@ -75,7 +75,9 @@ $Roles = config('app.Roles');
     			<div class="card-body">
     				<div class="d-flex align-items-center">
     					<div>
-    						<p class="mb-0 text-secondary font-14"><a href="{{url('/admin/store')}}">{{ __('lang.totalactivestores')}}</a></p>
+    						<p class="mb-0 text-secondary font-14">
+                 <!--  <a href="{{url('/admin/store')}}">{{ __('lang.totalactivestores')}}</a></p> -->
+                  <a href="#">{{ __('lang.totalactivestores')}}</a></p>
     						<h5 class="my-0">{{$activestores ?? ''}}</h5>
     					</div>
     					<div class="text-warning ms-auto font-30"><i class='bx bx-store-alt'></i>
@@ -183,7 +185,8 @@ $Roles = config('app.Roles');
     				<div class="d-flex align-items-center">
     					<div>
     						<p class="mb-0 text-secondary font-14">
-                  <a href="{{url('/admin/order')}}"> 
+                 <!--  <a href="{{url('/admin/order')}}">  -->
+                  <a href="#"> 
                     {{__('lang.todayscashrevenue')}}
                    </a>
                 </p>
