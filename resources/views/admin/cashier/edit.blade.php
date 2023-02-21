@@ -1,7 +1,7 @@
 @include('admin.layout.header')
 <?php
 use App\Helpers\AppHelper as Helper;
-helper::checkUserURLAccess('cashier_manage','cashier_edit');
+helper::checkUserURLAccess('store_manageusers_manage','store_manageusers_edit');
 ?>
  
 <!--breadcrumb-->

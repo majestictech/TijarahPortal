@@ -515,7 +515,7 @@ class AppHelper
         
         // Check if the user has access to the store 
         
-        /*$userRights = session('userRights');
+        $userRights = session('userRights');
         $userRights = explode(',', $userRights);
         
         if(in_array($section, $userRights)) {
@@ -533,7 +533,7 @@ class AppHelper
 				You are not an authorised user.
 			</div>
 		</div>';
-		die;*/
+		die;
     }
 	
 }

@@ -47,8 +47,7 @@ class ProductExport extends DefaultValueBinder implements FromCollection, WithHe
 		->leftJoin('categories as C','C.id','=','P.categoryId')
 		->leftJoin('mas_taxclass as MTC','MTC.id','=','P.taxClassId')
 		->leftJoin('mas_weightclass as MWC','MWC.id','=','P.weightClassId')
-		->select('P.name as name_en','PAR.name as name_ar','B.brandName','P.code','P.barCode','P.sellingPrice','P.price','P.costPrice','C.name','P.weight','MWC.name as weight_class','MTC.value','P.status',
-		'P.storeId','P.splPrice','P.splPriceFrom','P.splPriceTo','P.inventory','P.inventoryData','P.minInventory','P.description','P.productTags','P.metaTitle','P.metaDescription','P.metaKeyword',)
+		->select('P.name as name_en','PAR.name as name_ar', 'B.brandName', 'P.code', 'P.barCode', 'P.sellingPrice', 'P.price', 'P.costPrice', 'C.name', 'P.weight', 'MWC.name as weight_class', 'MTC.value', 'P.status', /* 'P.storeId', */ 'P.splPrice', 'P.splPriceFrom', 'P.splPriceTo', 'P.inventory', /* 'P.inventoryData', */ 'P.minInventory', 'P.minOrderQty', 'P.productImage', 'P.description', 'P.productTags', 'P.metaTitle', 'P.metaDescription', 'P.metaKeyword', 'P.boxBarCode', 'P.piecesPerBox', 'P.metaKeyword')
 		->where('P.storeId','=',  $storeId)
 		->get();
 		
@@ -71,19 +70,19 @@ class ProductExport extends DefaultValueBinder implements FromCollection, WithHe
             'Product Name - English',
             'Product Name - Arabic',
             'Brand',
-            'Product Code',
+          /*   'Product Code', */
             'Code',
             'Barcode',
             'Selling Price',
             'Price',
             'Cost Price',
-            'Quantity',
+           /*  'Quantity', */
             'Category',
             'Weight',
             'Weight Class',
             'Tax Class',
             'Status',
-            'Store',
+           /*  'Store', */
             'Special Price',
             'splPriceFrom',
             'splPriceTo',
@@ -96,7 +95,7 @@ class ProductExport extends DefaultValueBinder implements FromCollection, WithHe
             'productTags',
             'metaTitle',
             'metaDescription',
-            /* 'metaKeyword', */
+            'metaKeyword',
             'box barcode',
             'pieces per box',
             'expiry'

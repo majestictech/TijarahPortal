@@ -1,8 +1,8 @@
 @include('admin.layout.header')
 <?php
 use App\Helpers\AppHelper as Helper;
-helper::checkUserURLAccess('cashier_manage','');
-helper::checkStoreId($storeId);
+//helper::checkUserURLAccess('cashier_manage','');
+//helper::checkStoreId($storeId);
 ?>
 
 
