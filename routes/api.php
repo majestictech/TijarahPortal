@@ -314,6 +314,7 @@ Route::get('/getbatches/{id}', 'api\ApiController@productbatch');
 
 
 Route::get('/getStrTime', 'api\ApiController@getStrTime');
+Route::get('/updatereport', 'api\ApiController@updateReport');
 
 
 

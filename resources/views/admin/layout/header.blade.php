@@ -127,7 +127,7 @@ function page_url_check($page){
 				</li>
 			@endif
 			
-			<?php if(Auth::user()->roleId != 11 ){?>
+			<?php if(Auth::user()->roleId != 11 && Auth::user()->roleId != 12  && Auth::user()->roleId != 14){?>
 			@if(helper::checkUserRights('store_manage'))
 			   	<li <?php if(page_url_check('store')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/store')}}">
@@ -140,7 +140,7 @@ function page_url_check($page){
 			@endif
 			<?php } ?>
 
-			<?php if(Auth::user()->roleId == 11 ){?>
+			<?php if(Auth::user()->roleId == 11 || Auth::user()->roleId != 12 || Auth::user()->roleId != 14){?>
 			   	<li <?php if(page_url() == url('/admin/chainstores')) { ?> class="mm-active" <?php } ?>>
 					<a href="{{url('/admin/chainstores')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-store-alt"></i>
