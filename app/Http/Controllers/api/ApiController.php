@@ -6189,6 +6189,42 @@ public function orders()
 		return response()->json(compact('results'))->header("Access-Control-Allow-Origin",  "*");
 	}
 			
+	public function updateReport(){
+		$results =  DB::Table('orders_pos')
+		//->leftJoin('orders_pos','orders_pos.orderId','=','R.orderNumber')
+		->select('orderId','created_at')
+		//->where('R.created_at','!=','orders_pos.created_at')
+		//->where('PIB.deleteStatus','!=','Yes')
+		->where('orderId','TJ8842302032207')
+		//->orderBy('PIB.expiryDate', 'ASC')
+		->get();
+
+
+		foreach($results as $result) {
+			//print_r($result);
+			//echo $result->orderId;
+			//$reportUpdate = $reportUpdate::query()->where('orderNumber', $prod_id)->get();
+			$reportUpdate = Reports::where('orderNumber', $result->orderId)->get(); 
+			foreach($reportUpdate as $report) {
+				print_r($report);
+				$report->created_at =  $report->created_at; 
+				//$score->jan_hm = $row['jan_hm']; 
+				$reportUpdate->save(); 
+			}
+			//$results['cashAmount'] = $results['cashAmount'] + $result->totalAmount;
+			//$result['created_at'] = $result['CR'];
+		}
+
+		// $updateReport = DB::Table('reports AS R')
+		// ->leftJoin('orders_pos','orders_pos.orderId','=','R.orderNumber')
+		// ->select('R.orderNumber','R.created_at','orders_pos.created_at')
+		// ->where('R.created_at','!=','orders_pos.created_at')
+		// ->update(['R.created_at' => 'orders_pos.created_at']);
+
+		//print_r($updateReport);
+		//die;
+		return response()->json(compact('results'))->header("Access-Control-Allow-Origin",  "*");
+	}
 }
 
 

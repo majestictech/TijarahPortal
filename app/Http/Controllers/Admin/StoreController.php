@@ -53,7 +53,7 @@ class StoreController extends Controller
 		die; */
 		
 		//dd(Auth::user()->roleId);
-		if(Auth::user()->roleId != 11 && Auth::user()->roleId != 12) {		
+		if(Auth::user()->roleId != 11 && Auth::user()->roleId != 12 && Auth::user()->roleId != 14) {		
 			$stores=DB::Table('stores as S')->leftJoin('mas_country as C', 'C.id', '=', 'S.countryId')
 			->leftJoin('mas_storetype as M', 'M.id', '=', 'S.storeType')->leftJoin('users', 'users.id', '=', 'S.userId')
 			->select(DB::raw("CONCAT(users.firstName,' ', users.lastName) AS 'fullName'"), 'S.id', 'M.name AS storeType', 'S.storeName', 'users.contactNumber', 'S.regNo', 'S.city', 'C.nicename', 'S.appVersion', 'S.deviceType', 'S.appType', 'S.shopSize', 'S.vatNumber', 'S.status', 'S.subscriptionExpiry');
