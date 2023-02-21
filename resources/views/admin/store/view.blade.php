@@ -18,6 +18,7 @@
             
             <div class="col-lg-5">
                 <div class="row">
+				@if(helper::checkUserRights('store_manage','store_storereports'))
                 <form method="post"  enctype="multipart/form-data" action="{{route('report.export')}}" style="display:flex;">
                     <div class="col-lg-5">
                         <input type="date" name="start_date" id="min" class="form-control" placeholder="{{ __('lang.fromdate')}}"  />
@@ -36,6 +37,7 @@
                     </div>
     
     			</form> 
+				@endif
     			</div>
 			</div>
             

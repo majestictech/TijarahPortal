@@ -6190,27 +6190,39 @@ public function orders()
 	}
 			
 	public function updateReport(){
-		$results =  DB::Table('orders_pos')
-		//->leftJoin('orders_pos','orders_pos.orderId','=','R.orderNumber')
-		->select('orderId','created_at')
+		$results =  DB::Table('orders_pos as O')
+		->join('reports as R','O.orderId','=','R.orderNumber')
+		->select('O.orderId','O.created_at')
 		//->where('R.created_at','!=','orders_pos.created_at')
 		//->where('PIB.deleteStatus','!=','Yes')
-		->where('orderId','TJ8842302032207')
-		//->orderBy('PIB.expiryDate', 'ASC')
+		->where('O.orderId','TJ8842302032207')
+		->where('O.storeId','505')
+		//->where('O.created_at','!=','R.created_at')
+		->groupBy('O.orderId')
 		->get();
 
+		//dd($results);
 
 		foreach($results as $result) {
 			//print_r($result);
 			//echo $result->orderId;
 			//$reportUpdate = $reportUpdate::query()->where('orderNumber', $prod_id)->get();
-			$reportUpdate = Reports::where('orderNumber', $result->orderId)->get(); 
-			foreach($reportUpdate as $report) {
-				print_r($report);
-				$report->created_at =  $report->created_at; 
+
+			//$reportUpdate = Reports::where('orderNumber', $result->orderId)->get();
+			//dd($result);
+			
+			$reportUpdate = Reports::where('orderNumber', $result->orderId)->get();
+
+
+			/* foreach($reportUpdate as $report) {
+				//print_r($report);
+				$reportUpdateNew = Reports::find($report->id);
+
+				//dd($report);
+				$reportUpdateNew->created_at =  $report->created_at; 
 				//$score->jan_hm = $row['jan_hm']; 
-				$reportUpdate->save(); 
-			}
+				$reportUpdateNew->save(); 
+			} */
 			//$results['cashAmount'] = $results['cashAmount'] + $result->totalAmount;
 			//$result['created_at'] = $result['CR'];
 		}
