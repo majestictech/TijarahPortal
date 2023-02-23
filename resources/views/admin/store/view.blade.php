@@ -1,4 +1,6 @@
-
+<?php
+use App\Helpers\AppHelper as Helper;
+?>
 @include('admin.layout.header')
    <div class="content-page">
      <div class="container-fluid">

@@ -586,9 +586,21 @@ use App\Helpers\AppHelper as Helper;
     				</div> -->
     				<div class="col-md-3">
     			        <p class="mt-2"><b>{{ __('lang.subscriptionplanmanagement')}}</b></p>
+						<div class="col-md-12">
+                            <input type="checkbox" class='CheckAll subscription_manage' data-attr="subscription_manage"  name="catPermissions[]" value="subscription_manage" <?php if(in_array('subscription_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="subscription_manage" class="form-label">{{ __('lang.subscriptionplan_manage')}}</label><br>
+    					</div>
     			        <div class="col-md-12">
-                            <input type="checkbox" name="catPermissions[]" value="subscription_manage" <?php if(in_array('subscription_manage', $permissionArray)){ { echo "checked=''"; } } ?>>
-                            <label for="subscription_manage" class="form-label">{{ __('lang.subscriptionplanmanagement')}}</label><br>
+                            <input type="checkbox" class='checkboxes subscription_manage' data-attr="subscription_manage" name="catPermissions[]" value="subscription_add" <?php if(in_array('subscription_add', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="subscription_add" class="form-label">{{ __('lang.subscriptionplan_add')}}</label><br>
+    					</div>
+    					<div class="col-md-12">
+                            <input type="checkbox" class='checkboxes subscription_manage' data-attr="subscription_manage" name="catPermissions[]" value="subscription_edit" <?php if(in_array('subscription_edit', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="subscription_edit" class="form-label">{{ __('lang.subscriptionplan_edit')}}</label><br>
+    					</div>
+						<div class="col-md-12">
+                            <input type="checkbox" class='checkboxes subscription_manage' data-attr="subscription_manage" name="catPermissions[]" value="subscription_del" <?php if(in_array('subscription_del', $permissionArray)){ { echo "checked=''"; } } ?>>
+                            <label for="subscription_del" class="form-label">{{ __('lang.subscriptionplan_del')}}</label><br>
     					</div>
     				</div>
     				@if($roleFilter != 4)
