@@ -1,7 +1,7 @@
 @include('admin.layout.header')
 <?php
 use App\Helpers\AppHelper as Helper;
-helper::checkUserURLAccess('cat_manage','cat_add');
+helper::checkUserURLAccess('customerslider_manage','customerslider_add');
 ?>
 <!--breadcrumb-->
 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">

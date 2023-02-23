@@ -196,6 +196,7 @@
     'storetype_manage' => 'Store Type Manage',
     'storetype_add' => 'Store Type Add',
     'storetype_edit' => 'Store Type Edit',
+	'storetype_del' => 'Store Type Delete',
     
   'customerslider_management'  => 'Customer Slider Management',
     'customerslider_manage' => 'Customer Slider Manage',

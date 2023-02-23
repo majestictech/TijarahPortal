@@ -17,7 +17,7 @@ helper::checkUserURLAccess('subscription_manage','');
 		</nav>
 	</div>
 	<div class="ms-auto">
-	    @if(helper::checkUserRights('subadmin_manage','subadmin_add'))
+	    @if(helper::checkUserRights('subscription_manage','subscription_add'))
 		<div class="btn-group">
 			<a href="{{url('/admin/subscription/create')}}" class="btn btn-primary"><i class="fadeIn animated bx bx-list-plus"></i> {{ __('lang.addsubscription')}}</a>
 		</div>
@@ -50,10 +50,10 @@ helper::checkUserURLAccess('subscription_manage','');
 										<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
 										</button>
 										<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-											@if(helper::checkUserRights('subadmin_manage','subadmin_edit'))
+											@if(helper::checkUserRights('subscription_manage','subscription_edit'))
 											<a class="dropdown-item" href="{{url('/admin/subscription/'.$subscriptionData->id).'/edit'}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.edit')}}</a>
 											@endif
-											@if(helper::checkUserRights('subadmin_manage','subadmin_del'))
+											@if(helper::checkUserRights('subscription_manage','subscription_del'))
 											<a class="dropdown-item" href="{{url('/admin/subscription/'.$subscriptionData->id.'/delete')}}" onclick="return confirm('Are you sure you want to delete the Subscription?');"><i class="fadeIn animated bx bx-trash"></i> {{ __('lang.delete')}}</a>
 											@endif
 										</div>

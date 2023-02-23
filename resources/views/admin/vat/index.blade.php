@@ -36,7 +36,9 @@ helper::checkUserURLAccess('vat_manage','');
 						<tr>
 							<th scope="col">{{ __('lang.name')}}</th>
 							<th scope="col">{{ __('lang.vat')}}</th>
+							@if(helper::checkUserRights('vat_manage','vat_edit') || helper::checkUserRights('vat_manage','vat_del'))
 							<th scope="col" width="15%">{{ __('lang.action')}}</th>
+							@endif
 						</tr>
 					</thead>
 					<tbody>
@@ -44,7 +46,8 @@ helper::checkUserURLAccess('vat_manage','');
 						<tr>
                             <td>{{$vatdata->name}}</td>
                             <td>{{$vatdata->value}}</td>
-                            <td>
+                            @if(helper::checkUserRights('vat_manage','vat_edit') || helper::checkUserRights('vat_manage','vat_del'))
+							<td>
 								<div class="btn-group">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
 									</button>
@@ -58,6 +61,7 @@ helper::checkUserURLAccess('vat_manage','');
 									</div>
 								</div>
 							</td>
+							@endif
 						</tr>
 					@endforeach
 					</tbody>

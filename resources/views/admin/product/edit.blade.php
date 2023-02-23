@@ -4,9 +4,6 @@ use App\Helpers\AppHelper as Helper;
 helper::checkUserURLAccess('store_manage','store_inventory');
 ?>
 <script src=
-"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
-</script>
-<script src=
 "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
 </script>
 <script src=
@@ -429,10 +426,11 @@ helper::checkUserURLAccess('store_manage','store_inventory');
 							<input type="hidden" name="id" value = "{{$ProductData->id}}">
 							<input type="hidden" name="storeId" value = "{{$ProductData->storeId}}" //>
 							<button type="submit" class="btn btn-secondary px-5">{{ __('lang.editproduct')}}</button>
+							
 						</div>
 						
 						</div>
-                        </form>
+                    </form>
                    
                 </div>
 		</div>		

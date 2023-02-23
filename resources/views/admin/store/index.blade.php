@@ -129,7 +129,7 @@ use App\Helpers\AppHelper as Helper;
 										@endif
 										<!-- <a class="dropdown-item" href="{{url('/admin/store/lowinventoryemail?storeId='.$StoreData->id)}}"><i class="bx bx-book-content"></i> {{ __('lang.lowinventory')}}</a>-->
 										
-										@if(helper::checkUserRights('store_manage','store_disable'))
+										@if(helper::checkUserRights('store_manage','store_configemail'))
 										<a class="dropdown-item" href="{{url('/admin/configemail/'.$StoreData->id.'/edit')}}"><i class="fadeIn animated bx bx-mail-send"></i> {{ __('lang.configemail')}}</a> 
 										@endif
 										@if(helper::checkUserRights('store_manage','store_inventory'))

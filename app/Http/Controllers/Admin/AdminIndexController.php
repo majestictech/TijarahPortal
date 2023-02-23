@@ -487,6 +487,8 @@ class AdminIndexController extends Controller
         }		
     	else if(Auth::user()->roleId == 4){	
 			//Store Owner = 4
+
+			$revenues = "";
     	    /* Login Store Details Start */
     	     $storeDetails = DB::table('stores')->where('userId', Auth::id())->select('id','storeName')->get();
     	     //print_r($storeDetails[0]->storeName);
@@ -725,9 +727,11 @@ class AdminIndexController extends Controller
 			$outOfStock = 0;
 			$maxInventory = 0;
 			$allProducts = 1;
+
 			
 			
-    	 	return view('admin.dashboard.index',compact('todayOrderCount', 'allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate','revenueLabels','revenueData','billLabels','billData','basketLabels','basketData','date'));
+			
+    	 	return view('admin.dashboard.index',compact('todayOrderCount', 'allorderCount', 'allcustomer', 'allStores', 'activestores', 'storedata', 'revenue', 'storeDetails', 'productAvailable', 'productNotAvailable', 'instock', 'outOfStock', 'lowInventory', 'maxInventory', 'allProducts', 'storeFilter', 'startDate', 'endDate','revenueLabels','revenueData','billLabels','billData','basketLabels','basketData','date', 'revenues'));
     		
         }
 		else if(Auth::user()->roleId == 11 ||  Auth::user()->roleId == 12 ||  Auth::user()->roleId == 14) {
@@ -885,7 +889,10 @@ class AdminIndexController extends Controller
 					->whereIn('O.storeId', $storeDetails)
                     ->get();
     		
-    		$todayRevenueCount = $todayRevenueCount[0]->totalAmount;
+			if(!empty($todayRevenueCount))
+				$todayRevenueCount = $todayRevenueCount[0]->totalAmount;
+			else
+				$todayRevenueCount = 0;
 			
 
 			$revenues = DB::table('orders_pos as O')
@@ -904,7 +911,11 @@ class AdminIndexController extends Controller
 			}
 
 			$revenues= $revenues->get();
-			$revenues = $revenues[0]->totalAmount;
+			
+			if(!empty($revenues))
+				$revenues = $revenues[0]->totalAmount;
+			else
+				$revenues = 0;
 
 			/*  Total Revenue End*/
 			
@@ -1188,7 +1199,11 @@ class AdminIndexController extends Controller
 				$multipleRefund = $multipleRefund->where('O.storeId', $storeFilter);
 			}
 			$multipleRefund = $multipleRefund->get();
-			$multipleRefund = $multipleRefund[0]->refund;
+			
+			if($multipleRefund)
+				$multipleRefund = $multipleRefund[0]->refund;
+			else
+				$multipleRefund = 0;
 			/* print_r($multipleRefund);
 			die; */
 
@@ -1266,6 +1281,11 @@ class AdminIndexController extends Controller
 
 			$profitPercentage = $profitPercentage->groupBy('productName')->get();
 
+			//dd(count($profitPercentage));
+			//die;
+			
+			
+			
 			/* print_r($startDate);
 			print_r($endDate);
 			print_r($storeDetails);
