@@ -1,7 +1,7 @@
 @include('admin.layout.header')							
 <?php
 use App\Helpers\AppHelper as Helper;
-helper::checkUserURLAccess('cat_manage','');
+helper::checkUserURLAccess('customerslider_manage','');
 ?>
 <!--breadcrumb-->
 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
@@ -15,7 +15,7 @@ helper::checkUserURLAccess('cat_manage','');
 		</nav>
 	</div>
 	<div class="ms-auto">
-	    @if(helper::checkUserRights('cashier_manage'))
+	    @if(helper::checkUserRights('customerslider_manage'))
 		<div class="btn-group">
 			<a href="{{url('admin/customerscreen/create/')}}/{{$storeId}}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>{{ __('lang.addsliderimage')}}</a>
 		</div>
@@ -52,10 +52,10 @@ helper::checkUserURLAccess('cat_manage','');
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="bx bx-show"></i>
 									</button>
 									<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-										@if(helper::checkUserRights('cashier_manage'))
+										@if(helper::checkUserRights('customerslider_manage','customerslider_edit'))
 										<a class="dropdown-item" href="{{url('/admin/customerscreen/'.$slider->id.'/edit')}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.edit')}}</a>
 										@endif
-										@if(helper::checkUserRights('cat_manage','cat_delete'))
+										@if(helper::checkUserRights('customerslider_manage','customerslider_delete'))
 										<a class="dropdown-item" href="{{route('customerscreen.destroy',['id'=>$slider->id])}}" onclick="return confirm('Are you sure you want to delete the Slider?');"><i class="fadeIn animated bx bx-trash"></i> {{ __('lang.delete')}}</a>
 										@endif
 									</div>

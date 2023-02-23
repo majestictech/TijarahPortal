@@ -657,3 +657,11 @@ Route::get('admin/sliderimages', 'UserController@sliderImages');
 
 //----------- Chain Stores -------------------------------------
 	
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

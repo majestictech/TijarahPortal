@@ -196,6 +196,7 @@
     'storetype_manage' => 'Store Type Manage',
     'storetype_add' => 'Store Type Add',
     'storetype_edit' => 'Store Type Edit',
+	'storetype_del' => 'Store Type Delete',
     
   'customerslider_management'  => 'Customer Slider Management',
     'customerslider_manage' => 'Customer Slider Manage',
@@ -236,10 +237,16 @@
   
   
   'global_products'  => 'Global Products',
-    'globalproducts_manage' => 'Global Products Manage',
-    'globalproducts_import' => 'Global Products Import',
-    'globalproducts_edit' => 'Global Products Edit',
-    'globalproducts_del' => 'Global Products Delete',
+	'globalproducts_manage' => 'Global Products Manage',
+	'globalproducts_import' => 'Global Products Import',
+	'globalproducts_edit' => 'Global Products Edit',
+	'globalproducts_del' => 'Global Products Delete',
+	
+  'subscription_plan'  => 'Subscription Plan',
+	'subscriptionplan_manage' => 'Subscription Plan Manage',
+	'subscriptionplan_add' => 'Subscription Plan Add',
+	'subscriptionplan_edit' => 'Subscription Plan Edit',
+	'subscriptionplan_del' => 'Subscription Plan Delete',
 
 
 /* Log Activity Translation starts here */
@@ -1217,7 +1224,7 @@
 
 
   'basic' => 'Basic Plan',
-  'subscriptionplanmanagement' => 'Subscription Plan ',
+  'subscriptionplanmanagement' => 'Subscription Plan Management',
   'subscriptionplansfeatures' => 'Subscription Plan Features',
   'subscriptionplansduration' => 'Duration',
   'selectplan' => 'Select Plan',

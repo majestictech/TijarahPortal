@@ -7,6 +7,7 @@
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
                             <h4 class="card-title">{{ __('lang.editproduct')}}</h4>
+                           
                         </div>
                     </div>
                     <div class="card-body">

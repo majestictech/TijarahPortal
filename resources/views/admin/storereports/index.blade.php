@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Helpers\AppHelper as Helper;
+helper::checkUserURLAccess('report_manage','');
 
 $Roles = config('app.Roles');
 ?>

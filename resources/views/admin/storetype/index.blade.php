@@ -49,7 +49,9 @@ helper::checkUserURLAccess('storetype_manage','');
 						<tr>
 							<th scope="col">{{ __('lang.storetype')}}</th>
 							<th scope="col">{{ __('lang.type')}}</th>
+							@if(helper::checkUserRights('storetype_manage','storetype_edit') || helper::checkUserRights('storetype_manage','storetype_del'))
 							<th scope="col" width="15%">{{ __('lang.action')}}</th>
+							@endif
 						</tr>
 					</thead>
 					<tbody>
@@ -57,6 +59,7 @@ helper::checkUserURLAccess('storetype_manage','');
 						<tr>
                             <td>{{$storetypedata->name}}</td>
                             <td>{{$storetypedata->type}}</td>
+							@if(helper::checkUserRights('storetype_manage','storetype_edit') || helper::checkUserRights('storetype_manage','storetype_del'))
                             <td>
 								<div class="btn-group">
 									<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"><i class="fadeIn animated bx bx-show"></i>
@@ -65,7 +68,7 @@ helper::checkUserURLAccess('storetype_manage','');
 									    @if(helper::checkUserRights('storetype_manage','storetype_edit'))
 										<a class="dropdown-item" href="{{url('/admin/storetype/'.$storetypedata->id.'/edit')}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.edit')}}</a>
 										@endif
-										@if(helper::checkUserRights('storetype_manage','storetype_edit'))
+										@if(helper::checkUserRights('storetype_manage','storetype_del'))
 										<a class="dropdown-item" href="{{url('/admin/storetype/'.$storetypedata->id.'/delete')}}"><i class="fadeIn animated bx bx-edit"></i> {{ __('lang.delete')}}</a>
 										@endif
 									
@@ -73,6 +76,7 @@ helper::checkUserURLAccess('storetype_manage','');
 								</div>
 								
 							</td>
+							@endif
 						</tr>
 					@endforeach
 					</tbody>

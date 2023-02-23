@@ -4,14 +4,10 @@ use App\Helpers\AppHelper as Helper;
 helper::checkUserURLAccess('log_manage','');
 ?>
 
-
 <div class="row">
 	<div class="col-xl-12 mx-auto">
 		<h6 class="mb-0 text-uppercase">Activity Log</h6>
 		<hr/>
-
-		
-		
 		<div class="card">
 			<div class="card-body">
 			    
@@ -26,14 +22,9 @@ helper::checkUserURLAccess('log_manage','');
 							  <label for="" class="form-label"></label>
 							 <button type="submit" class="btn btn-primary px-5">Search</button>
 						</div>
-    				
-    				
                     </div>
 			    </form>
-			    
-			    
-			    
-			    
+			    		    
 				<table class="table mb-0 table-striped table-bordered" id="myTable">
             		<tr>
             			<th>No</th>
@@ -66,6 +57,7 @@ helper::checkUserURLAccess('log_manage','');
 <!--end row-->
 
 
+
 @include('admin.layout.footer')
 <!--<script src=//code.jquery.com/jquery-3.5.1.slim.min.js integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin=anonymous></script>-->
 <script>
@@ -84,3 +76,4 @@ var table = $('#myTable').DataTable({
     .dataTables_filter,.dataTables_info,.dataTables_paginate {display:none;}
     
 </style>
+

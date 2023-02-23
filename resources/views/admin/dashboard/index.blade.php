@@ -2,7 +2,7 @@
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Helpers\AppHelper as Helper;
 
-$Roles = config('app.Roles');
+/* $Roles = config('app.Roles'); */
 ?>
 
 @include('admin.layout.header')
@@ -223,16 +223,14 @@ $Roles = config('app.Roles');
     					<div>
     						<p class="mb-0 text-secondary font-14"><a href="#">{{ __('lang.profitpercentage')}}</a></p>
     						<h5 class="my-0">
-                  @if(!empty($profitPercentage))
-                     {{  round($profitPercentage[0]->percentprofitgross, 2)  }} % 
-                  
-                  @else {
-                   0 %
-                  }
-                  @endif 
+							  @if(count($profitPercentage) > 0)
+								 {{  round($profitPercentage[0]->percentprofitgross, 2)  }} % 
+							  @else 
+							   0 %
+							  @endif 
                 </h5>
     					</div>
-    					<div class="text-danger ms-auto font-30">ريال
+    					<div class="text-danger ms-auto font-30">
     					</div>
     				</div>
     			</div>
