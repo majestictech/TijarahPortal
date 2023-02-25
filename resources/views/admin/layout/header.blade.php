@@ -295,7 +295,7 @@ function page_url_check($page){
 					<a href="{{url('/admin/subscription')}}">
 						<div class="parent-icon"><i class="fadeIn animated bx bx-hive"></i>
 						</div>
-						<div class="menu-title">{{ __('lang.subscriptionplanmanagement')}}</div>
+						<div class="menu-title">{{ __('lang.subscription_plan')}}</div>
 					</a>
 				</li>
 			@endif
