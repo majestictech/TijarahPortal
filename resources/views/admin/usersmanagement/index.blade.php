@@ -1,7 +1,7 @@
 @include('admin.layout.header')
 <?php
 use App\Helpers\AppHelper as Helper;
-// helper::checkUserURLAccess('adminmanagement_manage','');
+//helper::checkUserURLAccess('adminmanagement_manage','');
 
 ?>
 

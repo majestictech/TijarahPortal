@@ -1,7 +1,7 @@
 @include('admin.layout.header')							
 <?php
 use App\Helpers\AppHelper as Helper;
-//helper::checkUserURLAccess('store_manage','');
+helper::checkUserURLAccess('store_manage','');
 
 ?>
 <!--breadcrumb-->

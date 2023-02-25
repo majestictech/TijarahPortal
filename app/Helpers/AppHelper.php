@@ -511,6 +511,9 @@ class AppHelper
     
     public static function checkUserURLAccess($section,$sectionActivity='')
     {
+		// Temp Disable
+		return true;
+		
         // Role Id:: Auth()->user()->roleId
         
         // Check if the user has access to the store 
