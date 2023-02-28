@@ -26,7 +26,7 @@
 	
 	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
 
-	<!-- <script src="{{ URL::asset('public/assets/js/jquery.min.js') }}"></script> -->
+	<script src="{{ URL::asset('public/assets/js/jquery.min.js') }}"></script>
 	<script src="{{ URL::asset('public/assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
 	<script src="{{ URL::asset('public/assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
 	<script src="{{ URL::asset('public/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
