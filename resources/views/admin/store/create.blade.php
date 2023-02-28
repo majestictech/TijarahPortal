@@ -345,8 +345,8 @@ helper::checkUserURLAccess('store_manage','store_add');
 					@if(Auth::user()->roleId != '11')
 					<div class="col-md-6">
 						<label for="stores" class="form-label">{{ __('lang.subscriptionplansduration')}} *</label>
-						<select name="subscriptionPlanId" class="form-select single-select" id="subscriptionPlanId" >
-							<option value="">{{ __('lang.selectplan')}}</option>
+						<select name="subscriptionPlanId" class="form-select single-select" id="subscriptionPlanId" required>
+							<option value="" >{{ __('lang.selectplan')}}</option>
 								@foreach($subscriptionPlans as $key=>$value)
 									<option value="{{$value->id}}" @if($value->id==$subscriptionPlanId) selected="selected" @endif> {{$value->plan}} </option>
 								@endforeach	
@@ -372,8 +372,8 @@ helper::checkUserURLAccess('store_manage','store_add');
 						<div class="input-group">
 							<button class="btn btn-outline-secondary" type="button"><i class='bx bx-store'></i>
 							</button>
-							<select name="appVersionUpdate" class="form-select single-select" id="appVersionUpdate" aria-label="Example select with button addon">
-								<option value="">Select App Version</option>
+							<select name="appVersionUpdate" class="form-select single-select" id="appVersionUpdate" aria-label="Example select with button addon" required>
+								<option value="" >Select App Version</option>
 									@foreach($appupdate as $key=>$app)
 										<option value="{{$app->id}}" >{{$app->appVer}} ({{$app->appType}}) </option>
 									@endforeach
