@@ -19,4 +19,5 @@ vendor/
 vendor-45/
 .htaccess
 .env
+env
 beep.mp3
