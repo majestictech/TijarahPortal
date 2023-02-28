@@ -438,7 +438,7 @@
 
 /* Customers translation starts here  */
  'allconsumers' => 'ALL CONSUMERS',
- 'addcustomer' => 'Add Customers',
+ 'addcustomer' => 'Add Customer',
  'balancedue' =>'Balance Due',
  'registrationdate'=>'Registration Date',
 
