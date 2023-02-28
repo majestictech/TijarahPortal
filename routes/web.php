@@ -33,9 +33,9 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function() {
 	//Route::group(['middleware' => 'auth.admin'], function () {
     // your routes
-/* this is test 
-content 
-for git */
+	/* this is test 
+	content 
+	for git */
 	Route::get('admin/settings', 'Admin\SettingsController@index')->name('settings.index');
 	Route::get('admin/settings/{id}/edit', 'Admin\SettingsController@edit')->name('settings.edit');
 	Route::post('admin/settings/update','Admin\SettingsController@update')->name('settings.update');
@@ -274,14 +274,14 @@ for git */
 
     //----------------Global Product----------------------------------
     
-  // Route::get('admin/globalproducts/globalimport', 'Admin\GlobalProductsController@globalimport')->name('product.globalimport');
+  	// Route::get('admin/globalproducts/globalimport', 'Admin\GlobalProductsController@globalimport')->name('product.globalimport');
 	Route::post('admin/globalproducts/globalimport', 'Admin\GlobalProductsController@globalimport')->name('globalproducts.globalimport');
 	Route::get('admin/globalproducts', 'Admin\GlobalProductsController@index')->name('globalproducts.index');
 	Route::get('admin/globalproducts/{id}/edit','Admin\GlobalProductsController@edit')->name('globalproducts.edit');
 	Route::post('admin/globalproducts/update','Admin\GlobalProductsController@update')->name('globalproducts.update');    
     Route::get('admin/globalproducts/{id}/delete','Admin\GlobalProductsController@destroy')->name('globalproducts.destroy');
     
-//	Route::get('admin/product/destroyProduct','Admin\ProductController@destroyProduct')->name('product.destroyProduct');
+	//	Route::get('admin/product/destroyProduct','Admin\ProductController@destroyProduct')->name('product.destroyProduct');
 	
 	//------------------Product Store-----------------------------
 	Route::get('admin/product/{id}', 'Admin\StoreController@products');
@@ -388,7 +388,7 @@ for git */
 
 
 
-//----------------Delivery Slot----------------------------------
+	//----------------Delivery Slot----------------------------------
 
 
 	Route::get('admin/deliveryslot', 'Admin\DeliveryController@index')->name('deliveryslot.index');
