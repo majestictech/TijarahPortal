@@ -321,21 +321,21 @@ use App\Helpers\AppHelper as Helper;
     					<div>
     						<h6 class="mb-0">{{ __('lang.number_of_bills')}}</h6>
     					</div>
-    					<div class="dropdown ms-auto">
-    						<a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
-    						</a>
-    						<ul class="dropdown-menu">
-    							<li><a class="dropdown-item" href="javascript:;">{{ __('lang.action')}}</a>
-    							</li>
-    							<li><a class="dropdown-item" href="javascript:;">{{ __('lang.anotheraction')}}</a>
-    							</li>
-    							<li>
-    								<hr class="dropdown-divider">
-    							</li>
-    							<li><a class="dropdown-item" href="javascript:;">{{ __('lang.somethingelsehere')}}</a>
-    							</li>
-    						</ul>
-    					  </div>
+                    <!-- <div class="dropdown ms-auto">
+                      <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="javascript:;">{{ __('lang.action')}}</a>
+                        </li>
+                        <li><a class="dropdown-item" href="javascript:;">{{ __('lang.anotheraction')}}</a>
+                        </li>
+                        <li>
+                          <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="javascript:;">{{ __('lang.somethingelsehere')}}</a>
+                        </li>
+                      </ul>
+    					      </div> -->
     				</div>
     				<div class="chart-container-0">
     					<!-- <canvas id="chart-order-status"></canvas> -->

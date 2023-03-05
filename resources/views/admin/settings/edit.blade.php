@@ -64,7 +64,13 @@
                                         
                                     </div>
                                 </div> 
-                                  
+                                <div class="col-md-12 mb-4">                      
+                                    <div class="form-group">
+                                        <label>{{__('lang.image')}}</label>
+                                        <input type="file" name="myfile" class="form-control" placeholder="Choose your Picture">
+                                        
+                                    </div>
+                                </div> 
 
 								 <div class="col-md-12"><button type="submit" class="btn btn-primary mr-2">{{ __('lang.updateprofile')}}</button></div>
                               </div>

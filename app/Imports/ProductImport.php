@@ -188,12 +188,13 @@ class ProductImport implements ToCollection, WithHeadingRow
             }
             
 			
-
+			$updateInventoryBatch = $row['update_inventory_batch'] ?? 0;
+			$inventoryStock = $row['inventory'] ?? 0;
 
 
             $product->name = $productName;
 			 
-    		 $product->code = $row['product_code'] ?? $row['code'] ?? null;
+    		$product->code = $row['product_code'] ?? $row['code'] ?? null;
     		$product->barCode = $barCode;
 
 			/* Box Barcode and Box Pieces Start */
@@ -214,7 +215,11 @@ class ProductImport implements ToCollection, WithHeadingRow
     		$product->splPriceFrom = $row['splpricefrom'] ?? $row['spl_price_from'] ?? null;
     	    $product->splPriceTo = $row['splpriceto'] ?? $row['spl_price_to'] ?? null;
     		$product->taxClassId = $taxId;
-    		$product->inventory = $row['inventory'];
+    		
+			if($updateInventoryBatch)
+				$product->inventory = $inventoryStock;
+			
+			
 			if(isset($row['inventory_data']))
 				$product->inventoryData = $row['inventory_data'];
 			else
@@ -254,38 +259,48 @@ class ProductImport implements ToCollection, WithHeadingRow
 				continue;
 			}
 			
+			$inventoryFromExcel = $row['inventory'] ?? '0';
+			
+			$productInventoryBatchCheck = ProductInventoryBatch::select('id')->where('productID', $product->id)->get();
 			
 			// Insert Inventory Batches Starts
-			if($productInventory == true) {
-				
-				
-				
+			if(count($productInventoryBatchCheck) == 0) {
+				// This means it's a new product so we need to create a new Inventory batch.				
 				$productInventoryBatch = new ProductInventoryBatch;
 
-				$productInventoryBatch->productId =  $product->id;
-			
-				$productInventoryBatch->inventory =  $row['inventory'] ?? '0';
+				$productInventoryBatch->productId = $product->id;
 				
-				//print_r($productInventoryBatch->inventory);
-				//print_r($productInventoryBatch->expityDate);
-				//die;
-				//$productExpiryDate = date_create($row['product_expiry'])  ?? date_create($row['expiry']) ?? date_create($row['Expiry']) ?? '2099-02-05 23:59:59';
-				$productExpiryDate = $row['expiry'] ?? '2099-02-05';
-				$productExpiryDate = date_create($productExpiryDate);
-
-				$productInventoryBatch->expiryDate = $productExpiryDate;
-
-				/* gettype($productExpiryDate);
-				echo "<br>";
-				die; */
-
-				$productInventoryBatch->save();
-
+				// Updating Inventory value in Products table as this is a new product and will not depend on updateInventoryBatch value
+				$productUpdate = Product::find($product->id);
+				$productUpdate->inventory = $inventoryStock;
+				$productUpdate->save();
 			}
 			
-			//$productExpiryDate = $row['product_expiry'] ?? $row['name_arabic'] ?? $row['product_arabic'] ?? '2099';
+			//echo count($productInventoryBatchCheck);
+			
+			//print_r($productInventoryBatchCheck);
+			//echo empty($productInventoryBatchCheck);
+			
+			
+			//echo $row['product_id'] . "<br>";
+			//echo $updateInventoryBatch;
+			//die;
+			if(count($productInventoryBatchCheck) == 0 || $updateInventoryBatch) {
+				
+				if(count($productInventoryBatchCheck) > 0)
+					$productInventoryBatch = ProductInventoryBatch::select('id')->where('productID', $product->id)->first();
 
-			// Insert Inventory Batches Starts
+				$productInventoryBatch->inventory = $inventoryFromExcel;
+					
+				$productExpiryDate = $row['expiry'] ?? '2099-01-01';
+				$productExpiryDate = date_create($productExpiryDate);
+
+				$productInventoryBatch->costPrice = $row['cost_price'] ?? '0.0';
+				$productInventoryBatch->expiryDate = $productExpiryDate;
+
+				$productInventoryBatch->save();
+			}			
+			//die;
         }
         
        
