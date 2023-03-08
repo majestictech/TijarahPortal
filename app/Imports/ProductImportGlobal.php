@@ -172,7 +172,7 @@ class ProductImportGlobal implements ToCollection, WithHeadingRow
     	    $product->splPriceTo = $row['splpriceto'] ?? $row['spl_price_to'] ?? null;
     		$product->taxClassId = $taxId;
     		$product->inventory = $row['inventory'];
-			$product->inventoryData = $row['inventory_data'];
+			//$product->inventoryData = $row['inventory_data'];
     		//$product->minInventory = $row['min_inventory'];
     		$product->weight = $row['weight'];
     		$product->weightClassId = $weightId;

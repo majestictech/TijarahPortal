@@ -1159,7 +1159,6 @@ class StoreReportsController extends Controller
 	public function shiftreports($storeId,Request $request)
     {
 		
-		
 		$startDate = $request->start;
         $endDate = $request->end;
 		
@@ -1175,9 +1174,11 @@ class StoreReportsController extends Controller
 		->leftJoin('stores as S','S.id','=','US.storeId')
 		->select ( DB::raw('SUM(US.shiftEndCDBalance) as shiftEndCDBalance'), DB::raw('SUM(US.shiftEndBalance) as shiftEndBalance'), DB::raw('ROUND((SUM(US.shiftEndBalance) - SUM(US.shiftEndCDBalance)),2) as adjustAmount'), DB::raw('COUNT(US.id) as totalShifts'), DB::raw('Date(US.created_at) as dateCreated'), DB::raw('ROUND(SUM(US.shiftEndBalance),2) as totalAmount'),'US.storeId')
 		->where('US.storeId',$storeId)
-		->where('US.status','Closed')
-		->groupBy(DB::raw('Date(US.created_at)'))
-        ->orderBy(DB::raw('Date(US.created_at)'),'DESC');
+		->where('US.status','Closed');
+		
+
+		
+		
 		
 		
         if(isset($request->start) && isset($request->end)) {
@@ -1188,11 +1189,14 @@ class StoreReportsController extends Controller
             
             $results = $results->whereBetween(DB::raw('Date(US.created_at)'),[$request->start,$request->end]);
             
-            
+            $startDate = $request->start;
+		$endDate = $request->end;
         }
 		
 		
-		$results = $results->paginate(10);
+		$results = $results->groupBy(DB::raw('Date(US.created_at)'))
+        ->orderBy(DB::raw('Date(US.created_at)'),'DESC')->paginate(10);
+		
 
 		
 		return view('admin.storereports.shiftreports',compact('storeId','results','startDate','endDate','search'));
