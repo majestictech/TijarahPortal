@@ -161,7 +161,7 @@ class UserController extends Controller
     public function appVersions()
     {
         $results = DB::Table('app_update as AU')
-        ->select('AU.appType','AU.appVer','AU.appCode','AU.appfile',DB::raw('CONCAT("http://www.majestictechnosoft.com/posadmin/public/apk/", AU.appfile) AS appUpdateFiles'))
+        ->select('AU.appType','AU.appVer','AU.appCode','AU.appfile',DB::raw('CONCAT("https://www.majestictechnosoft.com/posadmin/public/apk/", AU.appfile) AS appUpdateFiles'))
     ->orderBy('id', 'DESC')
      ->limit(3)
      ->get();
