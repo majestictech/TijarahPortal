@@ -1282,6 +1282,30 @@ class StoreReportsController extends Controller
 		->where('O.paymentStatus', 'CARD')
 		->where('O.userId', $userId)->get();
 
+		/* Multiple Payment Mode Start */
+		$muptiplePayments =  DB::table('orders_pos as O')->leftJoin('multiplepayment as MP', 'MP.orderId', 'O.orderId')
+		->select('O.id', 'O.orderId','O.refundTotalAmount', 'MP.amount', 'MP.paymentMode')
+		->whereBetween(DB::raw('O.created_at'),[$shiftInTime,$shiftEndTime])
+		->where('O.paymentStatus', 'MULTIPLE')
+		->where('O.userId', $userId)
+		->where('O.refundTotalAmount','<=', 0)
+		->groupBy('MP.paymentMode')
+		->get();
+
+
+		foreach($muptiplePayments as $result) {
+			
+			if($result->paymentMode == 'CASH') {
+				$cashSales[0]->cash = $cashSales[0]->cash + $result->amount;
+			}
+			else if($result->paymentMode == 'CARD') {
+				$cardSales[0]->card = $cardSales[0]->card + $result->amount;
+			}
+		
+		
+		//$results['multipleCount'] = $results['multipleCount'] + $result->multipleCount;
+	}
+
 		$refundAmounts = DB::table('orders_pos as O')
 		->select('O.id', DB::raw('SUM(O.refundTotalAmount) as refundAmount'))
 		->whereBetween(DB::raw('O.created_at'),[$shiftInTime,$shiftEndTime])
@@ -1295,7 +1319,7 @@ class StoreReportsController extends Controller
 		/* print_r($refundAmounts);
 		die; */
 		
-		return view('admin.storereports.shiftreport',compact('results','billCount', 'cashSales', 'cardSales', 'refundAmounts'));
+		return view('admin.storereports.shiftreport',compact('results','billCount', 'cashSales', 'cardSales', 'refundAmounts', 'muptiplePayments'));
     }
 	
 	

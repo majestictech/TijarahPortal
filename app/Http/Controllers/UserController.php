@@ -19,6 +19,8 @@ class UserController extends Controller
     {
         //
     }
+    
+
     public function cors(){
 // Allow from any origin
     if (isset($_SERVER['HTTP_ORIGIN'])) {
@@ -156,5 +158,21 @@ class UserController extends Controller
        return Redirect::to('/admin/login');
     }  
    
+    public function appVersions()
+    {
+        $results = DB::Table('app_update as AU')
+        ->select('AU.appType','AU.appVer','AU.appCode','AU.appfile',DB::raw('CONCAT("http://www.majestictechnosoft.com/posadmin/public/apk/", AU.appfile) AS appUpdateFiles'))
+    ->orderBy('id', 'DESC')
+     ->limit(3)
+     ->get();
+     /* $test=  $results[5]->appUpdateFiles;
+     print_r($test);
+    // print_r($results[5]->appUpdateFile);
+     //print_r($results);
+     die; */
 
+		return view('appversions',compact('results'));
+    }
+    
+   
 }
