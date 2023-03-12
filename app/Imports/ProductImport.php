@@ -41,6 +41,20 @@ class ProductImport implements ToCollection, WithHeadingRow
 		//die;
 		foreach ($rows as $row) 
         {
+			/*
+			$productName = $row['product_name_english'] ?? $row['product_name'] ?? $row['name'] ?? null;
+			
+			//if(!preg_match('/[^a-z_\-0-9]/i', $productName))
+			if(!preg_match('/[^[:alnum:]\-_]/', $productName) ) 
+			{
+				echo "not valid string:: " .$productName;
+				die;
+			}
+			*/
+		
+			/* echo $storeId;
+		die;
+			 */
             
     		//$b64image = '';
     		$categoryId = 0;
@@ -261,7 +275,7 @@ class ProductImport implements ToCollection, WithHeadingRow
 			
 			$inventoryFromExcel = $row['inventory'] ?? '0';
 			
-			$productInventoryBatchCheck = ProductInventoryBatch::select('id')->where('productID', $product->id)->get();
+			$productInventoryBatchCheck = ProductInventoryBatch::select('id')->where('productId', $product->id)->get();
 			
 			// Insert Inventory Batches Starts
 			if(count($productInventoryBatchCheck) == 0) {
@@ -271,7 +285,8 @@ class ProductImport implements ToCollection, WithHeadingRow
 				$productInventoryBatch->productId = $product->id;
 				
 				// Updating Inventory value in Products table as this is a new product and will not depend on updateInventoryBatch value
-				$productUpdate = Product::find($product->id);
+				//$productUpdate = Product::find($product->id);
+				$productUpdate = Product::select('id')->where('id', $product->id)->first();
 				$productUpdate->inventory = $inventoryStock;
 				$productUpdate->save();
 			}
@@ -288,7 +303,7 @@ class ProductImport implements ToCollection, WithHeadingRow
 			if(count($productInventoryBatchCheck) == 0 || $updateInventoryBatch) {
 				
 				if(count($productInventoryBatchCheck) > 0)
-					$productInventoryBatch = ProductInventoryBatch::select('id')->where('productID', $product->id)->first();
+					$productInventoryBatch = ProductInventoryBatch::select('id')->where('productId', $product->id)->first();
 
 				$productInventoryBatch->inventory = $inventoryFromExcel;
 					

@@ -75,5 +75,6 @@ class AuthenticateController extends Controller
 	public function resetpass() {
        return view('admin.authenticate.passwords.email');
     } 
+   
 	
 } 

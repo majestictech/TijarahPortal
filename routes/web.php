@@ -568,6 +568,9 @@ Route::get('admin/users/logout', 'UserController@logout');
 
 //Route::post('ajax_login', 'Auth\LoginuserController');
 
+//----------- App Download -------------------------------------
+Route::get('admin/appversions', 'UserController@appVersions');
+Route::get('admin/appversions/{id}', 'UserController@appVersionsDownload');
 
 
 //----------------Stores---------------------------------
@@ -606,6 +609,8 @@ Route::get('locale/{locale}', function ($locale){
     Session::put('locale', $locale);
     return redirect()->back();
 });
+
+
 
 
 
@@ -658,10 +663,13 @@ Route::get('admin/sliderimages', 'UserController@sliderImages');
 //----------- Chain Stores -------------------------------------
 	
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+

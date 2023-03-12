@@ -72,7 +72,7 @@ $Roles = config('app.Roles');
 						{{ __('lang.numberofbills')}}: &nbsp; {{$billCount[0]->billCount ?? '0'}}<!-- XXXX --><br>
 						{{ __('lang.cashrefunds')}}: &nbsp;{{$refundAmounts[0]->refundAmount ?? '0'}}<!-- SAR 0 --><br>
 						{{ __('lang.purchaseexpenses')}}: &nbsp;--<!-- SAR 0 --><br>
-						{{ __('lang.cashadjustments')}}: &nbsp;{{$results->adjustAmount ?? '0'}}</td>
+						{{ __('lang.cashadjustments')}}: &nbsp;{{round($results->adjustAmount, 2 )?? '0'}}</td>
                     </tr>
                 </tbody>
             </table><hr/><table class="table mb-0 table-bordered" id="myTable">

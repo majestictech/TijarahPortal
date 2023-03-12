@@ -41,8 +41,9 @@ class ProductController extends Controller
 		
 		//die;
         //Excel::import(new ProductImport, storage_path('inventory.csv'));
-        Excel::import(new ProductImport, request()->file('file'));
 		
+        Excel::import(new ProductImport, request()->file('file'));
+	
 		Helper::addToLog('productImportAdd','file');
         	return redirect()->back();     
     }

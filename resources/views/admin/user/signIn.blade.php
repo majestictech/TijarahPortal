@@ -33,7 +33,7 @@
                            <div class="col-lg-7 align-self-center">
                               <div class="p-3">
                                  <h2 class="mb-2">{{ __('lang.signin')}}</h2>
-                                 <p>{{ __('lang.login')}}</p>
+                                 <p>{{ __('lang.login')}}123</p>
                                 <form class="form" method="post" action="{{ url('users/login') }}">
                                 @csrf
                                     <div class="row">
